@@ -202,7 +202,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-02-20 15:49:07 / 修改时间：15:57:47" itemprop="dateCreated datePublished" datetime="2020-02-20T15:49:07+08:00">2020-02-20</time>
+              <time title="创建时间：2020-02-20 15:49:07 / 修改时间：16:00:39" itemprop="dateCreated datePublished" datetime="2020-02-20T15:49:07+08:00">2020-02-20</time>
             </span>
 
           
@@ -324,61 +324,19 @@
 </tr>
 </tbody></table>
 <p>我们首先查看<code>date</code>的字段类型</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 举例1 </span></span><br><span class="line"><span class="comment"># 读取数据</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">df = pd.read_excel(<span class="string">'$&#123;ohstudy&#125;/nCov/data_ncov.xlsx'</span>)</span><br><span class="line">	</span><br><span class="line"><span class="comment"># 查看字段类型</span></span><br><span class="line">df[<span class="string">'date'</span>].dtype</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">输出结果为：</span><br><span class="line">``` python</span><br><span class="line">dtype(<span class="string">'int64'</span>)</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!--more--&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">* * *</span><br><span class="line">**知识点：**</span><br><span class="line">`df[<span class="string">'date'</span>]`，这里是单列索引的代码写法，单列索引之后的结果为Series；</span><br><span class="line">多列索引为`df[[<span class="string">'列名1'</span>, <span class="string">'列名2'</span>, ...]]`，例如`df[[<span class="string">'省市'</span>,<span class="string">'确诊'</span>,<span class="string">'date'</span>]]`，多列索引之后的结果为`DataFrame`</span><br><span class="line"></span><br><span class="line">`pandas.Sereis.dtype`，用于查看Series的数据类型</span><br><span class="line">`pandas.Sereis.astype()`，用于转换Series的数据类型，为了方便学习，大家可以先记以下<span class="number">3</span>中数据类型的转换写法</span><br><span class="line">`df[<span class="string">'字段名'</span>].astype(<span class="string">'str'</span>)`</span><br><span class="line">`df[<span class="string">'字段名'</span>].astype(<span class="string">'float'</span>)`</span><br><span class="line">`df[<span class="string">'字段名'</span>].astype(<span class="string">'int'</span>)`</span><br><span class="line"></span><br><span class="line">字符串并不是时间信息最佳的存储方式，我们需要将其转化为时间序列数据，转化方法为：</span><br><span class="line">`pandas.to_datetime()`，作用是转化为时间序列数据</span><br><span class="line">* * *</span><br><span class="line"></span><br><span class="line">具体写法如下：</span><br><span class="line"></span><br><span class="line">``` python</span><br><span class="line"><span class="comment"># 举例2</span></span><br><span class="line"><span class="comment"># 时间序列转换</span></span><br><span class="line">df[<span class="string">'date'</span>] = df[<span class="string">'date'</span>].astype(<span class="string">'str'</span>)     <span class="comment"># 先将字段转化为字符串</span></span><br><span class="line">df[<span class="string">'date'</span>] = pd.to_datetime(df[<span class="string">'date'</span>])   <span class="comment"># 再进行时间序列转换</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 再次查看数据基本情况，可以看到date字段类型不再是int64</span></span><br><span class="line">df.info()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 再次输出前5行数据，可以看到date字段显示方式不一样了</span></span><br><span class="line">df.head()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 举例1 </span></span><br><span class="line"><span class="comment"># 读取数据</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">df = pd.read_excel(<span class="string">'$&#123;ohstudy&#125;/nCov/data_ncov.xlsx'</span>)</span><br><span class="line">	</span><br><span class="line"><span class="comment"># 查看字段类型</span></span><br><span class="line">df[<span class="string">'date'</span>].dtype</span><br></pre></td></tr></table></figure>
+
 
 <p>输出结果为：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">pandas</span>.<span class="title">core</span>.<span class="title">frame</span>.<span class="title">DataFrame</span>'&gt;</span></span><br><span class="line"><span class="class"><span class="title">RangeIndex</span>:</span> <span class="number">544</span> entries, <span class="number">0</span> to <span class="number">543</span></span><br><span class="line">Data columns (total <span class="number">6</span> columns):</span><br><span class="line">区域编码 <span class="number">544</span> non-null int64</span><br><span class="line">省市 <span class="number">544</span> non-null object</span><br><span class="line">疑似 <span class="number">544</span> non-null int64</span><br><span class="line">确诊 <span class="number">544</span> non-null int64</span><br><span class="line">死亡 <span class="number">544</span> non-null int64</span><br><span class="line">date <span class="number">544</span> non-null datetime64[ns]</span><br><span class="line">dtypes: datetime64[ns](<span class="number">1</span>), int64(<span class="number">4</span>), object(<span class="number">1</span>)</span><br><span class="line">memory usage: <span class="number">25.6</span>+ KB</span><br><span class="line"></span><br><span class="line">	区域编码	省市	疑似	确诊	死亡	date</span><br><span class="line"><span class="number">0</span>	<span class="number">500000</span>	重庆市	<span class="number">13</span>	<span class="number">9</span>	<span class="number">0</span>	<span class="number">2020</span><span class="number">-01</span><span class="number">-22</span></span><br><span class="line"><span class="number">1</span>	<span class="number">500000</span>	重庆市	<span class="number">71</span>	<span class="number">27</span>	<span class="number">0</span>	<span class="number">2020</span><span class="number">-01</span><span class="number">-23</span></span><br><span class="line"><span class="number">2</span>	<span class="number">500000</span>	重庆市	<span class="number">86</span>	<span class="number">57</span>	<span class="number">0</span>	<span class="number">2020</span><span class="number">-01</span><span class="number">-24</span></span><br><span class="line"><span class="number">3</span>	<span class="number">500000</span>	重庆市	<span class="number">146</span>	<span class="number">75</span>	<span class="number">0</span>	<span class="number">2020</span><span class="number">-01</span><span class="number">-25</span></span><br><span class="line"><span class="number">4</span>	<span class="number">500000</span>	重庆市	<span class="number">188</span>	<span class="number">110</span>	<span class="number">0</span>	<span class="number">2020</span><span class="number">-01</span><span class="number">-26</span></span><br></pre></td></tr></table></figure>
-
-<p>我们也可以写成一行</p>
-<pre><code class="python"><span class="comment"># 一行的写法</span>
-df[<span class="string">'date'</span>] = pd.to_datetime(df[<span class="string">'date'</span>].astype(<span class="string">'str'</span>))</code></pre>
-<h2 id="为什么需要时间数据？"><a href="#为什么需要时间数据？" class="headerlink" title="为什么需要时间数据？"></a>为什么需要时间数据？</h2><p>时间数据是可以按照年、月、日、时、分、秒进行聚合运算的，这可以让细碎的一眼看上去无规律的数据整理成有规律的统计数据。</p>
-<p>有了时间数据，数据更适合研究一段时间内的变化，从而跳脱“静态数据”的牢笼，进行动态数据可视化。</p>
-<p>有了时间数据还可能做一些更深的数据挖掘，比如时间序列分析等。</p>
-<p>总的来说，字符串、数值、时间是三种不同的数据大类，做数据分析前一定要确定每种类型的数据是否已经符合清洗要求。</p>
-<h2 id="按日期提取数据"><a href="#按日期提取数据" class="headerlink" title="按日期提取数据"></a>按日期提取数据</h2><p>如果现在需要筛选2020-2-1日的数据，这个需求本质上不再是列索引而是行索引，且这里是判断索引，代码写法如下：</p>
-<pre><code class="python"><span class="comment"># 举例3</span>
-<span class="comment"># 提取2020-2-1日的数据</span>
-data_0201 = df[df[<span class="string">'date'</span>] == <span class="string">'2020-2-1'</span>]
-data_0201.head()</code></pre>
-<p>输出结果为：</p>
-<pre><code class="python">区域编码    省市    疑似    确诊    死亡    date
-<span class="number">10</span>    <span class="number">500000</span>    重庆市    <span class="number">425</span>    <span class="number">262</span>    <span class="number">1</span>    <span class="number">2020</span><span class="number">-02</span><span class="number">-01</span>
-<span class="number">26</span>    <span class="number">330000</span>    浙江省    <span class="number">207</span>    <span class="number">661</span>    <span class="number">0</span>    <span class="number">2020</span><span class="number">-02</span><span class="number">-01</span>
-<span class="number">42</span>    <span class="number">530000</span>    云南省    <span class="number">261</span>    <span class="number">99</span>    <span class="number">0</span>    <span class="number">2020</span><span class="number">-02</span><span class="number">-01</span>
-<span class="number">58</span>    <span class="number">650000</span>    新疆维吾尔族自治区    <span class="number">21</span>    <span class="number">21</span>    <span class="number">0</span>    <span class="number">2020</span><span class="number">-02</span><span class="number">-01</span>
-<span class="number">74</span>    <span class="number">810000</span>    香港特别行政区    <span class="number">0</span>    <span class="number">14</span>    <span class="number">0</span>    <span class="number">2020</span><span class="number">-02</span><span class="number">-01</span></code></pre>
-<hr>
-<p><strong>知识点</strong><br>由于我们已经把<code>date</code>字段改成了时间序列，所以这里可以用多种写法来提取2020-2-1日的数据，大家可以自己动手试试<br><code>df[df[&#39;date&#39;] == &#39;2020-2-1&#39;]</code><br><code>df[df[&#39;date&#39;] == &#39;20200201&#39;]</code><br><code>df[df[&#39;date&#39;] == &#39;2020/2/1&#39;]</code></p>
-<hr>
-<h2 id="按地区提取数据-判断索引逻辑"><a href="#按地区提取数据-判断索引逻辑" class="headerlink" title="按地区提取数据-判断索引逻辑"></a>按地区提取数据-判断索引逻辑</h2><p>如何提取“上海市”、“湖北省”的数据？</p>
-<pre><code class="python"><span class="comment"># 举例4</span>
-<span class="comment"># 提取湖北省数据</span>
-data_hb = df[df[<span class="string">'省市'</span>] == <span class="string">'湖北省'</span>]
-
-<span class="comment"># 提取上海市数据</span>
-data_sh = df[df[<span class="string">'省市'</span>] == <span class="string">'上海市'</span>]
-
-data_hb.head()
-<span class="comment">#date_sh.head()</span></code></pre>
-<h2 id="按地区提取数据-汇总统计逻辑"><a href="#按地区提取数据-汇总统计逻辑" class="headerlink" title="按地区提取数据-汇总统计逻辑"></a>按地区提取数据-汇总统计逻辑</h2><p>分别提取”全国”、”非湖北省”的数据，需要对现有数据做统计分析求和。</p>
-<p>“全国”数据，这里应该是按照<code>date</code>字段做求和，代表不同日期的全国疫情情况<br>“非湖北省”数据，这里我们应该分2步<br>以<code>省市</code>字段先做判断，筛选非湖北省的其他数据<br>按照<code>date</code>字段做求和</p>
-<pre><code class="python"><span class="comment"># 举例5</span>
-<span class="comment"># 提取全国数据</span>
-data_china = df.groupby(<span class="string">'date'</span>)[[<span class="string">'疑似'</span>,<span class="string">'确诊'</span>,<span class="string">'死亡'</span>]].sum()
-
-<span class="comment"># 提取非湖北省数据</span>
-data_nothb_all = df[df[<span class="string">'省市'</span>] != <span class="string">'湖北省'</span>]
-data_nothb = data_nothb_all.groupby(<span class="string">'date'</span>)[[<span class="string">'疑似'</span>,<span class="string">'确诊'</span>,<span class="string">'死亡'</span>]].sum()
-
-data_china.head()
-<span class="comment">#data_nothb.head()</span></code></pre>
-<hr>
-<p><strong>知识点</strong><br><code>pandas.DataFrame.groupby()</code>，非常常用的数据分析函数，他的作用是：</p>
-<p>根据某些条件将数据拆分成组<br>对每个组独立应用函数<br>将结果合并到一个数据结构中<br>特别注意的是<code>pandas.DataFrame.groupby()</code>函数只做数据的分组，不做计算，一般不会单独出现，而是在后方会跟上一个聚合函数进行计算，例如这里的<code>df.groupby(&#39;date&#39;)[[&#39;疑似&#39;,&#39;确诊&#39;,&#39;死亡&#39;]].sum()</code></p>
-<hr>
-<p>可以跟着步骤练习一下，有疑问可评论</p>
-
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dtype(<span class="string">'int64'</span>)</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/02/20/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%2002/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
