@@ -168,6 +168,9 @@ data_china.head()
 <hr>
 <p>可以跟着步骤练习一下，有疑问可评论</p>
 ]]></content>
+      <categories>
+        <category>Python学习</category>
+      </categories>
   </entry>
   <entry>
     <title>新冠病毒疫情分析学习 01</title>
@@ -206,5 +209,8 @@ data_china.head()
 <hr>
 <h2 id="后续预告："><a href="#后续预告：" class="headerlink" title="后续预告："></a>后续预告：</h2><p><a href="/zone/fig7.html">python生成图表</a></p>
 ]]></content>
+      <categories>
+        <category>Python学习</category>
+      </categories>
   </entry>
 </search>
