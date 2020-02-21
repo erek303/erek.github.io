@@ -20,7 +20,7 @@
 <script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    hostname: new URL('http://erek.top').hostname,
+    hostname: new URL('https://erek.top').hostname,
     root: '/',
     scheme: 'Muse',
     version: '7.7.1',
@@ -50,20 +50,20 @@
   <meta name="description" content="如何读取数据源于课堂及整理，数据内包含的日期为20201.22-2020.2.13 作为一名合格的python数据分析师，面对原始数据，你要完成的工作有这以下内容     读取数据，初步了解数据结构清洗数据  使数据能做进一步分析  思考几个问题： 全国疫情确诊病例TOP10是哪些省市？ 如何查看不同日期的疫情情况？ 如何快速提取某一地区多日的疫情情况？">
 <meta property="og:type" content="article">
 <meta property="og:title" content="新冠病毒疫情分析学习 01">
-<meta property="og:url" content="http://erek.top/2020/02/20/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%2001/index.html">
+<meta property="og:url" content="https://erek.top/2020/02/20/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%2001/index.html">
 <meta property="og:site_name" content="Erek&#39;s Blog">
 <meta property="og:description" content="如何读取数据源于课堂及整理，数据内包含的日期为20201.22-2020.2.13 作为一名合格的python数据分析师，面对原始数据，你要完成的工作有这以下内容     读取数据，初步了解数据结构清洗数据  使数据能做进一步分析  思考几个问题： 全国疫情确诊病例TOP10是哪些省市？ 如何查看不同日期的疫情情况？ 如何快速提取某一地区多日的疫情情况？">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://erek.top/images/01-01.png">
-<meta property="og:image" content="http://erek.top/images/01-02.png">
-<meta property="og:image" content="http://erek.top/images/01-03.png">
+<meta property="og:image" content="https://erek.top/images/01-01.png">
+<meta property="og:image" content="https://erek.top/images/01-02.png">
+<meta property="og:image" content="https://erek.top/images/01-03.png">
 <meta property="article:published_time" content="2020-02-20T03:15:44.364Z">
 <meta property="article:modified_time" content="2020-02-20T12:57:08.927Z">
 <meta property="article:author" content="Erek">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://erek.top/images/01-01.png">
+<meta name="twitter:image" content="https://erek.top/images/01-01.png">
 
-<link rel="canonical" href="http://erek.top/2020/02/20/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%2001/">
+<link rel="canonical" href="https://erek.top/2020/02/20/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%2001/">
 
 
 <script id="page-configurations">
@@ -217,7 +217,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://erek.top/2020/02/20/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%2001/">
+    <link itemprop="mainEntityOfPage" href="https://erek.top/2020/02/20/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%2001/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -256,12 +256,12 @@
             </span>
 
           
-            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+            <span id="/2020/02/20/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%2001/" class="post-meta-item leancloud_visitors" data-flag-title="新冠病毒疫情分析学习 01" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
               <span class="post-meta-item-text">阅读次数：</span>
-              <span id="busuanzi_value_page_pv"></span>
+              <span class="leancloud-visitors-count"></span>
             </span>
   
   <span class="post-meta-item">
@@ -319,10 +319,10 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 举例3# 查看数据的所有字段、标签/索引、值, 去掉注释符号#，以激活代码，默认只显示最后运行的代码结果</span></span><br><span class="line">df.columns</span><br><span class="line">df.index</span><br><span class="line">df.values</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h2 id="后续预告："><a href="#后续预告：" class="headerlink" title="后续预告："></a>后续预告：</h2><div id="echarts3953" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<h2 id="后续预告："><a href="#后续预告：" class="headerlink" title="后续预告："></a>后续预告：</h2><div id="echarts5900" style="width: 81%;height: 400px;margin: 0 auto"></div>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts3953'));
+        var myChart = echarts.init(document.getElementById('echarts5900'));
 
         // 指定图表的配置项和数据
         var option = {
@@ -932,32 +932,101 @@
 </div>
 
         
-<div class="busuanzi-count">
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-user"></i>
-      </span>
-      <span class="site-uv" title="总访客量">
-        <span id="busuanzi_value_site_uv"></span>
-      </span>
-    </span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-eye"></i>
-      </span>
-      <span class="site-pv" title="总访问量">
-        <span id="busuanzi_value_site_pv"></span>
-      </span>
-    </span>
-</div>
 
 
 
 
 
 
+  <script>
+  function leancloudSelector(url) {
+    url = encodeURI(url);
+    return document.getElementById(url).querySelector('.leancloud-visitors-count');
+  }
+  if (CONFIG.page.isPost) {
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.getAttribute('id'));
+      var title = visitors.getAttribute('data-flag-title');
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .then(response => response.json())
+              .then(() => {
+                leancloudSelector(url).innerText = counter.time + 1;
+              })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              })
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+  } else {
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.getAttribute('id'));
+      });
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length === 0) {
+            document.querySelectorAll('.leancloud_visitors .leancloud-visitors-count').forEach(element => {
+              element.innerText = 0;
+            });
+            return;
+          }
+          for (let item of results) {
+            let { url, time } = item;
+            leancloudSelector(url).innerText = time;
+          }
+          for (let url of entries) {
+            var element = leancloudSelector(url);
+            if (element.innerText == '') {
+              element.innerText = 0;
+            }
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+  }
+
+  fetch('https://app-router.leancloud.cn/2/route?appId=Xy5m8QGJnMeNPCqRvF0zcfH5-gzGzoHsz')
+    .then(response => response.json())
+    .then(({ api_server }) => {
+      var Counter = (method, url, data) => {
+        return fetch(`https://${api_server}/1.1${url}`, {
+          method: method,
+          headers: {
+            'X-LC-Id': 'Xy5m8QGJnMeNPCqRvF0zcfH5-gzGzoHsz',
+            'X-LC-Key': 'YN1X6wRJU75Fhde1EWCJSFSd',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
 
 
       </div>
