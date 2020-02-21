@@ -26,8 +26,13 @@
 <img src="/2020/02/21/%E7%83%AD%E5%8A%9B%E5%9B%BE%E7%9A%84%E8%8E%B7%E5%8F%96%E5%8F%8A%E5%88%86%E6%9E%90/02-01.png" class="" title="图2">
 </li>
 <li><p>栅格热力图数据<code>重分类</code>（<em>打开栅格计算器，根据实际参数情况修改公式，默认情况下修改TIF文件名即可，如果TIF颜色没有8种，则需要进行修改公式数量，如图3、图4所示</em>）</p>
-<img src="/2020/02/21/%E7%83%AD%E5%8A%9B%E5%9B%BE%E7%9A%84%E8%8E%B7%E5%8F%96%E5%8F%8A%E5%88%86%E6%9E%90/02-02.png" class="" title="图3"><img src="/2020/02/21/%E7%83%AD%E5%8A%9B%E5%9B%BE%E7%9A%84%E8%8E%B7%E5%8F%96%E5%8F%8A%E5%88%86%E6%9E%90/02-03.png" class="" title="图4">
 </li>
+</ol>
+<figure class="highlight lsl"><table><tr><td class="code"><pre><span class="line">Con((<span class="string">"17.tif - Band_1"</span> == <span class="number">205</span>) &amp; (<span class="string">"17.tif - Band_2"</span> == <span class="number">78</span>) &amp; (<span class="string">"17.tif - Band_3"</span> == <span class="number">0</span>),<span class="number">6</span>,Con((<span class="string">"17.tif - Band_1"</span> == <span class="number">205</span>) &amp; (<span class="string">"17.tif - Band_2"</span> == <span class="number">205</span>) &amp; (<span class="string">"17.tif - Band_3"</span> == <span class="number">0</span>),<span class="number">5</span>,Con((<span class="string">"17.tif - Band_1"</span> == <span class="number">0</span>) &amp; (<span class="string">"17.tif - Band_2"</span> == <span class="number">205</span>) &amp; (<span class="string">"17.tif - Band_3"</span> == <span class="number">0</span>),<span class="number">4</span>,Con((<span class="string">"17.tif - Band_1"</span> == <span class="number">0</span>) &amp; (<span class="string">"17.tif - Band_2"</span> == <span class="number">205</span>) &amp; (<span class="string">"17.tif - Band_3"</span> == <span class="number">205</span>),<span class="number">3</span>,Con((<span class="string">"17.tif - Band_1"</span> == <span class="number">0</span>) &amp; (<span class="string">"17.tif - Band_2"</span> == <span class="number">82</span>) &amp; (<span class="string">"17.tif - Band_3"</span> == <span class="number">205</span>),<span class="number">2</span>,Con((<span class="string">"17.tif - Band_1"</span> == <span class="number">0</span>) &amp; (<span class="string">"17.tif - Band_2"</span> == <span class="number">0</span>) &amp; (<span class="string">"17.tif - Band_3"</span> == <span class="number">205</span>),<span class="number">1</span>,<span class="number">0</span>))))))</span><br></pre></td></tr></table></figure>
+
+<img src="/2020/02/21/%E7%83%AD%E5%8A%9B%E5%9B%BE%E7%9A%84%E8%8E%B7%E5%8F%96%E5%8F%8A%E5%88%86%E6%9E%90/02-03.png" class="" title="图4">
+
+<ol start="7">
 <li><p>输出结果进行矢量化（<em>调用GIS的栅格转面工具</em>）</p>
 </li>
 <li><p>叠加规划区底图，以进行后续分析（<em>如图5所示</em>）</p>
