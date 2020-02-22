@@ -447,10 +447,10 @@ data_china.head()
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 举例3# 查看数据的所有字段、标签/索引、值, 去掉注释符号#，以激活代码，默认只显示最后运行的代码结果</span></span><br><span class="line">df.columns</span><br><span class="line">df.index</span><br><span class="line">df.values</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h2 id="后续预告："><a href="#后续预告：" class="headerlink" title="后续预告："></a>后续预告：</h2><div id="echarts2081" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<h2 id="后续预告："><a href="#后续预告：" class="headerlink" title="后续预告："></a>后续预告：</h2><div id="echarts4485" style="width: 81%;height: 400px;margin: 0 auto"></div>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts2081'));
+        var myChart = echarts.init(document.getElementById('echarts4485'));
 
         // 指定图表的配置项和数据
         var option = {
