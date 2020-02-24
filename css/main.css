@@ -1185,7 +1185,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #202528;
+  background: #fff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2406,7 +2406,7 @@ embed {
   z-index: 1200;
 }
 body {
-  background: url("https://oss.gooood.cn/uploads/2016/09/MLFA_OB_Alps-Geographies-and-People_12_2012.jpg");
+  background: url("/images/bg.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
