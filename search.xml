@@ -1,6 +1,1246 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>新冠病毒疫情分析学习05-确诊病例与疑似病例对比</title>
+    <url>/2020/02/29/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A005-%E7%A1%AE%E8%AF%8A%E7%97%85%E4%BE%8B%E4%B8%8E%E7%96%91%E4%BC%BC%E7%97%85%E4%BE%8B%E5%AF%B9%E6%AF%94/</url>
+    <content><![CDATA[<p>这章来分析确诊病例与疑似病例的增长情况</p>
+<p>首先准备数据</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 读取数据</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line">warnings.filterwarnings(<span class="string">'ignore'</span>)</span><br><span class="line"><span class="comment"># 设置不弹出警告</span></span><br><span class="line"></span><br><span class="line">df = pd.read_excel(<span class="string">'*/*/data_ncov.xlsx'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 时间序列转换</span></span><br><span class="line">df[<span class="string">'date'</span>] = df[<span class="string">'date'</span>].astype(<span class="string">'str'</span>)     <span class="comment"># 先将字段转化为字符串</span></span><br><span class="line">df[<span class="string">'date'</span>] = pd.to_datetime(df[<span class="string">'date'</span>])   <span class="comment"># 再进行时间序列转换</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 提取全国数据</span></span><br><span class="line">data_china = df.groupby(<span class="string">'date'</span>)[[<span class="string">'疑似'</span>,<span class="string">'确诊'</span>,<span class="string">'死亡'</span>]].sum()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 按天计算每日新增数据</span></span><br><span class="line">data_china[<span class="string">'疑似新增'</span>] = data_china[<span class="string">'疑似'</span>] - data_china[<span class="string">'疑似'</span>].shift()</span><br><span class="line">data_china[<span class="string">'确诊新增'</span>] = data_china[<span class="string">'确诊'</span>] - data_china[<span class="string">'确诊'</span>].shift()</span><br><span class="line">data_china[<span class="string">'死亡新增'</span>] = data_china[<span class="string">'死亡'</span>] - data_china[<span class="string">'死亡'</span>].shift()</span><br><span class="line">data_china.head()</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h2 id="每日确诊率变化情况"><a href="#每日确诊率变化情况" class="headerlink" title="每日确诊率变化情况"></a>每日确诊率变化情况</h2><p>目前确诊率计算有多种方式，假设需要2天时间对疑似病例进行确诊，则确诊率计算逻辑如下</p>
+<ul>
+<li>今日确诊率 = 今日新增病例 / 前日疑似病例</li>
+</ul>
+<p>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 计算确诊率</span></span><br><span class="line">data_china[<span class="string">'确诊率'</span>] = data_china[<span class="string">'确诊新增'</span>] / data_china[<span class="string">'疑似'</span>].shift(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保留2位小数</span></span><br><span class="line">data_china[<span class="string">'确诊率'</span>] = data_china[<span class="string">'确诊率'</span>].round(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">data_china.head(<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+<p>输出结果为：</p>
+<table>
+<thead>
+<tr>
+<th align="center">疑似</th>
+<th align="center">确诊</th>
+<th align="center">死亡</th>
+<th align="center">疑似新增</th>
+<th align="center">确诊新增</th>
+<th align="center">死亡新增</th>
+<th align="center">确诊率</th>
+<th align="center">date</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">2020-01-22</td>
+<td align="center">393</td>
+<td align="center">574</td>
+<td align="center">17</td>
+<td align="center">NaN</td>
+<td align="center">NaN</td>
+<td align="center">NaN</td>
+<td align="center">NaN</td>
+</tr>
+<tr>
+<td align="center">2020-01-23</td>
+<td align="center">1072</td>
+<td align="center">835</td>
+<td align="center">25</td>
+<td align="center">679.0</td>
+<td align="center">261.0</td>
+<td align="center">8.0</td>
+<td align="center">NaN</td>
+</tr>
+<tr>
+<td align="center">2020-01-24</td>
+<td align="center">1965</td>
+<td align="center">1297</td>
+<td align="center">41</td>
+<td align="center">893.0</td>
+<td align="center">462.0</td>
+<td align="center">16.0</td>
+<td align="center">1.18</td>
+</tr>
+<tr>
+<td align="center">2020-01-25</td>
+<td align="center">2684</td>
+<td align="center">1985</td>
+<td align="center">56</td>
+<td align="center">719.0</td>
+<td align="center">688.0</td>
+<td align="center">15.0</td>
+<td align="center">0.64</td>
+</tr>
+<tr>
+<td align="center">2020-01-26</td>
+<td align="center">5794</td>
+<td align="center">2761</td>
+<td align="center">80</td>
+<td align="center">3110.0</td>
+<td align="center">776.0</td>
+<td align="center">24.0</td>
+<td align="center">0.39</td>
+</tr>
+<tr>
+<td align="center">2020-01-27</td>
+<td align="center">6973</td>
+<td align="center">4533</td>
+<td align="center">106</td>
+<td align="center">1179.0</td>
+<td align="center">1772.0</td>
+<td align="center">26.0</td>
+<td align="center">0.66</td>
+</tr>
+<tr>
+<td align="center">2020-01-28</td>
+<td align="center">9239</td>
+<td align="center">5995</td>
+<td align="center">132</td>
+<td align="center">2266.0</td>
+<td align="center">1462.0</td>
+<td align="center">26.0</td>
+<td align="center">0.25</td>
+</tr>
+<tr>
+<td align="center">2020-01-29</td>
+<td align="center">12167</td>
+<td align="center">7736</td>
+<td align="center">170</td>
+<td align="center">2928.0</td>
+<td align="center">1741.0</td>
+<td align="center">38.0</td>
+<td align="center">0.25</td>
+</tr>
+<tr>
+<td align="center">2020-01-30</td>
+<td align="center">15238</td>
+<td align="center">9720</td>
+<td align="center">213</td>
+<td align="center">3071.0</td>
+<td align="center">1984.0</td>
+<td align="center">43.0</td>
+<td align="center">0.21</td>
+</tr>
+<tr>
+<td align="center">2020-01-31</td>
+<td align="center">17988</td>
+<td align="center">11821</td>
+<td align="center">259</td>
+<td align="center">2750.0</td>
+<td align="center">2101.0</td>
+<td align="center">46.0</td>
+<td align="center">0.17</td>
+</tr>
+</tbody></table>
+<h2 id="绘制每日疑似病例与确诊病例柱状图"><a href="#绘制每日疑似病例与确诊病例柱状图" class="headerlink" title="绘制每日疑似病例与确诊病例柱状图"></a>绘制每日疑似病例与确诊病例柱状图</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 绘制每日疑似病例与确诊比例柱状图</span></span><br><span class="line"><span class="keyword">import</span> pyecharts <span class="keyword">as</span> pe  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建柱状图对象</span></span><br><span class="line">bar = pe.Bar(<span class="string">'每日疑似病例与确诊病例 柱状图'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置x轴 - 日期，这里由于前2条数据有空值，故从第3条开始</span></span><br><span class="line">x = data_china.iloc[<span class="number">2</span>::].index.astype(<span class="string">'str'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y1轴 - 确诊病例</span></span><br><span class="line">y1 = data_china[<span class="string">'确诊'</span>].iloc[<span class="number">2</span>::]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y2轴 - 疑似病例</span></span><br><span class="line">y2 = data_china[<span class="string">'疑似'</span>].iloc[<span class="number">2</span>::]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制图表</span></span><br><span class="line">bar.add(<span class="string">'确诊病例'</span>, x, y1, is_datazoom_show = <span class="literal">True</span>, datazoom_range = [<span class="number">0</span>,<span class="number">100</span>])</span><br><span class="line">bar.add(<span class="string">'疑似病例'</span>, x, y2)</span><br><span class="line">bar</span><br></pre></td></tr></table></figure>
+
+<p>输出结果为：</p>
+<div id="echarts9192" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('echarts9192'));
+
+        // 指定图表的配置项和数据
+        var option = {
+    "title": [
+        {
+            "text": "\u6bcf\u65e5\u7591\u4f3c\u75c5\u4f8b\u4e0e\u786e\u8bca\u75c5\u4f8b \u67f1\u72b6\u56fe",
+            "left": "auto",
+            "top": "auto",
+            "textStyle": {
+                "fontSize": 18
+            },
+            "subtextStyle": {
+                "fontSize": 12
+            }
+        }
+    ],
+    "toolbox": {
+        "show": true,
+        "orient": "vertical",
+        "left": "95%",
+        "top": "center",
+        "feature": {
+            "saveAsImage": {
+                "show": true,
+                "title": "save as image"
+            },
+            "restore": {
+                "show": true,
+                "title": "restore"
+            },
+            "dataView": {
+                "show": true,
+                "title": "data view"
+            }
+        }
+    },
+    "series_id": 5135017,
+    "tooltip": {
+        "trigger": "item",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "line"
+        },
+        "textStyle": {
+            "fontSize": 14
+        },
+        "backgroundColor": "rgba(50,50,50,0.7)",
+        "borderColor": "#333",
+        "borderWidth": 0
+    },
+    "series": [
+        {
+            "type": "bar",
+            "name": "\u786e\u8bca\u75c5\u4f8b",
+            "data": [
+                1297.0,
+                1985.0,
+                2761.0,
+                4533.0,
+                5995.0,
+                7736.0,
+                9720.0,
+                11821.0,
+                14411.0,
+                17238.0,
+                20471.0,
+                24363.0,
+                28060.0,
+                31211.0,
+                34598.0,
+                37251.0,
+                40235.0,
+                42708.0,
+                44730.0,
+                59882.0,
+                63932.0
+            ],
+            "barCategoryGap": "20%",
+            "label": {
+                "normal": {
+                    "show": false,
+                    "position": "top",
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                },
+                "emphasis": {
+                    "show": true,
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                }
+            },
+            "markPoint": {
+                "data": []
+            },
+            "markLine": {
+                "data": []
+            },
+            "seriesId": 5135017
+        },
+        {
+            "type": "bar",
+            "name": "\u7591\u4f3c\u75c5\u4f8b",
+            "data": [
+                1965.0,
+                2684.0,
+                5794.0,
+                6973.0,
+                9239.0,
+                12167.0,
+                15238.0,
+                17988.0,
+                19544.0,
+                21558.0,
+                23214.0,
+                23260.0,
+                24702.0,
+                26359.0,
+                27657.0,
+                28942.0,
+                23589.0,
+                21675.0,
+                16067.0,
+                13435.0,
+                10109.0
+            ],
+            "barCategoryGap": "20%",
+            "label": {
+                "normal": {
+                    "show": false,
+                    "position": "top",
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                },
+                "emphasis": {
+                    "show": true,
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                }
+            },
+            "markPoint": {
+                "data": []
+            },
+            "markLine": {
+                "data": []
+            },
+            "seriesId": 5135017
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                "\u786e\u8bca\u75c5\u4f8b",
+                "\u7591\u4f3c\u75c5\u4f8b"
+            ],
+            "selectedMode": "multiple",
+            "show": true,
+            "left": "center",
+            "top": "top",
+            "orient": "horizontal",
+            "textStyle": {
+                "fontSize": 12
+            }
+        }
+    ],
+    "animation": true,
+    "xAxis": [
+        {
+            "show": true,
+            "nameLocation": "middle",
+            "nameGap": 25,
+            "nameTextStyle": {
+                "fontSize": 14
+            },
+            "axisTick": {
+                "alignWithLabel": false
+            },
+            "inverse": false,
+            "boundaryGap": true,
+            "type": "category",
+            "splitLine": {
+                "show": false
+            },
+            "axisLine": {
+                "lineStyle": {
+                    "width": 1
+                }
+            },
+            "axisLabel": {
+                "interval": "auto",
+                "rotate": 0,
+                "margin": 8,
+                "textStyle": {
+                    "fontSize": 12
+                }
+            },
+            "data": [
+                "2020-01-24",
+                "2020-01-25",
+                "2020-01-26",
+                "2020-01-27",
+                "2020-01-28",
+                "2020-01-29",
+                "2020-01-30",
+                "2020-01-31",
+                "2020-02-01",
+                "2020-02-02",
+                "2020-02-03",
+                "2020-02-04",
+                "2020-02-05",
+                "2020-02-06",
+                "2020-02-07",
+                "2020-02-08",
+                "2020-02-09",
+                "2020-02-10",
+                "2020-02-11",
+                "2020-02-12",
+                "2020-02-13"
+            ]
+        }
+    ],
+    "yAxis": [
+        {
+            "show": true,
+            "nameLocation": "middle",
+            "nameGap": 25,
+            "nameTextStyle": {
+                "fontSize": 14
+            },
+            "axisTick": {
+                "alignWithLabel": false
+            },
+            "inverse": false,
+            "boundaryGap": true,
+            "type": "value",
+            "splitLine": {
+                "show": true
+            },
+            "axisLine": {
+                "lineStyle": {
+                    "width": 1
+                }
+            },
+            "axisLabel": {
+                "interval": "auto",
+                "formatter": "{value} ",
+                "rotate": 0,
+                "margin": 8,
+                "textStyle": {
+                    "fontSize": 12
+                }
+            }
+        }
+    ],
+    "color": [
+        "#c23531",
+        "#2f4554",
+        "#61a0a8",
+        "#d48265",
+        "#749f83",
+        "#ca8622",
+        "#bda29a",
+        "#6e7074",
+        "#546570",
+        "#c4ccd3",
+        "#f05b72",
+        "#ef5b9c",
+        "#f47920",
+        "#905a3d",
+        "#fab27b",
+        "#2a5caa",
+        "#444693",
+        "#726930",
+        "#b2d235",
+        "#6d8346",
+        "#ac6767",
+        "#1d953f",
+        "#6950a1",
+        "#918597",
+        "#f6f5ec"
+    ],
+    "dataZoom": [
+        {
+            "show": true,
+            "type": "slider",
+            "start": 0,
+            "end": 100,
+            "orient": "horizontal"
+        }
+    ]
+};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+</script>
+
+
+<hr>
+<p><strong>知识点</strong><br><code>bar.add()</code>可以多次使用，添加多个系列</p>
+<h2 id="绘制确诊率折线图"><a href="#绘制确诊率折线图" class="headerlink" title="绘制确诊率折线图"></a>绘制确诊率折线图</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">line = pe.Line(<span class="string">'确诊率 折线图'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置x轴 - 日期</span></span><br><span class="line">x = data_china.iloc[<span class="number">2</span>::].index.astype(<span class="string">'str'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y轴 - 确诊增长率</span></span><br><span class="line">y = data_china[<span class="string">'确诊率'</span>].iloc[<span class="number">2</span>::]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制图表</span></span><br><span class="line">line.add(<span class="string">'确诊率'</span>, x, y)</span><br><span class="line">line</span><br></pre></td></tr></table></figure>
+
+<p>输出结果为：</p>
+<div id="echarts217" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('echarts217'));
+
+        // 指定图表的配置项和数据
+        var option = {
+    "title": [
+        {
+            "text": "\u786e\u8bca\u7387 \u6298\u7ebf\u56fe",
+            "left": "auto",
+            "top": "auto",
+            "textStyle": {
+                "fontSize": 18
+            },
+            "subtextStyle": {
+                "fontSize": 12
+            }
+        }
+    ],
+    "toolbox": {
+        "show": true,
+        "orient": "vertical",
+        "left": "95%",
+        "top": "center",
+        "feature": {
+            "saveAsImage": {
+                "show": true,
+                "title": "save as image"
+            },
+            "restore": {
+                "show": true,
+                "title": "restore"
+            },
+            "dataView": {
+                "show": true,
+                "title": "data view"
+            }
+        }
+    },
+    "series_id": 7099704,
+    "tooltip": {
+        "trigger": "axis",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "cross"
+        },
+        "textStyle": {
+            "fontSize": 14
+        },
+        "backgroundColor": "rgba(50,50,50,0.7)",
+        "borderColor": "#333",
+        "borderWidth": 0
+    },
+    "series": [
+        {
+            "type": "line",
+            "name": "\u786e\u8bca\u7387",
+            "symbol": "emptyCircle",
+            "symbolSize": 4,
+            "smooth": true,
+            "step": false,
+            "showSymbol": true,
+            "data": [
+                [
+                    "2020-01-24",
+                    1.18
+                ],
+                [
+                    "2020-01-25",
+                    0.64
+                ],
+                [
+                    "2020-01-26",
+                    0.39
+                ],
+                [
+                    "2020-01-27",
+                    0.66
+                ],
+                [
+                    "2020-01-28",
+                    0.25
+                ],
+                [
+                    "2020-01-29",
+                    0.25
+                ],
+                [
+                    "2020-01-30",
+                    0.21
+                ],
+                [
+                    "2020-01-31",
+                    0.17
+                ],
+                [
+                    "2020-02-01",
+                    0.17
+                ],
+                [
+                    "2020-02-02",
+                    0.16
+                ],
+                [
+                    "2020-02-03",
+                    0.17
+                ],
+                [
+                    "2020-02-04",
+                    0.18
+                ],
+                [
+                    "2020-02-05",
+                    0.16
+                ],
+                [
+                    "2020-02-06",
+                    0.14
+                ],
+                [
+                    "2020-02-07",
+                    0.14
+                ],
+                [
+                    "2020-02-08",
+                    0.1
+                ],
+                [
+                    "2020-02-09",
+                    0.11
+                ],
+                [
+                    "2020-02-10",
+                    0.09
+                ],
+                [
+                    "2020-02-11",
+                    0.09
+                ],
+                [
+                    "2020-02-12",
+                    0.7
+                ],
+                [
+                    "2020-02-13",
+                    0.25
+                ]
+            ],
+            "label": {
+                "normal": {
+                    "show": false,
+                    "position": "top",
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                },
+                "emphasis": {
+                    "show": true,
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                }
+            },
+            "lineStyle": {
+                "normal": {
+                    "width": 1,
+                    "opacity": 1,
+                    "curveness": 0,
+                    "type": "solid"
+                }
+            },
+            "areaStyle": {
+                "opacity": 0
+            },
+            "markPoint": {
+                "data": []
+            },
+            "markLine": {
+                "data": []
+            },
+            "seriesId": 7099704
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                "\u786e\u8bca\u7387"
+            ],
+            "selectedMode": "multiple",
+            "show": true,
+            "left": "center",
+            "top": "top",
+            "orient": "horizontal",
+            "textStyle": {
+                "fontSize": 12
+            }
+        }
+    ],
+    "animation": true,
+    "xAxis": [
+        {
+            "show": true,
+            "nameLocation": "middle",
+            "nameGap": 25,
+            "nameTextStyle": {
+                "fontSize": 14
+            },
+            "axisTick": {
+                "alignWithLabel": false
+            },
+            "inverse": false,
+            "boundaryGap": true,
+            "type": "category",
+            "splitLine": {
+                "show": false
+            },
+            "axisLine": {
+                "lineStyle": {
+                    "width": 1
+                }
+            },
+            "axisLabel": {
+                "interval": "auto",
+                "rotate": 0,
+                "margin": 8,
+                "textStyle": {
+                    "fontSize": 12
+                }
+            },
+            "data": [
+                "2020-01-24",
+                "2020-01-25",
+                "2020-01-26",
+                "2020-01-27",
+                "2020-01-28",
+                "2020-01-29",
+                "2020-01-30",
+                "2020-01-31",
+                "2020-02-01",
+                "2020-02-02",
+                "2020-02-03",
+                "2020-02-04",
+                "2020-02-05",
+                "2020-02-06",
+                "2020-02-07",
+                "2020-02-08",
+                "2020-02-09",
+                "2020-02-10",
+                "2020-02-11",
+                "2020-02-12",
+                "2020-02-13"
+            ]
+        }
+    ],
+    "yAxis": [
+        {
+            "show": true,
+            "nameLocation": "middle",
+            "nameGap": 25,
+            "nameTextStyle": {
+                "fontSize": 14
+            },
+            "axisTick": {
+                "alignWithLabel": false
+            },
+            "inverse": false,
+            "boundaryGap": true,
+            "type": "value",
+            "splitLine": {
+                "show": true
+            },
+            "axisLine": {
+                "lineStyle": {
+                    "width": 1
+                }
+            },
+            "axisLabel": {
+                "interval": "auto",
+                "formatter": "{value} ",
+                "rotate": 0,
+                "margin": 8,
+                "textStyle": {
+                    "fontSize": 12
+                }
+            }
+        }
+    ],
+    "color": [
+        "#c23531",
+        "#2f4554",
+        "#61a0a8",
+        "#d48265",
+        "#749f83",
+        "#ca8622",
+        "#bda29a",
+        "#6e7074",
+        "#546570",
+        "#c4ccd3",
+        "#f05b72",
+        "#ef5b9c",
+        "#f47920",
+        "#905a3d",
+        "#fab27b",
+        "#2a5caa",
+        "#444693",
+        "#726930",
+        "#b2d235",
+        "#6d8346",
+        "#ac6767",
+        "#1d953f",
+        "#6950a1",
+        "#918597",
+        "#f6f5ec"
+    ]
+};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+</script>
+
+<p>通过前面的方法，将两个图标进行合并</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 合并图表</span></span><br><span class="line"><span class="comment"># 设置x、y轴数据</span></span><br><span class="line">x = data_china.iloc[<span class="number">2</span>::].index.astype(<span class="string">'str'</span>)</span><br><span class="line">y1 = data_china[<span class="string">'确诊'</span>].iloc[<span class="number">2</span>::]   <span class="comment"># 设置y1轴 - 确诊病例</span></span><br><span class="line">y2 = data_china[<span class="string">'疑似'</span>].iloc[<span class="number">2</span>::]   <span class="comment"># 设置y2轴 - 疑似病例</span></span><br><span class="line">y3 = data_china[<span class="string">'确诊率'</span>].iloc[<span class="number">2</span>::]   <span class="comment"># 设置y3轴 - 确诊率</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制柱状图</span></span><br><span class="line">bar = pe.Bar(<span class="string">'每日确诊率变化情况'</span>)</span><br><span class="line">bar.add(<span class="string">'确诊病例'</span>, x, y1, is_datazoom_show = <span class="literal">True</span>, datazoom_range = [<span class="number">0</span>,<span class="number">100</span>])</span><br><span class="line">bar.add(<span class="string">'疑似病例'</span>, x, y2)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制折线图</span></span><br><span class="line">line = pe.Line(<span class="string">'确诊率 折线图'</span>)</span><br><span class="line">line.add(<span class="string">'确诊率'</span>, x, y3)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 合并图表</span></span><br><span class="line">overlap = pe.Overlap()</span><br><span class="line">overlap.add(bar)</span><br><span class="line">overlap.add(line, yaxis_index=<span class="number">1</span>, is_add_yaxis=<span class="literal">True</span>)  <span class="comment"># 新增y轴</span></span><br><span class="line">overlap</span><br></pre></td></tr></table></figure>
+
+<p>输出结果为</p>
+<div id="echarts2813" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('echarts2813'));
+
+        // 指定图表的配置项和数据
+        var option = {
+    "title": [
+        {
+            "text": "\u6bcf\u65e5\u786e\u8bca\u7387\u53d8\u5316\u60c5\u51b5",
+            "left": "auto",
+            "top": "auto",
+            "textStyle": {
+                "fontSize": 18
+            },
+            "subtextStyle": {
+                "fontSize": 12
+            }
+        }
+    ],
+    "toolbox": {
+        "show": true,
+        "orient": "vertical",
+        "left": "95%",
+        "top": "center",
+        "feature": {
+            "saveAsImage": {
+                "show": true,
+                "title": "save as image"
+            },
+            "restore": {
+                "show": true,
+                "title": "restore"
+            },
+            "dataView": {
+                "show": true,
+                "title": "data view"
+            }
+        }
+    },
+    "series_id": 6759913,
+    "tooltip": {
+        "trigger": "item",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "line"
+        },
+        "textStyle": {
+            "fontSize": 14
+        },
+        "backgroundColor": "rgba(50,50,50,0.7)",
+        "borderColor": "#333",
+        "borderWidth": 0
+    },
+    "series": [
+        {
+            "type": "bar",
+            "name": "\u786e\u8bca\u75c5\u4f8b",
+            "data": [
+                1297.0,
+                1985.0,
+                2761.0,
+                4533.0,
+                5995.0,
+                7736.0,
+                9720.0,
+                11821.0,
+                14411.0,
+                17238.0,
+                20471.0,
+                24363.0,
+                28060.0,
+                31211.0,
+                34598.0,
+                37251.0,
+                40235.0,
+                42708.0,
+                44730.0,
+                59882.0,
+                63932.0
+            ],
+            "barCategoryGap": "20%",
+            "label": {
+                "normal": {
+                    "show": false,
+                    "position": "top",
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                },
+                "emphasis": {
+                    "show": true,
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                }
+            },
+            "markPoint": {
+                "data": []
+            },
+            "markLine": {
+                "data": []
+            },
+            "seriesId": 6759913
+        },
+        {
+            "type": "bar",
+            "name": "\u7591\u4f3c\u75c5\u4f8b",
+            "data": [
+                1965.0,
+                2684.0,
+                5794.0,
+                6973.0,
+                9239.0,
+                12167.0,
+                15238.0,
+                17988.0,
+                19544.0,
+                21558.0,
+                23214.0,
+                23260.0,
+                24702.0,
+                26359.0,
+                27657.0,
+                28942.0,
+                23589.0,
+                21675.0,
+                16067.0,
+                13435.0,
+                10109.0
+            ],
+            "barCategoryGap": "20%",
+            "label": {
+                "normal": {
+                    "show": false,
+                    "position": "top",
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                },
+                "emphasis": {
+                    "show": true,
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                }
+            },
+            "markPoint": {
+                "data": []
+            },
+            "markLine": {
+                "data": []
+            },
+            "seriesId": 6759913
+        },
+        {
+            "type": "line",
+            "name": "\u786e\u8bca\u7387",
+            "symbol": "emptyCircle",
+            "symbolSize": 4,
+            "smooth": false,
+            "step": false,
+            "showSymbol": true,
+            "data": [
+                [
+                    "2020-01-24",
+                    1.18
+                ],
+                [
+                    "2020-01-25",
+                    0.64
+                ],
+                [
+                    "2020-01-26",
+                    0.39
+                ],
+                [
+                    "2020-01-27",
+                    0.66
+                ],
+                [
+                    "2020-01-28",
+                    0.25
+                ],
+                [
+                    "2020-01-29",
+                    0.25
+                ],
+                [
+                    "2020-01-30",
+                    0.21
+                ],
+                [
+                    "2020-01-31",
+                    0.17
+                ],
+                [
+                    "2020-02-01",
+                    0.17
+                ],
+                [
+                    "2020-02-02",
+                    0.16
+                ],
+                [
+                    "2020-02-03",
+                    0.17
+                ],
+                [
+                    "2020-02-04",
+                    0.18
+                ],
+                [
+                    "2020-02-05",
+                    0.16
+                ],
+                [
+                    "2020-02-06",
+                    0.14
+                ],
+                [
+                    "2020-02-07",
+                    0.14
+                ],
+                [
+                    "2020-02-08",
+                    0.1
+                ],
+                [
+                    "2020-02-09",
+                    0.11
+                ],
+                [
+                    "2020-02-10",
+                    0.09
+                ],
+                [
+                    "2020-02-11",
+                    0.09
+                ],
+                [
+                    "2020-02-12",
+                    0.7
+                ],
+                [
+                    "2020-02-13",
+                    0.25
+                ]
+            ],
+            "label": {
+                "normal": {
+                    "show": false,
+                    "position": "top",
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                },
+                "emphasis": {
+                    "show": true,
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                }
+            },
+            "lineStyle": {
+                "normal": {
+                    "width": 1,
+                    "opacity": 1,
+                    "curveness": 0,
+                    "type": "solid"
+                }
+            },
+            "areaStyle": {
+                "opacity": 0
+            },
+            "markPoint": {
+                "data": []
+            },
+            "markLine": {
+                "data": []
+            },
+            "seriesId": 6759913,
+            "xAxisIndex": 0,
+            "yAxisIndex": 1
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                "\u786e\u8bca\u75c5\u4f8b",
+                "\u7591\u4f3c\u75c5\u4f8b",
+                "\u786e\u8bca\u7387"
+            ],
+            "selectedMode": "multiple",
+            "show": true,
+            "left": "center",
+            "top": "top",
+            "orient": "horizontal",
+            "textStyle": {
+                "fontSize": 12
+            }
+        }
+    ],
+    "animation": true,
+    "xAxis": [
+        {
+            "show": true,
+            "nameLocation": "middle",
+            "nameGap": 25,
+            "nameTextStyle": {
+                "fontSize": 14
+            },
+            "axisTick": {
+                "alignWithLabel": false
+            },
+            "inverse": false,
+            "boundaryGap": true,
+            "type": "category",
+            "splitLine": {
+                "show": false
+            },
+            "axisLine": {
+                "lineStyle": {
+                    "width": 1
+                }
+            },
+            "axisLabel": {
+                "interval": "auto",
+                "rotate": 0,
+                "margin": 8,
+                "textStyle": {
+                    "fontSize": 12
+                }
+            },
+            "data": [
+                "2020-01-24",
+                "2020-01-25",
+                "2020-01-26",
+                "2020-01-27",
+                "2020-01-28",
+                "2020-01-29",
+                "2020-01-30",
+                "2020-01-31",
+                "2020-02-01",
+                "2020-02-02",
+                "2020-02-03",
+                "2020-02-04",
+                "2020-02-05",
+                "2020-02-06",
+                "2020-02-07",
+                "2020-02-08",
+                "2020-02-09",
+                "2020-02-10",
+                "2020-02-11",
+                "2020-02-12",
+                "2020-02-13"
+            ]
+        }
+    ],
+    "yAxis": [
+        {
+            "show": true,
+            "nameLocation": "middle",
+            "nameGap": 25,
+            "nameTextStyle": {
+                "fontSize": 14
+            },
+            "axisTick": {
+                "alignWithLabel": false
+            },
+            "inverse": false,
+            "boundaryGap": true,
+            "type": "value",
+            "splitLine": {
+                "show": true
+            },
+            "axisLine": {
+                "lineStyle": {
+                    "width": 1
+                }
+            },
+            "axisLabel": {
+                "interval": "auto",
+                "formatter": "{value} ",
+                "rotate": 0,
+                "margin": 8,
+                "textStyle": {
+                    "fontSize": 12
+                }
+            }
+        },
+        {
+            "show": true,
+            "nameLocation": "middle",
+            "nameGap": 25,
+            "nameTextStyle": {
+                "fontSize": 14
+            },
+            "axisTick": {
+                "alignWithLabel": false
+            },
+            "inverse": false,
+            "boundaryGap": true,
+            "type": "value",
+            "splitLine": {
+                "show": true
+            },
+            "axisLine": {
+                "lineStyle": {
+                    "width": 1
+                }
+            },
+            "axisLabel": {
+                "interval": "auto",
+                "formatter": "{value} ",
+                "rotate": 0,
+                "margin": 8,
+                "textStyle": {
+                    "fontSize": 12
+                }
+            }
+        }
+    ],
+    "color": [
+        "#c23531",
+        "#2f4554",
+        "#61a0a8",
+        "#d48265",
+        "#749f83",
+        "#ca8622",
+        "#bda29a",
+        "#6e7074",
+        "#546570",
+        "#c4ccd3",
+        "#f05b72",
+        "#ef5b9c",
+        "#f47920",
+        "#905a3d",
+        "#fab27b",
+        "#2a5caa",
+        "#444693",
+        "#726930",
+        "#b2d235",
+        "#6d8346",
+        "#ac6767",
+        "#1d953f",
+        "#6950a1",
+        "#918597",
+        "#f6f5ec"
+    ],
+    "dataZoom": [
+        {
+            "show": true,
+            "type": "slider",
+            "start": 0,
+            "end": 100,
+            "orient": "horizontal"
+        }
+    ]
+};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+</script>
+
+
+<p>本章如上，快快练习一下吧！</p>
+]]></content>
+      <categories>
+        <category>Python学习</category>
+      </categories>
+  </entry>
+  <entry>
     <title>一种城市-苏州</title>
     <url>/2020/02/26/AcityofSuzhou/</url>
     <content><![CDATA[<p>苏州，古之城，山水之间，历史与记忆，文化与价值，我们通过影像记录着一切。</p>
