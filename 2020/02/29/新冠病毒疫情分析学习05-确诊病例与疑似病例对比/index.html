@@ -157,7 +157,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">7</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">9</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -429,10 +429,10 @@
 <h2 id="绘制每日疑似病例与确诊病例柱状图"><a href="#绘制每日疑似病例与确诊病例柱状图" class="headerlink" title="绘制每日疑似病例与确诊病例柱状图"></a>绘制每日疑似病例与确诊病例柱状图</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 绘制每日疑似病例与确诊比例柱状图</span></span><br><span class="line"><span class="keyword">import</span> pyecharts <span class="keyword">as</span> pe  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建柱状图对象</span></span><br><span class="line">bar = pe.Bar(<span class="string">'每日疑似病例与确诊病例 柱状图'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置x轴 - 日期，这里由于前2条数据有空值，故从第3条开始</span></span><br><span class="line">x = data_china.iloc[<span class="number">2</span>::].index.astype(<span class="string">'str'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y1轴 - 确诊病例</span></span><br><span class="line">y1 = data_china[<span class="string">'确诊'</span>].iloc[<span class="number">2</span>::]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y2轴 - 疑似病例</span></span><br><span class="line">y2 = data_china[<span class="string">'疑似'</span>].iloc[<span class="number">2</span>::]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制图表</span></span><br><span class="line">bar.add(<span class="string">'确诊病例'</span>, x, y1, is_datazoom_show = <span class="literal">True</span>, datazoom_range = [<span class="number">0</span>,<span class="number">100</span>])</span><br><span class="line">bar.add(<span class="string">'疑似病例'</span>, x, y2)</span><br><span class="line">bar</span><br></pre></td></tr></table></figure>
 
 <p>输出结果为：</p>
-<div id="echarts6245" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<div id="echarts2287" style="width: 81%;height: 400px;margin: 0 auto"></div>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts6245'));
+        var myChart = echarts.init(document.getElementById('echarts2287'));
 
         // 指定图表的配置项和数据
         var option = {
@@ -739,10 +739,10 @@
 <h2 id="绘制确诊率折线图"><a href="#绘制确诊率折线图" class="headerlink" title="绘制确诊率折线图"></a>绘制确诊率折线图</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">line = pe.Line(<span class="string">'确诊率 折线图'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置x轴 - 日期</span></span><br><span class="line">x = data_china.iloc[<span class="number">2</span>::].index.astype(<span class="string">'str'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y轴 - 确诊增长率</span></span><br><span class="line">y = data_china[<span class="string">'确诊率'</span>].iloc[<span class="number">2</span>::]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制图表</span></span><br><span class="line">line.add(<span class="string">'确诊率'</span>, x, y)</span><br><span class="line">line</span><br></pre></td></tr></table></figure>
 
 <p>输出结果为：</p>
-<div id="echarts3638" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<div id="echarts9858" style="width: 81%;height: 400px;margin: 0 auto"></div>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts3638'));
+        var myChart = echarts.init(document.getElementById('echarts9858'));
 
         // 指定图表的配置项和数据
         var option = {
@@ -1065,10 +1065,10 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 合并图表</span></span><br><span class="line"><span class="comment"># 设置x、y轴数据</span></span><br><span class="line">x = data_china.iloc[<span class="number">2</span>::].index.astype(<span class="string">'str'</span>)</span><br><span class="line">y1 = data_china[<span class="string">'确诊'</span>].iloc[<span class="number">2</span>::]   <span class="comment"># 设置y1轴 - 确诊病例</span></span><br><span class="line">y2 = data_china[<span class="string">'疑似'</span>].iloc[<span class="number">2</span>::]   <span class="comment"># 设置y2轴 - 疑似病例</span></span><br><span class="line">y3 = data_china[<span class="string">'确诊率'</span>].iloc[<span class="number">2</span>::]   <span class="comment"># 设置y3轴 - 确诊率</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制柱状图</span></span><br><span class="line">bar = pe.Bar(<span class="string">'每日确诊率变化情况'</span>)</span><br><span class="line">bar.add(<span class="string">'确诊病例'</span>, x, y1, is_datazoom_show = <span class="literal">True</span>, datazoom_range = [<span class="number">0</span>,<span class="number">100</span>])</span><br><span class="line">bar.add(<span class="string">'疑似病例'</span>, x, y2)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制折线图</span></span><br><span class="line">line = pe.Line(<span class="string">'确诊率 折线图'</span>)</span><br><span class="line">line.add(<span class="string">'确诊率'</span>, x, y3)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 合并图表</span></span><br><span class="line">overlap = pe.Overlap()</span><br><span class="line">overlap.add(bar)</span><br><span class="line">overlap.add(line, yaxis_index=<span class="number">1</span>, is_add_yaxis=<span class="literal">True</span>)  <span class="comment"># 新增y轴</span></span><br><span class="line">overlap</span><br></pre></td></tr></table></figure>
 
 <p>输出结果为</p>
-<div id="echarts8473" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<div id="echarts7397" style="width: 81%;height: 400px;margin: 0 auto"></div>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts8473'));
+        var myChart = echarts.init(document.getElementById('echarts7397'));
 
         // 指定图表的配置项和数据
         var option = {
@@ -1570,7 +1570,10 @@
     <a href="/2020/02/26/AcityofSuzhou/" rel="prev" title="一种城市-苏州">
       <i class="fa fa-chevron-left"></i> 一种城市-苏州
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/02/29/geopandas%E5%AE%89%E8%A3%85%E8%AE%B0%E5%BD%95/" rel="next" title="geopandas安装记录">
+      geopandas安装记录 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -1647,7 +1650,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1752,13 +1755,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">42k</span>
+    <span title="站点总字数">55k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:16</span>
+    <span title="站点阅读时长">1:41</span>
 </div>
 
         

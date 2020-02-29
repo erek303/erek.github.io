@@ -1,0 +1,1938 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="manifest" href="/images/manifest.json">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://erek.top').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="这章通过分地区来查看疫情病例的增长情况，并构建函数快速输出指定省市的疫情病例增长曲线 首先依然准备好数据 123456789101112131415161718# 读取数据import pandas as pdimport warningswarnings.filterwarnings(&#39;ignore&#39;)# 设置不弹出警告df &#x3D; pd.read_excel(&#39;*&#x2F;*&#x2F;data_ncov.xlsx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="新冠病毒疫情分析学习06-不同省市确诊病例与疑似病例对比">
+<meta property="og:url" content="https://erek.top/2020/02/29/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A006-%E4%B8%8D%E5%90%8C%E7%9C%81%E5%B8%82%E7%A1%AE%E8%AF%8A%E7%97%85%E4%BE%8B%E4%B8%8E%E7%96%91%E4%BC%BC%E7%97%85%E4%BE%8B%E5%AF%B9%E6%AF%94/index.html">
+<meta property="og:site_name" content="Erek&#39;s Blog">
+<meta property="og:description" content="这章通过分地区来查看疫情病例的增长情况，并构建函数快速输出指定省市的疫情病例增长曲线 首先依然准备好数据 123456789101112131415161718# 读取数据import pandas as pdimport warningswarnings.filterwarnings(&#39;ignore&#39;)# 设置不弹出警告df &#x3D; pd.read_excel(&#39;*&#x2F;*&#x2F;data_ncov.xlsx">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-02-29T13:22:30.000Z">
+<meta property="article:modified_time" content="2020-02-29T14:07:56.690Z">
+<meta property="article:author" content="Erek">
+<meta property="article:tag" content="python urbandesign bigdata">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://erek.top/2020/02/29/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A006-%E4%B8%8D%E5%90%8C%E7%9C%81%E5%B8%82%E7%A1%AE%E8%AF%8A%E7%97%85%E4%BE%8B%E4%B8%8E%E7%96%91%E4%BC%BC%E7%97%85%E4%BE%8B%E5%AF%B9%E6%AF%94/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>新冠病毒疫情分析学习06-不同省市确诊病例与疑似病例对比 | Erek's Blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5ebd5c516b4dd4ebd974f04415e7d0cc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Erek's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">hello</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">3</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">9</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <!-- echarts -->
+    <script type="text/javascript" src="/js/echarts.common.min.js"></script>
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://erek.top/2020/02/29/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A006-%E4%B8%8D%E5%90%8C%E7%9C%81%E5%B8%82%E7%A1%AE%E8%AF%8A%E7%97%85%E4%BE%8B%E4%B8%8E%E7%96%91%E4%BC%BC%E7%97%85%E4%BE%8B%E5%AF%B9%E6%AF%94/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Erek">
+      <meta itemprop="description" content="A personal blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Erek's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          新冠病毒疫情分析学习06-不同省市确诊病例与疑似病例对比
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-02-29 21:22:30 / 修改时间：22:07:56" itemprop="dateCreated datePublished" datetime="2020-02-29T21:22:30+08:00">2020-02-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">Python学习</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/02/29/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A006-%E4%B8%8D%E5%90%8C%E7%9C%81%E5%B8%82%E7%A1%AE%E8%AF%8A%E7%97%85%E4%BE%8B%E4%B8%8E%E7%96%91%E4%BC%BC%E7%97%85%E4%BE%8B%E5%AF%B9%E6%AF%94/" class="post-meta-item leancloud_visitors" data-flag-title="新冠病毒疫情分析学习06-不同省市确诊病例与疑似病例对比" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">评论次数：</span>
+    
+    <a title="valine" href="/2020/02/29/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A006-%E4%B8%8D%E5%90%8C%E7%9C%81%E5%B8%82%E7%A1%AE%E8%AF%8A%E7%97%85%E4%BE%8B%E4%B8%8E%E7%96%91%E4%BC%BC%E7%97%85%E4%BE%8B%E5%AF%B9%E6%AF%94/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/02/29/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A006-%E4%B8%8D%E5%90%8C%E7%9C%81%E5%B8%82%E7%A1%AE%E8%AF%8A%E7%97%85%E4%BE%8B%E4%B8%8E%E7%96%91%E4%BC%BC%E7%97%85%E4%BE%8B%E5%AF%B9%E6%AF%94/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>13k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>23 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这章通过分地区来查看疫情病例的增长情况，并构建函数快速输出指定省市的疫情病例增长曲线</p>
+<p>首先依然准备好数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 读取数据</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line">warnings.filterwarnings(<span class="string">'ignore'</span>)</span><br><span class="line"><span class="comment"># 设置不弹出警告</span></span><br><span class="line"></span><br><span class="line">df = pd.read_excel(<span class="string">'*/*/data_ncov.xlsx'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 时间序列转换</span></span><br><span class="line">df[<span class="string">'date'</span>] = df[<span class="string">'date'</span>].astype(<span class="string">'str'</span>)     <span class="comment"># 先将字段转化为字符串</span></span><br><span class="line">df[<span class="string">'date'</span>] = pd.to_datetime(df[<span class="string">'date'</span>])   <span class="comment"># 再进行时间序列转换</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 提取全国数据，并按天计算每日新增数据</span></span><br><span class="line">data_china = df.groupby(<span class="string">'date'</span>)[[<span class="string">'疑似'</span>,<span class="string">'确诊'</span>,<span class="string">'死亡'</span>]].sum()</span><br><span class="line">data_china[<span class="string">'疑似新增'</span>] = data_china[<span class="string">'疑似'</span>] - data_china[<span class="string">'疑似'</span>].shift()</span><br><span class="line">data_china[<span class="string">'确诊新增'</span>] = data_china[<span class="string">'确诊'</span>] - data_china[<span class="string">'确诊'</span>].shift()</span><br><span class="line">data_china[<span class="string">'死亡新增'</span>] = data_china[<span class="string">'死亡'</span>] - data_china[<span class="string">'死亡'</span>].shift()</span><br><span class="line">data_china.head()</span><br></pre></td></tr></table></figure>
+
+<h2 id="分别提取湖北、非湖北的数据"><a href="#分别提取湖北、非湖北的数据" class="headerlink" title="分别提取湖北、非湖北的数据"></a>分别提取湖北、非湖北的数据</h2><p>参考全国数据的提取及每日新增数据计算方法，提取湖北、非湖北的数据，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 提取湖北省数据，并按天计算每日新增数据</span></span><br><span class="line">data_hb = df[df[<span class="string">'省市'</span>] == <span class="string">'湖北省'</span>]</span><br><span class="line">data_hb[<span class="string">'疑似新增'</span>] = data_hb[<span class="string">'疑似'</span>] - data_hb[<span class="string">'疑似'</span>].shift()</span><br><span class="line">data_hb[<span class="string">'确诊新增'</span>] = data_hb[<span class="string">'确诊'</span>] - data_hb[<span class="string">'确诊'</span>].shift()</span><br><span class="line">data_hb[<span class="string">'死亡新增'</span>] = data_hb[<span class="string">'死亡'</span>] - data_hb[<span class="string">'死亡'</span>].shift()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 提取非湖北省数据，并按天计算每日新增数据</span></span><br><span class="line">data_nothb_all = df[df[<span class="string">'省市'</span>] != <span class="string">'湖北省'</span>]</span><br><span class="line">data_nothb = data_nothb_all.groupby(<span class="string">'date'</span>)[[<span class="string">'疑似'</span>,<span class="string">'确诊'</span>,<span class="string">'死亡'</span>]].sum()</span><br><span class="line">data_nothb[<span class="string">'疑似新增'</span>] = data_nothb[<span class="string">'疑似'</span>] - data_nothb[<span class="string">'疑似'</span>].shift()</span><br><span class="line">data_nothb[<span class="string">'确诊新增'</span>] = data_nothb[<span class="string">'确诊'</span>] - data_nothb[<span class="string">'确诊'</span>].shift()</span><br><span class="line">data_nothb[<span class="string">'死亡新增'</span>] = data_nothb[<span class="string">'死亡'</span>] - data_nothb[<span class="string">'死亡'</span>].shift()</span><br><span class="line"></span><br><span class="line"><span class="comment">#可以看一下两个数据</span></span><br><span class="line">data_hb.head()</span><br><span class="line">data_nothb.head()</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h2 id="绘制多系列折线图-不同地区疫情病例增长曲线"><a href="#绘制多系列折线图-不同地区疫情病例增长曲线" class="headerlink" title="绘制多系列折线图-不同地区疫情病例增长曲线"></a>绘制多系列折线图-不同地区疫情病例增长曲线</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 绘制多系列折线图</span></span><br><span class="line"><span class="keyword">import</span> pyecharts <span class="keyword">as</span> pe</span><br><span class="line">line = pe.Line(<span class="string">'不同地区疫情病例增长曲线'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置x轴 - 日期</span></span><br><span class="line">x = data_china.index.astype(<span class="string">'str'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y1轴 - 湖北</span></span><br><span class="line">y1 = data_hb[<span class="string">'确诊新增'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y2轴 - 非湖北</span></span><br><span class="line">y2 = data_nothb[<span class="string">'确诊新增'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y3轴 - 全国</span></span><br><span class="line">y3 = data_china[<span class="string">'确诊新增'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制图表</span></span><br><span class="line">line.add(<span class="string">'湖北新增'</span>, x, y1)</span><br><span class="line">line.add(<span class="string">'非湖北新增'</span>, x, y2)</span><br><span class="line">line.add(<span class="string">'全国新增'</span>, x, y3, tooltip_trigger = <span class="string">'axis'</span>, tooltip_axispointer_type = <span class="string">'cross'</span>)</span><br><span class="line">line</span><br></pre></td></tr></table></figure>
+
+<p>输出结果如下：</p>
+<div id="echarts7757" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('echarts7757'));
+
+        // 指定图表的配置项和数据
+        var option = {
+    "title": [
+        {
+            "text": "\u4e0d\u540c\u5730\u533a\u75ab\u60c5\u75c5\u4f8b\u589e\u957f\u66f2\u7ebf",
+            "left": "auto",
+            "top": "auto",
+            "textStyle": {
+                "fontSize": 18
+            },
+            "subtextStyle": {
+                "fontSize": 12
+            }
+        }
+    ],
+    "toolbox": {
+        "show": true,
+        "orient": "vertical",
+        "left": "95%",
+        "top": "center",
+        "feature": {
+            "saveAsImage": {
+                "show": true,
+                "title": "save as image"
+            },
+            "restore": {
+                "show": true,
+                "title": "restore"
+            },
+            "dataView": {
+                "show": true,
+                "title": "data view"
+            }
+        }
+    },
+    "series_id": 876253,
+    "tooltip": {
+        "trigger": "axis",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "cross"
+        },
+        "textStyle": {
+            "fontSize": 14
+        },
+        "backgroundColor": "rgba(50,50,50,0.7)",
+        "borderColor": "#333",
+        "borderWidth": 0
+    },
+    "series": [
+        {
+            "type": "line",
+            "name": "\u6e56\u5317\u65b0\u589e",
+            "symbol": "emptyCircle",
+            "symbolSize": 4,
+            "smooth": false,
+            "step": false,
+            "showSymbol": true,
+            "data": [
+                [
+                    "2020-01-22",
+                    NaN
+                ],
+                [
+                    "2020-01-23",
+                    105.0
+                ],
+                [
+                    "2020-01-24",
+                    180.0
+                ],
+                [
+                    "2020-01-25",
+                    323.0
+                ],
+                [
+                    "2020-01-26",
+                    371.0
+                ],
+                [
+                    "2020-01-27",
+                    1291.0
+                ],
+                [
+                    "2020-01-28",
+                    840.0
+                ],
+                [
+                    "2020-01-29",
+                    1032.0
+                ],
+                [
+                    "2020-01-30",
+                    1220.0
+                ],
+                [
+                    "2020-01-31",
+                    1347.0
+                ],
+                [
+                    "2020-02-01",
+                    1921.0
+                ],
+                [
+                    "2020-02-02",
+                    2103.0
+                ],
+                [
+                    "2020-02-03",
+                    2345.0
+                ],
+                [
+                    "2020-02-04",
+                    3156.0
+                ],
+                [
+                    "2020-02-05",
+                    2987.0
+                ],
+                [
+                    "2020-02-06",
+                    2447.0
+                ],
+                [
+                    "2020-02-07",
+                    2841.0
+                ],
+                [
+                    "2020-02-08",
+                    2147.0
+                ],
+                [
+                    "2020-02-09",
+                    2531.0
+                ],
+                [
+                    "2020-02-10",
+                    2097.0
+                ],
+                [
+                    "2020-02-11",
+                    1638.0
+                ],
+                [
+                    "2020-02-12",
+                    14840.0
+                ],
+                [
+                    "2020-02-13",
+                    3780.0
+                ]
+            ],
+            "label": {
+                "normal": {
+                    "show": false,
+                    "position": "top",
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                },
+                "emphasis": {
+                    "show": true,
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                }
+            },
+            "lineStyle": {
+                "normal": {
+                    "width": 1,
+                    "opacity": 1,
+                    "curveness": 0,
+                    "type": "solid"
+                }
+            },
+            "areaStyle": {
+                "opacity": 0
+            },
+            "markPoint": {
+                "data": []
+            },
+            "markLine": {
+                "data": []
+            },
+            "seriesId": 876253
+        },
+        {
+            "type": "line",
+            "name": "\u975e\u6e56\u5317\u65b0\u589e",
+            "symbol": "emptyCircle",
+            "symbolSize": 4,
+            "smooth": false,
+            "step": false,
+            "showSymbol": true,
+            "data": [
+                [
+                    "2020-01-22",
+                    NaN
+                ],
+                [
+                    "2020-01-23",
+                    156.0
+                ],
+                [
+                    "2020-01-24",
+                    282.0
+                ],
+                [
+                    "2020-01-25",
+                    365.0
+                ],
+                [
+                    "2020-01-26",
+                    405.0
+                ],
+                [
+                    "2020-01-27",
+                    481.0
+                ],
+                [
+                    "2020-01-28",
+                    622.0
+                ],
+                [
+                    "2020-01-29",
+                    709.0
+                ],
+                [
+                    "2020-01-30",
+                    764.0
+                ],
+                [
+                    "2020-01-31",
+                    754.0
+                ],
+                [
+                    "2020-02-01",
+                    669.0
+                ],
+                [
+                    "2020-02-02",
+                    724.0
+                ],
+                [
+                    "2020-02-03",
+                    888.0
+                ],
+                [
+                    "2020-02-04",
+                    736.0
+                ],
+                [
+                    "2020-02-05",
+                    710.0
+                ],
+                [
+                    "2020-02-06",
+                    704.0
+                ],
+                [
+                    "2020-02-07",
+                    546.0
+                ],
+                [
+                    "2020-02-08",
+                    506.0
+                ],
+                [
+                    "2020-02-09",
+                    453.0
+                ],
+                [
+                    "2020-02-10",
+                    376.0
+                ],
+                [
+                    "2020-02-11",
+                    384.0
+                ],
+                [
+                    "2020-02-12",
+                    312.0
+                ],
+                [
+                    "2020-02-13",
+                    270.0
+                ]
+            ],
+            "label": {
+                "normal": {
+                    "show": false,
+                    "position": "top",
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                },
+                "emphasis": {
+                    "show": true,
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                }
+            },
+            "lineStyle": {
+                "normal": {
+                    "width": 1,
+                    "opacity": 1,
+                    "curveness": 0,
+                    "type": "solid"
+                }
+            },
+            "areaStyle": {
+                "opacity": 0
+            },
+            "markPoint": {
+                "data": []
+            },
+            "markLine": {
+                "data": []
+            },
+            "seriesId": 876253
+        },
+        {
+            "type": "line",
+            "name": "\u5168\u56fd\u65b0\u589e",
+            "symbol": "emptyCircle",
+            "symbolSize": 4,
+            "smooth": false,
+            "step": false,
+            "showSymbol": true,
+            "data": [
+                [
+                    "2020-01-22",
+                    NaN
+                ],
+                [
+                    "2020-01-23",
+                    261.0
+                ],
+                [
+                    "2020-01-24",
+                    462.0
+                ],
+                [
+                    "2020-01-25",
+                    688.0
+                ],
+                [
+                    "2020-01-26",
+                    776.0
+                ],
+                [
+                    "2020-01-27",
+                    1772.0
+                ],
+                [
+                    "2020-01-28",
+                    1462.0
+                ],
+                [
+                    "2020-01-29",
+                    1741.0
+                ],
+                [
+                    "2020-01-30",
+                    1984.0
+                ],
+                [
+                    "2020-01-31",
+                    2101.0
+                ],
+                [
+                    "2020-02-01",
+                    2590.0
+                ],
+                [
+                    "2020-02-02",
+                    2827.0
+                ],
+                [
+                    "2020-02-03",
+                    3233.0
+                ],
+                [
+                    "2020-02-04",
+                    3892.0
+                ],
+                [
+                    "2020-02-05",
+                    3697.0
+                ],
+                [
+                    "2020-02-06",
+                    3151.0
+                ],
+                [
+                    "2020-02-07",
+                    3387.0
+                ],
+                [
+                    "2020-02-08",
+                    2653.0
+                ],
+                [
+                    "2020-02-09",
+                    2984.0
+                ],
+                [
+                    "2020-02-10",
+                    2473.0
+                ],
+                [
+                    "2020-02-11",
+                    2022.0
+                ],
+                [
+                    "2020-02-12",
+                    15152.0
+                ],
+                [
+                    "2020-02-13",
+                    4050.0
+                ]
+            ],
+            "label": {
+                "normal": {
+                    "show": false,
+                    "position": "top",
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                },
+                "emphasis": {
+                    "show": true,
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                }
+            },
+            "lineStyle": {
+                "normal": {
+                    "width": 1,
+                    "opacity": 1,
+                    "curveness": 0,
+                    "type": "solid"
+                }
+            },
+            "areaStyle": {
+                "opacity": 0
+            },
+            "markPoint": {
+                "data": []
+            },
+            "markLine": {
+                "data": []
+            },
+            "seriesId": 876253
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                "\u6e56\u5317\u65b0\u589e",
+                "\u975e\u6e56\u5317\u65b0\u589e",
+                "\u5168\u56fd\u65b0\u589e"
+            ],
+            "selectedMode": "multiple",
+            "show": true,
+            "left": "center",
+            "top": "top",
+            "orient": "horizontal",
+            "textStyle": {
+                "fontSize": 12
+            }
+        }
+    ],
+    "animation": true,
+    "xAxis": [
+        {
+            "show": true,
+            "nameLocation": "middle",
+            "nameGap": 25,
+            "nameTextStyle": {
+                "fontSize": 14
+            },
+            "axisTick": {
+                "alignWithLabel": false
+            },
+            "inverse": false,
+            "boundaryGap": true,
+            "type": "category",
+            "splitLine": {
+                "show": false
+            },
+            "axisLine": {
+                "lineStyle": {
+                    "width": 1
+                }
+            },
+            "axisLabel": {
+                "interval": "auto",
+                "rotate": 0,
+                "margin": 8,
+                "textStyle": {
+                    "fontSize": 12
+                }
+            },
+            "data": [
+                "2020-01-22",
+                "2020-01-23",
+                "2020-01-24",
+                "2020-01-25",
+                "2020-01-26",
+                "2020-01-27",
+                "2020-01-28",
+                "2020-01-29",
+                "2020-01-30",
+                "2020-01-31",
+                "2020-02-01",
+                "2020-02-02",
+                "2020-02-03",
+                "2020-02-04",
+                "2020-02-05",
+                "2020-02-06",
+                "2020-02-07",
+                "2020-02-08",
+                "2020-02-09",
+                "2020-02-10",
+                "2020-02-11",
+                "2020-02-12",
+                "2020-02-13"
+            ]
+        }
+    ],
+    "yAxis": [
+        {
+            "show": true,
+            "nameLocation": "middle",
+            "nameGap": 25,
+            "nameTextStyle": {
+                "fontSize": 14
+            },
+            "axisTick": {
+                "alignWithLabel": false
+            },
+            "inverse": false,
+            "boundaryGap": true,
+            "type": "value",
+            "splitLine": {
+                "show": true
+            },
+            "axisLine": {
+                "lineStyle": {
+                    "width": 1
+                }
+            },
+            "axisLabel": {
+                "interval": "auto",
+                "formatter": "{value} ",
+                "rotate": 0,
+                "margin": 8,
+                "textStyle": {
+                    "fontSize": 12
+                }
+            }
+        }
+    ],
+    "color": [
+        "#c23531",
+        "#2f4554",
+        "#61a0a8",
+        "#d48265",
+        "#749f83",
+        "#ca8622",
+        "#bda29a",
+        "#6e7074",
+        "#546570",
+        "#c4ccd3",
+        "#f05b72",
+        "#ef5b9c",
+        "#f47920",
+        "#905a3d",
+        "#fab27b",
+        "#2a5caa",
+        "#444693",
+        "#726930",
+        "#b2d235",
+        "#6d8346",
+        "#ac6767",
+        "#1d953f",
+        "#6950a1",
+        "#918597",
+        "#f6f5ec"
+    ]
+};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+</script>
+
+<h2 id="构建函数快速输出指定省市的疫情病例增长曲线"><a href="#构建函数快速输出指定省市的疫情病例增长曲线" class="headerlink" title="构建函数快速输出指定省市的疫情病例增长曲线"></a>构建函数快速输出指定省市的疫情病例增长曲线</h2><p><strong>首先梳理一下流程</strong></p>
+<blockquote>
+<p>第一步：构建函数提取数据</p>
+<blockquote>
+<p>按照省市名称提取数据<br>分别计算疑似病例、确诊病例、死亡病例的新增情况</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>第二步：构建函数绘制疫情病例增长曲线</p>
+<blockquote>
+<p>用第一步的函数提取数据<br>设置x、y轴的数据<br>绘制图表</p>
+</blockquote>
+</blockquote>
+<hr>
+<p>构建第一步函数，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 构建函数提取数据</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">regiondata</span><span class="params">(where)</span>:</span></span><br><span class="line">    <span class="comment"># 提取数据</span></span><br><span class="line">    datai = df[df[<span class="string">'省市'</span>] == where]</span><br><span class="line">    <span class="comment"># 分别计算新增数据</span></span><br><span class="line">    datai[<span class="string">'疑似新增'</span>] = datai[<span class="string">'疑似'</span>] - datai[<span class="string">'疑似'</span>].shift()</span><br><span class="line">    datai[<span class="string">'确诊新增'</span>] = datai[<span class="string">'确诊'</span>] - datai[<span class="string">'确诊'</span>].shift()</span><br><span class="line">    datai[<span class="string">'死亡新增'</span>] = datai[<span class="string">'死亡'</span>] - datai[<span class="string">'死亡'</span>].shift()</span><br><span class="line">    <span class="comment"># 返回数据</span></span><br><span class="line">    <span class="keyword">return</span> datai</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用函数提取某省市数据</span></span><br><span class="line">data_bj = regiondata(<span class="string">'北京市'</span>)</span><br><span class="line">data_sh = regiondata(<span class="string">'上海市'</span>)</span><br><span class="line">data_cq = regiondata(<span class="string">'重庆市'</span>)</span><br><span class="line">data_sh.head()</span><br></pre></td></tr></table></figure>
+
+<p>输出结果如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">区域编码</th>
+<th align="center">省市</th>
+<th align="center">疑似</th>
+<th align="center">确诊</th>
+<th align="center">死亡</th>
+<th align="center">date</th>
+<th align="center">疑似新增</th>
+<th align="center">确诊新增</th>
+<th align="center">死亡新增</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"></td>
+<td align="center">144</td>
+<td align="center">310000</td>
+<td align="center">上海市</td>
+<td align="center">16</td>
+<td align="center">16</td>
+<td align="center">0</td>
+<td align="center">2020-01-22</td>
+<td align="center">NaN</td>
+<td align="center">NaN</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">145</td>
+<td align="center">310000</td>
+<td align="center">上海市</td>
+<td align="center">34</td>
+<td align="center">20</td>
+<td align="center">0</td>
+<td align="center">2020-01-23</td>
+<td align="center">18.0</td>
+<td align="center">4.0</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">146</td>
+<td align="center">310000</td>
+<td align="center">上海市</td>
+<td align="center">72</td>
+<td align="center">33</td>
+<td align="center">0</td>
+<td align="center">2020-01-24</td>
+<td align="center">8.0</td>
+<td align="center">13.0</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">147</td>
+<td align="center">310000</td>
+<td align="center">上海市</td>
+<td align="center">95</td>
+<td align="center">40</td>
+<td align="center">1</td>
+<td align="center">2020-01-25</td>
+<td align="center">23.0</td>
+<td align="center">7.0</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">148</td>
+<td align="center">310000</td>
+<td align="center">上海市</td>
+<td align="center">90</td>
+<td align="center">53</td>
+<td align="center">1</td>
+<td align="center">2020-01-26</td>
+<td align="center">-5.0</td>
+<td align="center">13.0</td>
+</tr>
+</tbody></table>
+<hr>
+<p>构建第二步函数，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 构建函数绘制疫情病例增长曲线</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fig2</span><span class="params">(r1, r2, r3)</span>:</span></span><br><span class="line">    <span class="comment"># 提取数据,regiondata(where)</span></span><br><span class="line">    data1 = regiondata(r1)</span><br><span class="line">    data2 = regiondata(r2)</span><br><span class="line">    data3 = regiondata(r3)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 设置x、y</span></span><br><span class="line">    x = data1[<span class="string">'date'</span>].astype(<span class="string">'str'</span>)</span><br><span class="line">    y1 = data1[<span class="string">'确诊新增'</span>]</span><br><span class="line">    y2 = data2[<span class="string">'确诊新增'</span>]</span><br><span class="line">    y3 = data3[<span class="string">'确诊新增'</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 分地区新增确诊病例情况</span></span><br><span class="line">    line = pe.Line(<span class="string">'分地区新增确诊病例情况'</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 绘制图表</span></span><br><span class="line">    line.add(r1, x, y1, is_step=<span class="literal">True</span>)  <span class="comment"># is_step参数可以设置阶梯线图</span></span><br><span class="line">    line.add(r2, x, y2, is_step=<span class="literal">True</span>)</span><br><span class="line">    line.add(r3, x, y3, is_step=<span class="literal">True</span>, tooltip_trigger = <span class="string">'axis'</span>, tooltip_axispointer_type = <span class="string">'cross'</span>)</span><br><span class="line">    <span class="keyword">return</span> line.render(<span class="string">'*/*/*.html'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#可更换其他省市</span></span><br><span class="line">fig2(<span class="string">'北京市'</span>,<span class="string">'上海市'</span>,<span class="string">'重庆市'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>输出结果如下：</p>
+<div id="echarts9715" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('echarts9715'));
+
+        // 指定图表的配置项和数据
+        var option = {
+    "title": [
+        {
+            "text": "\u5206\u5730\u533a\u65b0\u589e\u786e\u8bca\u75c5\u4f8b\u60c5\u51b5",
+            "left": "auto",
+            "top": "auto",
+            "textStyle": {
+                "fontSize": 18
+            },
+            "subtextStyle": {
+                "fontSize": 12
+            }
+        }
+    ],
+    "toolbox": {
+        "show": true,
+        "orient": "vertical",
+        "left": "95%",
+        "top": "center",
+        "feature": {
+            "saveAsImage": {
+                "show": true,
+                "title": "save as image"
+            },
+            "restore": {
+                "show": true,
+                "title": "restore"
+            },
+            "dataView": {
+                "show": true,
+                "title": "data view"
+            }
+        }
+    },
+    "series_id": 4621006,
+    "tooltip": {
+        "trigger": "axis",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "cross"
+        },
+        "textStyle": {
+            "fontSize": 14
+        },
+        "backgroundColor": "rgba(50,50,50,0.7)",
+        "borderColor": "#333",
+        "borderWidth": 0
+    },
+    "series": [
+        {
+            "type": "line",
+            "name": "\u5317\u4eac\u5e02",
+            "symbol": "emptyCircle",
+            "symbolSize": 4,
+            "smooth": false,
+            "step": true,
+            "showSymbol": true,
+            "data": [
+                [
+                    "2020-01-22",
+                    NaN
+                ],
+                [
+                    "2020-01-23",
+                    12.0
+                ],
+                [
+                    "2020-01-24",
+                    10.0
+                ],
+                [
+                    "2020-01-25",
+                    15.0
+                ],
+                [
+                    "2020-01-26",
+                    16.0
+                ],
+                [
+                    "2020-01-27",
+                    13.0
+                ],
+                [
+                    "2020-01-28",
+                    16.0
+                ],
+                [
+                    "2020-01-29",
+                    16.0
+                ],
+                [
+                    "2020-01-30",
+                    20.0
+                ],
+                [
+                    "2020-01-31",
+                    24.0
+                ],
+                [
+                    "2020-02-01",
+                    27.0
+                ],
+                [
+                    "2020-02-02",
+                    29.0
+                ],
+                [
+                    "2020-02-03",
+                    16.0
+                ],
+                [
+                    "2020-02-04",
+                    25.0
+                ],
+                [
+                    "2020-02-05",
+                    21.0
+                ],
+                [
+                    "2020-02-06",
+                    23.0
+                ],
+                [
+                    "2020-02-07",
+                    18.0
+                ],
+                [
+                    "2020-02-08",
+                    11.0
+                ],
+                [
+                    "2020-02-09",
+                    11.0
+                ],
+                [
+                    "2020-02-10",
+                    5.0
+                ],
+                [
+                    "2020-02-11",
+                    10.0
+                ],
+                [
+                    "2020-02-12",
+                    14.0
+                ],
+                [
+                    "2020-02-13",
+                    6.0
+                ]
+            ],
+            "label": {
+                "normal": {
+                    "show": false,
+                    "position": "top",
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                },
+                "emphasis": {
+                    "show": true,
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                }
+            },
+            "lineStyle": {
+                "normal": {
+                    "width": 1,
+                    "opacity": 1,
+                    "curveness": 0,
+                    "type": "solid"
+                }
+            },
+            "areaStyle": {
+                "opacity": 0
+            },
+            "markPoint": {
+                "data": []
+            },
+            "markLine": {
+                "data": []
+            },
+            "seriesId": 4621006
+        },
+        {
+            "type": "line",
+            "name": "\u4e0a\u6d77\u5e02",
+            "symbol": "emptyCircle",
+            "symbolSize": 4,
+            "smooth": false,
+            "step": true,
+            "showSymbol": true,
+            "data": [
+                [
+                    "2020-01-22",
+                    NaN
+                ],
+                [
+                    "2020-01-23",
+                    4.0
+                ],
+                [
+                    "2020-01-24",
+                    13.0
+                ],
+                [
+                    "2020-01-25",
+                    7.0
+                ],
+                [
+                    "2020-01-26",
+                    13.0
+                ],
+                [
+                    "2020-01-27",
+                    13.0
+                ],
+                [
+                    "2020-01-28",
+                    14.0
+                ],
+                [
+                    "2020-01-29",
+                    21.0
+                ],
+                [
+                    "2020-01-30",
+                    27.0
+                ],
+                [
+                    "2020-01-31",
+                    25.0
+                ],
+                [
+                    "2020-02-01",
+                    24.0
+                ],
+                [
+                    "2020-02-02",
+                    16.0
+                ],
+                [
+                    "2020-02-03",
+                    15.0
+                ],
+                [
+                    "2020-02-04",
+                    25.0
+                ],
+                [
+                    "2020-02-05",
+                    21.0
+                ],
+                [
+                    "2020-02-06",
+                    15.0
+                ],
+                [
+                    "2020-02-07",
+                    12.0
+                ],
+                [
+                    "2020-02-08",
+                    11.0
+                ],
+                [
+                    "2020-02-09",
+                    3.0
+                ],
+                [
+                    "2020-02-10",
+                    7.0
+                ],
+                [
+                    "2020-02-11",
+                    4.0
+                ],
+                [
+                    "2020-02-12",
+                    7.0
+                ],
+                [
+                    "2020-02-13",
+                    5.0
+                ]
+            ],
+            "label": {
+                "normal": {
+                    "show": false,
+                    "position": "top",
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                },
+                "emphasis": {
+                    "show": true,
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                }
+            },
+            "lineStyle": {
+                "normal": {
+                    "width": 1,
+                    "opacity": 1,
+                    "curveness": 0,
+                    "type": "solid"
+                }
+            },
+            "areaStyle": {
+                "opacity": 0
+            },
+            "markPoint": {
+                "data": []
+            },
+            "markLine": {
+                "data": []
+            },
+            "seriesId": 4621006
+        },
+        {
+            "type": "line",
+            "name": "\u91cd\u5e86\u5e02",
+            "symbol": "emptyCircle",
+            "symbolSize": 4,
+            "smooth": false,
+            "step": true,
+            "showSymbol": true,
+            "data": [
+                [
+                    "2020-01-22",
+                    NaN
+                ],
+                [
+                    "2020-01-23",
+                    18.0
+                ],
+                [
+                    "2020-01-24",
+                    30.0
+                ],
+                [
+                    "2020-01-25",
+                    18.0
+                ],
+                [
+                    "2020-01-26",
+                    35.0
+                ],
+                [
+                    "2020-01-27",
+                    22.0
+                ],
+                [
+                    "2020-01-28",
+                    15.0
+                ],
+                [
+                    "2020-01-29",
+                    18.0
+                ],
+                [
+                    "2020-01-30",
+                    41.0
+                ],
+                [
+                    "2020-01-31",
+                    32.0
+                ],
+                [
+                    "2020-02-01",
+                    24.0
+                ],
+                [
+                    "2020-02-02",
+                    38.0
+                ],
+                [
+                    "2020-02-03",
+                    37.0
+                ],
+                [
+                    "2020-02-04",
+                    29.0
+                ],
+                [
+                    "2020-02-05",
+                    23.0
+                ],
+                [
+                    "2020-02-06",
+                    22.0
+                ],
+                [
+                    "2020-02-07",
+                    15.0
+                ],
+                [
+                    "2020-02-08",
+                    20.0
+                ],
+                [
+                    "2020-02-09",
+                    22.0
+                ],
+                [
+                    "2020-02-10",
+                    18.0
+                ],
+                [
+                    "2020-02-11",
+                    19.0
+                ],
+                [
+                    "2020-02-12",
+                    13.0
+                ],
+                [
+                    "2020-02-13",
+                    11.0
+                ]
+            ],
+            "label": {
+                "normal": {
+                    "show": false,
+                    "position": "top",
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                },
+                "emphasis": {
+                    "show": true,
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                }
+            },
+            "lineStyle": {
+                "normal": {
+                    "width": 1,
+                    "opacity": 1,
+                    "curveness": 0,
+                    "type": "solid"
+                }
+            },
+            "areaStyle": {
+                "opacity": 0
+            },
+            "markPoint": {
+                "data": []
+            },
+            "markLine": {
+                "data": []
+            },
+            "seriesId": 4621006
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                "\u5317\u4eac\u5e02",
+                "\u4e0a\u6d77\u5e02",
+                "\u91cd\u5e86\u5e02"
+            ],
+            "selectedMode": "multiple",
+            "show": true,
+            "left": "center",
+            "top": "top",
+            "orient": "horizontal",
+            "textStyle": {
+                "fontSize": 12
+            }
+        }
+    ],
+    "animation": true,
+    "xAxis": [
+        {
+            "show": true,
+            "nameLocation": "middle",
+            "nameGap": 25,
+            "nameTextStyle": {
+                "fontSize": 14
+            },
+            "axisTick": {
+                "alignWithLabel": false
+            },
+            "inverse": false,
+            "boundaryGap": true,
+            "type": "category",
+            "splitLine": {
+                "show": false
+            },
+            "axisLine": {
+                "lineStyle": {
+                    "width": 1
+                }
+            },
+            "axisLabel": {
+                "interval": "auto",
+                "rotate": 0,
+                "margin": 8,
+                "textStyle": {
+                    "fontSize": 12
+                }
+            },
+            "data": [
+                "2020-01-22",
+                "2020-01-23",
+                "2020-01-24",
+                "2020-01-25",
+                "2020-01-26",
+                "2020-01-27",
+                "2020-01-28",
+                "2020-01-29",
+                "2020-01-30",
+                "2020-01-31",
+                "2020-02-01",
+                "2020-02-02",
+                "2020-02-03",
+                "2020-02-04",
+                "2020-02-05",
+                "2020-02-06",
+                "2020-02-07",
+                "2020-02-08",
+                "2020-02-09",
+                "2020-02-10",
+                "2020-02-11",
+                "2020-02-12",
+                "2020-02-13"
+            ]
+        }
+    ],
+    "yAxis": [
+        {
+            "show": true,
+            "nameLocation": "middle",
+            "nameGap": 25,
+            "nameTextStyle": {
+                "fontSize": 14
+            },
+            "axisTick": {
+                "alignWithLabel": false
+            },
+            "inverse": false,
+            "boundaryGap": true,
+            "type": "value",
+            "splitLine": {
+                "show": true
+            },
+            "axisLine": {
+                "lineStyle": {
+                    "width": 1
+                }
+            },
+            "axisLabel": {
+                "interval": "auto",
+                "formatter": "{value} ",
+                "rotate": 0,
+                "margin": 8,
+                "textStyle": {
+                    "fontSize": 12
+                }
+            }
+        }
+    ],
+    "color": [
+        "#c23531",
+        "#2f4554",
+        "#61a0a8",
+        "#d48265",
+        "#749f83",
+        "#ca8622",
+        "#bda29a",
+        "#6e7074",
+        "#546570",
+        "#c4ccd3",
+        "#f05b72",
+        "#ef5b9c",
+        "#f47920",
+        "#905a3d",
+        "#fab27b",
+        "#2a5caa",
+        "#444693",
+        "#726930",
+        "#b2d235",
+        "#6d8346",
+        "#ac6767",
+        "#1d953f",
+        "#6950a1",
+        "#918597",
+        "#f6f5ec"
+    ]
+};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+</script>
+
+<p>以上就是本章内容，快快练习吧！</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>吃颗糖</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Erek 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Erek 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/02/29/geopandas%E5%AE%89%E8%A3%85%E8%AE%B0%E5%BD%95/" rel="prev" title="geopandas安装记录">
+      <i class="fa fa-chevron-left"></i> geopandas安装记录
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#分别提取湖北、非湖北的数据"><span class="nav-number">1.</span> <span class="nav-text">分别提取湖北、非湖北的数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绘制多系列折线图-不同地区疫情病例增长曲线"><span class="nav-number">2.</span> <span class="nav-text">绘制多系列折线图-不同地区疫情病例增长曲线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建函数快速输出指定省市的疫情病例增长曲线"><span class="nav-number">3.</span> <span class="nav-text">构建函数快速输出指定省市的疫情病例增长曲线</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Erek"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Erek</p>
+  <div class="site-description" itemprop="description">A personal blog</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:erekzeng@qq.com" title="E-Mail → mailto:erekzeng@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7371592033" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7371592033" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/erekzeng" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;erekzeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.91the.top/" title="https:&#x2F;&#x2F;www.91the.top&#x2F;" rel="noopener" target="_blank">IT玩客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://hiwannz.com/" title="https:&#x2F;&#x2F;hiwannz.com&#x2F;" rel="noopener" target="_blank">见字如面</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <span id="sitetime"></span>
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2020,02,19,12,00,00); //北京时间2020-2-19 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+    document.getElementById("sitetime").innerHTML=" 网站已运行"+/*diffYears+" 年 "+*/diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+  }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+  siteTime();
+</script>
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备20007369号 </a>
+      <img src="/images/备案图标.png" style="display: inline-block;">
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-Erek"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erek</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">55k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:41</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el: '#valine-comments',
+      verify: false,
+      notify: true,
+      appId: 'WQxx3FISmeJzxVyK2SRiWDNu-gzGzoHsz',
+      appKey: 'JJMbY46tSr59mT1OejzDjufg',
+      placeholder: "欢迎评论！",
+      avatar: 'mm',
+      meta: guest,
+      pageSize: '10' || 10,
+      visitor: true,
+      lang: '' || 'zh-cn',
+      path: location.pathname,
+      recordIP: true,
+      serverURLs: ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
