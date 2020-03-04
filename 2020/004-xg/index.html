@@ -481,11 +481,11 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 绘制累计确诊病例动态图表</span></span><br><span class="line"><span class="comment"># 导入pyecharts工具包，用pe作为简写</span></span><br><span class="line"><span class="keyword">import</span> pyecharts <span class="keyword">as</span> pe  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建柱状图对象</span></span><br><span class="line">bar = pe.Bar(<span class="string">'累计确诊病例 柱状图'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置x轴 - 日期，这里由于第1条数据有空值，故从第2条开始</span></span><br><span class="line"><span class="comment"># 这里是绘图阶段，x尽量用字符串</span></span><br><span class="line">x = data_china.iloc[<span class="number">1</span>::].index.astype(<span class="string">'str'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y轴 - 确诊病例</span></span><br><span class="line">y = data_china[<span class="string">'确诊'</span>].iloc[<span class="number">1</span>::]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制图表</span></span><br><span class="line">bar.add(<span class="string">'确诊病例'</span>, x, y, </span><br><span class="line">        is_datazoom_show = <span class="literal">True</span>, datazoom_range = [<span class="number">0</span>,<span class="number">100</span>], </span><br><span class="line">        tooltip_trigger = <span class="string">'axis'</span>)</span><br><span class="line">bar</span><br></pre></td></tr></table></figure>
 
 <p>输出结果为（可通过鼠标点击或者拖动改变日期区间哦）：</p>
-<div id="echarts6455" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<div id="echarts6603" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<script src="https://cdn.bootcss.com/echarts/3.8.0/echarts.common.min.js"></script>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts6455'));
-
+        var myChart = echarts.init(document.getElementById('echarts6603'));
         // 指定图表的配置项和数据
         var option = {
     "title": [
@@ -730,7 +730,6 @@
         }
     ]
 };
-
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
 </script>
@@ -768,11 +767,11 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 绘制累确诊病例增长率动态图表</span></span><br><span class="line"><span class="comment"># 创建折线图对象</span></span><br><span class="line">line = pe.Line(<span class="string">'累计确诊病例增长率 折线图'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置x、y轴</span></span><br><span class="line">x = data_china.iloc[<span class="number">1</span>::].index.astype(<span class="string">'str'</span>)</span><br><span class="line">y = data_china[<span class="string">'确诊_增长率'</span>].iloc[<span class="number">1</span>::]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制图表</span></span><br><span class="line">line.add(<span class="string">'增长率'</span>, x, y, is_smooth = <span class="literal">True</span>, </span><br><span class="line">            tooltip_trigger = <span class="string">'axis'</span>, tooltip_axispointer_type = <span class="string">'cross'</span>)</span><br><span class="line">line</span><br></pre></td></tr></table></figure>
 
 <p>输出结果为：</p>
-<div id="echarts3595" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<div id="echarts2945" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<script src="https://cdn.bootcss.com/echarts/3.8.0/echarts.common.min.js"></script>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts3595'));
-
+        var myChart = echarts.init(document.getElementById('echarts2945'));
         // 指定图表的配置项和数据
         var option = {
     "title": [
@@ -1089,7 +1088,6 @@
         "#f6f5ec"
     ]
 };
-
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
 </script>
@@ -1108,11 +1106,11 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 合并图表</span></span><br><span class="line"><span class="comment"># 设置x、y轴数据</span></span><br><span class="line">x = data_china.iloc[<span class="number">1</span>::].index.astype(<span class="string">'str'</span>)</span><br><span class="line">y1 = data_china[<span class="string">'确诊'</span>].iloc[<span class="number">1</span>::]   <span class="comment"># 设置y1轴 - 确诊病例</span></span><br><span class="line">y2 = data_china[<span class="string">'确诊_增长率'</span>].iloc[<span class="number">1</span>::]   <span class="comment"># 设置y2轴 - 确诊增长率</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制柱状图</span></span><br><span class="line">bar = pe.Bar(<span class="string">'累计确诊病例走势'</span>)</span><br><span class="line">bar.add(<span class="string">'确诊病例'</span>, x, y1,</span><br><span class="line">         is_datazoom_show = <span class="literal">True</span>, datazoom_range = [<span class="number">0</span>,<span class="number">100</span>], </span><br><span class="line">         tooltip_trigger = <span class="string">'axis'</span>, tooltip_axispointer_type = <span class="string">'cross'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制折线图</span></span><br><span class="line">line = pe.Line(<span class="string">'累计确诊病例增长率 折线图'</span>)</span><br><span class="line">line.add(<span class="string">'增长率'</span>, x, y2, is_smooth=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 合并图表</span></span><br><span class="line">overlap = pe.Overlap()</span><br><span class="line">overlap.add(bar)</span><br><span class="line">overlap.add(line, </span><br><span class="line">            yaxis_index=<span class="number">1</span>, is_add_yaxis=<span class="literal">True</span>)  <span class="comment"># 新增y轴</span></span><br><span class="line">overlap</span><br></pre></td></tr></table></figure>
 
 <p>输出结果为：</p>
-<div id="echarts4420" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<div id="echarts5260" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<script src="https://cdn.bootcss.com/echarts/3.8.0/echarts.common.min.js"></script>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts4420'));
-
+        var myChart = echarts.init(document.getElementById('echarts5260'));
         // 指定图表的配置项和数据
         var option = {
     "title": [
@@ -1523,7 +1521,6 @@
         }
     ]
 };
-
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
 </script>
