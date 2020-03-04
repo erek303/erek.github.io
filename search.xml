@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>新冠病毒疫情分析学习07-全国疫情动态变化可视化表达</title>
-    <url>/2020/02/29/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A007-%E5%85%A8%E5%9B%BD%E7%96%AB%E6%83%85%E5%8A%A8%E6%80%81%E5%8F%98%E5%8C%96%E5%8F%AF%E8%A7%86%E5%8C%96%E8%A1%A8%E8%BE%BE/</url>
+    <url>/2020/007-xg/</url>
     <content><![CDATA[<p>本章将基于不同日期的各省市疫情数据，用pyecharts做动态可视化图表</p>
 <p>首先准备好数据</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 读取数据</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line">warnings.filterwarnings(<span class="string">'ignore'</span>)</span><br><span class="line"><span class="comment"># 设置不弹出警告</span></span><br><span class="line">df = pd.read_excel(<span class="string">'*/*/data_ncov.xlsx'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 时间序列转换</span></span><br><span class="line">df[<span class="string">'date'</span>] = df[<span class="string">'date'</span>].astype(<span class="string">'str'</span>)     <span class="comment"># 先将字段转化为字符串</span></span><br><span class="line">df[<span class="string">'date'</span>] = pd.to_datetime(df[<span class="string">'date'</span>])   <span class="comment"># 再进行时间序列转换</span></span><br><span class="line">df.head()</span><br></pre></td></tr></table></figure>
@@ -51,10 +51,10 @@
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 提取3个省市的数据</span></span><br><span class="line">data_zj = regiondata_time(<span class="string">'浙江省'</span>, <span class="string">'2020-2-1'</span>)</span><br><span class="line">data_gd = regiondata_time(<span class="string">'广东省'</span>, <span class="string">'2020-2-1'</span>)</span><br><span class="line">data_hn = regiondata_time(<span class="string">'湖南省'</span>, <span class="string">'2020-2-1'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制多气泡图(散点图)</span></span><br><span class="line"><span class="keyword">import</span> pyecharts <span class="keyword">as</span> pe</span><br><span class="line">scatter = pe.EffectScatter(<span class="string">"2020-2-1 疫情情况"</span>, width = <span class="number">1000</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加浙江省数据</span></span><br><span class="line">scatter.add(<span class="string">"浙江省"</span>,[data_zj[<span class="string">'确诊新增'</span>]], [data_zj[<span class="string">'疑似新增'</span>]], symbol_size = data_zj[<span class="string">'确诊'</span>].iloc[<span class="number">0</span>]/<span class="number">30</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加其他数据及设置图表参数</span></span><br><span class="line">scatter.add(<span class="string">"广东省"</span>, [data_gd[<span class="string">'确诊新增'</span>]], [data_gd[<span class="string">'疑似新增'</span>]], symbol_size = data_gd[<span class="string">'确诊'</span>].iloc[<span class="number">0</span>]/<span class="number">30</span>)</span><br><span class="line">scatter.add(<span class="string">"湖南省"</span>, [data_hn[<span class="string">'确诊新增'</span>]], [data_hn[<span class="string">'疑似新增'</span>]], symbol_size = data_hn[<span class="string">'确诊'</span>].iloc[<span class="number">0</span>]/<span class="number">30</span>,</span><br><span class="line">            xaxis_name=<span class="string">'确诊病例新增'</span>,xaxis_name_pos = <span class="string">'end'</span>,</span><br><span class="line">            yaxis_name =<span class="string">'疑似病例新增'</span>,yaxis_name_gap=<span class="number">40</span>,</span><br><span class="line">            is_toolbox_show = <span class="literal">False</span>,</span><br><span class="line">            tooltip_axispointer_type = <span class="string">'cross'</span>,</span><br><span class="line">            legend_pos=<span class="string">'20%'</span>)</span><br><span class="line"></span><br><span class="line">scatter</span><br></pre></td></tr></table></figure>
 
 <p>结果如下：</p>
-<div id="echarts3235" style="width: 100%;height: 400px;margin: 0 auto"></div>
+<div id="echarts5558" style="width: 100%;height: 400px;margin: 0 auto"></div>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts3235'));
+        var myChart = echarts.init(document.getElementById('echarts5558'));
 
         // 指定图表的配置项和数据
         var option = {
@@ -351,10 +351,10 @@
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 用for循环出气泡图</span></span><br><span class="line"><span class="comment"># 创建省市列表</span></span><br><span class="line">regions = [<span class="string">'浙江省'</span>,<span class="string">'广东省'</span>,<span class="string">'湖南省'</span>,<span class="string">'上海市'</span>,<span class="string">'重庆市'</span>,<span class="string">'四川省'</span>,<span class="string">'河南省'</span>,<span class="string">'江苏省'</span>]</span><br><span class="line">scatter = pe.EffectScatter(<span class="string">"2020-2-1 疫情情况"</span>, width = <span class="number">1000</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># for循环</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> regions:</span><br><span class="line">    <span class="comment"># 提取数据</span></span><br><span class="line">    datai = regiondata_time(i, <span class="string">'2020-2-1'</span>)   </span><br><span class="line">    <span class="comment"># 设置参数</span></span><br><span class="line">    scatter.add(i,[datai[<span class="string">'确诊新增'</span>]], [datai[<span class="string">'疑似新增'</span>]], symbol_size = datai[<span class="string">'确诊'</span>].iloc[<span class="number">0</span>]/<span class="number">30</span>,</span><br><span class="line">                xaxis_name=<span class="string">'确诊病例新增'</span>,xaxis_name_pos = <span class="string">'end'</span>,</span><br><span class="line">                yaxis_name =<span class="string">'疑似病例新增'</span>,yaxis_name_gap=<span class="number">40</span>,</span><br><span class="line">                is_toolbox_show = <span class="literal">False</span>,</span><br><span class="line">                tooltip_axispointer_type = <span class="string">'cross'</span>,</span><br><span class="line">                legend_pos=<span class="string">'20%'</span>)</span><br><span class="line">scatter</span><br></pre></td></tr></table></figure>
 
 <p>输出结果为：</p>
-<div id="echarts4661" style="width: 100%;height: 400px;margin: 0 auto"></div>
+<div id="echarts2901" style="width: 100%;height: 400px;margin: 0 auto"></div>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts4661'));
+        var myChart = echarts.init(document.getElementById('echarts2901'));
 
         // 指定图表的配置项和数据
         var option = {
@@ -844,10 +844,10 @@
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 构建函数直接绘制单日疫情情况气泡图</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fig3</span><span class="params">(regionlst, time)</span>:</span></span><br><span class="line">    <span class="comment"># 创建气泡图对象</span></span><br><span class="line">    scatteri = pe.EffectScatter(<span class="string">"%s 疫情情况"</span> % time, width = <span class="number">1000</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> regionlst:</span><br><span class="line">        <span class="comment"># 提取数据</span></span><br><span class="line">        datai = regiondata_time(i, time)   </span><br><span class="line">        <span class="comment"># 设置参数</span></span><br><span class="line">        scatteri.add(i,[datai[<span class="string">'确诊新增'</span>]], [datai[<span class="string">'疑似新增'</span>]], symbol_size = datai[<span class="string">'确诊'</span>].iloc[<span class="number">0</span>]/<span class="number">30</span>,</span><br><span class="line">                    xaxis_name=<span class="string">'确诊病例新增'</span>,xaxis_name_pos = <span class="string">'end'</span>,</span><br><span class="line">                    yaxis_name =<span class="string">'疑似病例新增'</span>,yaxis_name_gap=<span class="number">40</span>,</span><br><span class="line">                    is_toolbox_show = <span class="literal">False</span>,</span><br><span class="line">                    tooltip_axispointer_type = <span class="string">'cross'</span>,</span><br><span class="line">                    legend_pos=<span class="string">'20%'</span>)</span><br><span class="line">    <span class="keyword">return</span> scatteri</span><br><span class="line">  </span><br><span class="line"><span class="comment"># 调用函数绘制单日疫情情况气泡图</span></span><br><span class="line">regions = [<span class="string">'浙江省'</span>,<span class="string">'广东省'</span>,<span class="string">'湖南省'</span>,<span class="string">'上海市'</span>,<span class="string">'重庆市'</span>,<span class="string">'四川省'</span>,<span class="string">'河南省'</span>,<span class="string">'江苏省'</span>]</span><br><span class="line">fig3(regions, <span class="string">'2020-1-30'</span>)</span><br></pre></td></tr></table></figure>
 
 <p>输出结果如下:</p>
-<div id="echarts5555" style="width: 100%;height: 400px;margin: 0 auto"></div>
+<div id="echarts5356" style="width: 100%;height: 400px;margin: 0 auto"></div>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts5555'));
+        var myChart = echarts.init(document.getElementById('echarts5356'));
 
         // 指定图表的配置项和数据
         var option = {
@@ -3656,7 +3656,7 @@
   </entry>
   <entry>
     <title>新冠病毒疫情分析学习06-不同省市确诊病例与疑似病例对比</title>
-    <url>/2020/02/29/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A006-%E4%B8%8D%E5%90%8C%E7%9C%81%E5%B8%82%E7%A1%AE%E8%AF%8A%E7%97%85%E4%BE%8B%E4%B8%8E%E7%96%91%E4%BC%BC%E7%97%85%E4%BE%8B%E5%AF%B9%E6%AF%94/</url>
+    <url>/2020/006-xg/</url>
     <content><![CDATA[<p>这章通过分地区来查看疫情病例的增长情况，并构建函数快速输出指定省市的疫情病例增长曲线</p>
 <p>首先依然准备好数据</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 读取数据</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line">warnings.filterwarnings(<span class="string">'ignore'</span>)</span><br><span class="line"><span class="comment"># 设置不弹出警告</span></span><br><span class="line"></span><br><span class="line">df = pd.read_excel(<span class="string">'*/*/data_ncov.xlsx'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 时间序列转换</span></span><br><span class="line">df[<span class="string">'date'</span>] = df[<span class="string">'date'</span>].astype(<span class="string">'str'</span>)     <span class="comment"># 先将字段转化为字符串</span></span><br><span class="line">df[<span class="string">'date'</span>] = pd.to_datetime(df[<span class="string">'date'</span>])   <span class="comment"># 再进行时间序列转换</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 提取全国数据，并按天计算每日新增数据</span></span><br><span class="line">data_china = df.groupby(<span class="string">'date'</span>)[[<span class="string">'疑似'</span>,<span class="string">'确诊'</span>,<span class="string">'死亡'</span>]].sum()</span><br><span class="line">data_china[<span class="string">'疑似新增'</span>] = data_china[<span class="string">'疑似'</span>] - data_china[<span class="string">'疑似'</span>].shift()</span><br><span class="line">data_china[<span class="string">'确诊新增'</span>] = data_china[<span class="string">'确诊'</span>] - data_china[<span class="string">'确诊'</span>].shift()</span><br><span class="line">data_china[<span class="string">'死亡新增'</span>] = data_china[<span class="string">'死亡'</span>] - data_china[<span class="string">'死亡'</span>].shift()</span><br><span class="line">data_china.head()</span><br></pre></td></tr></table></figure>
@@ -3669,10 +3669,10 @@
 <h2 id="绘制多系列折线图-不同地区疫情病例增长曲线"><a href="#绘制多系列折线图-不同地区疫情病例增长曲线" class="headerlink" title="绘制多系列折线图-不同地区疫情病例增长曲线"></a>绘制多系列折线图-不同地区疫情病例增长曲线</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 绘制多系列折线图</span></span><br><span class="line"><span class="keyword">import</span> pyecharts <span class="keyword">as</span> pe</span><br><span class="line">line = pe.Line(<span class="string">'不同地区疫情病例增长曲线'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置x轴 - 日期</span></span><br><span class="line">x = data_china.index.astype(<span class="string">'str'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y1轴 - 湖北</span></span><br><span class="line">y1 = data_hb[<span class="string">'确诊新增'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y2轴 - 非湖北</span></span><br><span class="line">y2 = data_nothb[<span class="string">'确诊新增'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y3轴 - 全国</span></span><br><span class="line">y3 = data_china[<span class="string">'确诊新增'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制图表</span></span><br><span class="line">line.add(<span class="string">'湖北新增'</span>, x, y1)</span><br><span class="line">line.add(<span class="string">'非湖北新增'</span>, x, y2)</span><br><span class="line">line.add(<span class="string">'全国新增'</span>, x, y3, tooltip_trigger = <span class="string">'axis'</span>, tooltip_axispointer_type = <span class="string">'cross'</span>)</span><br><span class="line">line</span><br></pre></td></tr></table></figure>
 
 <p>输出结果如下：</p>
-<div id="echarts5424" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<div id="echarts5993" style="width: 81%;height: 400px;margin: 0 auto"></div>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts5424'));
+        var myChart = echarts.init(document.getElementById('echarts5993'));
 
         // 指定图表的配置项和数据
         var option = {
@@ -4373,10 +4373,10 @@
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 构建函数绘制疫情病例增长曲线</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fig2</span><span class="params">(r1, r2, r3)</span>:</span></span><br><span class="line">    <span class="comment"># 提取数据,regiondata(where)</span></span><br><span class="line">    data1 = regiondata(r1)</span><br><span class="line">    data2 = regiondata(r2)</span><br><span class="line">    data3 = regiondata(r3)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 设置x、y</span></span><br><span class="line">    x = data1[<span class="string">'date'</span>].astype(<span class="string">'str'</span>)</span><br><span class="line">    y1 = data1[<span class="string">'确诊新增'</span>]</span><br><span class="line">    y2 = data2[<span class="string">'确诊新增'</span>]</span><br><span class="line">    y3 = data3[<span class="string">'确诊新增'</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 分地区新增确诊病例情况</span></span><br><span class="line">    line = pe.Line(<span class="string">'分地区新增确诊病例情况'</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 绘制图表</span></span><br><span class="line">    line.add(r1, x, y1, is_step=<span class="literal">True</span>)  <span class="comment"># is_step参数可以设置阶梯线图</span></span><br><span class="line">    line.add(r2, x, y2, is_step=<span class="literal">True</span>)</span><br><span class="line">    line.add(r3, x, y3, is_step=<span class="literal">True</span>, tooltip_trigger = <span class="string">'axis'</span>, tooltip_axispointer_type = <span class="string">'cross'</span>)</span><br><span class="line">    <span class="keyword">return</span> line.render(<span class="string">'*/*/*.html'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#可更换其他省市</span></span><br><span class="line">fig2(<span class="string">'北京市'</span>,<span class="string">'上海市'</span>,<span class="string">'重庆市'</span>)</span><br></pre></td></tr></table></figure>
 
 <p>输出结果如下：</p>
-<div id="echarts7714" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<div id="echarts9643" style="width: 81%;height: 400px;margin: 0 auto"></div>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts7714'));
+        var myChart = echarts.init(document.getElementById('echarts9643'));
 
         // 指定图表的配置项和数据
         var option = {
@@ -4986,7 +4986,7 @@
   </entry>
   <entry>
     <title>geopandas安装记录</title>
-    <url>/2020/02/29/geopandas%E5%AE%89%E8%A3%85%E8%AE%B0%E5%BD%95/</url>
+    <url>/2020/001-js/</url>
     <content><![CDATA[<p>为了在python上快速的绘制地理空间的图，需要安装geopandas来运行，而在安装的过程中，却出现了很多问题，所以在此一一记录。</p>
 <h2 id="什么是geopandas？"><a href="#什么是geopandas？" class="headerlink" title="什么是geopandas？"></a>什么是geopandas？</h2><blockquote>
 <p>GeoPandas是一个开源项目，Pandas是Python的一个结构化数据分析的利器,GeoPandas扩展了pandas使用的数据类型，允许对几何类型进行空间操作，DataFrame相当于GIS数据中的一张属性表，使得可以直接操作矢量数据属性表，其目标是使得在python中操作地理数据更方便。</p>
@@ -5028,7 +5028,7 @@
   </entry>
   <entry>
     <title>新冠病毒疫情分析学习05-确诊病例与疑似病例对比</title>
-    <url>/2020/02/29/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A005-%E7%A1%AE%E8%AF%8A%E7%97%85%E4%BE%8B%E4%B8%8E%E7%96%91%E4%BC%BC%E7%97%85%E4%BE%8B%E5%AF%B9%E6%AF%94/</url>
+    <url>/2020/005-xg/</url>
     <content><![CDATA[<p>这章来分析确诊病例与疑似病例的增长情况</p>
 <p>首先准备数据</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 读取数据</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line">warnings.filterwarnings(<span class="string">'ignore'</span>)</span><br><span class="line"><span class="comment"># 设置不弹出警告</span></span><br><span class="line"></span><br><span class="line">df = pd.read_excel(<span class="string">'*/*/data_ncov.xlsx'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 时间序列转换</span></span><br><span class="line">df[<span class="string">'date'</span>] = df[<span class="string">'date'</span>].astype(<span class="string">'str'</span>)     <span class="comment"># 先将字段转化为字符串</span></span><br><span class="line">df[<span class="string">'date'</span>] = pd.to_datetime(df[<span class="string">'date'</span>])   <span class="comment"># 再进行时间序列转换</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 提取全国数据</span></span><br><span class="line">data_china = df.groupby(<span class="string">'date'</span>)[[<span class="string">'疑似'</span>,<span class="string">'确诊'</span>,<span class="string">'死亡'</span>]].sum()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 按天计算每日新增数据</span></span><br><span class="line">data_china[<span class="string">'疑似新增'</span>] = data_china[<span class="string">'疑似'</span>] - data_china[<span class="string">'疑似'</span>].shift()</span><br><span class="line">data_china[<span class="string">'确诊新增'</span>] = data_china[<span class="string">'确诊'</span>] - data_china[<span class="string">'确诊'</span>].shift()</span><br><span class="line">data_china[<span class="string">'死亡新增'</span>] = data_china[<span class="string">'死亡'</span>] - data_china[<span class="string">'死亡'</span>].shift()</span><br><span class="line">data_china.head()</span><br></pre></td></tr></table></figure>
@@ -5160,10 +5160,10 @@
 <h2 id="绘制每日疑似病例与确诊病例柱状图"><a href="#绘制每日疑似病例与确诊病例柱状图" class="headerlink" title="绘制每日疑似病例与确诊病例柱状图"></a>绘制每日疑似病例与确诊病例柱状图</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 绘制每日疑似病例与确诊比例柱状图</span></span><br><span class="line"><span class="keyword">import</span> pyecharts <span class="keyword">as</span> pe  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建柱状图对象</span></span><br><span class="line">bar = pe.Bar(<span class="string">'每日疑似病例与确诊病例 柱状图'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置x轴 - 日期，这里由于前2条数据有空值，故从第3条开始</span></span><br><span class="line">x = data_china.iloc[<span class="number">2</span>::].index.astype(<span class="string">'str'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y1轴 - 确诊病例</span></span><br><span class="line">y1 = data_china[<span class="string">'确诊'</span>].iloc[<span class="number">2</span>::]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y2轴 - 疑似病例</span></span><br><span class="line">y2 = data_china[<span class="string">'疑似'</span>].iloc[<span class="number">2</span>::]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制图表</span></span><br><span class="line">bar.add(<span class="string">'确诊病例'</span>, x, y1, is_datazoom_show = <span class="literal">True</span>, datazoom_range = [<span class="number">0</span>,<span class="number">100</span>])</span><br><span class="line">bar.add(<span class="string">'疑似病例'</span>, x, y2)</span><br><span class="line">bar</span><br></pre></td></tr></table></figure>
 
 <p>输出结果为：</p>
-<div id="echarts6569" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<div id="echarts6512" style="width: 81%;height: 400px;margin: 0 auto"></div>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts6569'));
+        var myChart = echarts.init(document.getElementById('echarts6512'));
 
         // 指定图表的配置项和数据
         var option = {
@@ -5470,10 +5470,10 @@
 <h2 id="绘制确诊率折线图"><a href="#绘制确诊率折线图" class="headerlink" title="绘制确诊率折线图"></a>绘制确诊率折线图</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">line = pe.Line(<span class="string">'确诊率 折线图'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置x轴 - 日期</span></span><br><span class="line">x = data_china.iloc[<span class="number">2</span>::].index.astype(<span class="string">'str'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y轴 - 确诊增长率</span></span><br><span class="line">y = data_china[<span class="string">'确诊率'</span>].iloc[<span class="number">2</span>::]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制图表</span></span><br><span class="line">line.add(<span class="string">'确诊率'</span>, x, y)</span><br><span class="line">line</span><br></pre></td></tr></table></figure>
 
 <p>输出结果为：</p>
-<div id="echarts7283" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<div id="echarts9455" style="width: 81%;height: 400px;margin: 0 auto"></div>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts7283'));
+        var myChart = echarts.init(document.getElementById('echarts9455'));
 
         // 指定图表的配置项和数据
         var option = {
@@ -5796,10 +5796,10 @@
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 合并图表</span></span><br><span class="line"><span class="comment"># 设置x、y轴数据</span></span><br><span class="line">x = data_china.iloc[<span class="number">2</span>::].index.astype(<span class="string">'str'</span>)</span><br><span class="line">y1 = data_china[<span class="string">'确诊'</span>].iloc[<span class="number">2</span>::]   <span class="comment"># 设置y1轴 - 确诊病例</span></span><br><span class="line">y2 = data_china[<span class="string">'疑似'</span>].iloc[<span class="number">2</span>::]   <span class="comment"># 设置y2轴 - 疑似病例</span></span><br><span class="line">y3 = data_china[<span class="string">'确诊率'</span>].iloc[<span class="number">2</span>::]   <span class="comment"># 设置y3轴 - 确诊率</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制柱状图</span></span><br><span class="line">bar = pe.Bar(<span class="string">'每日确诊率变化情况'</span>)</span><br><span class="line">bar.add(<span class="string">'确诊病例'</span>, x, y1, is_datazoom_show = <span class="literal">True</span>, datazoom_range = [<span class="number">0</span>,<span class="number">100</span>])</span><br><span class="line">bar.add(<span class="string">'疑似病例'</span>, x, y2)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制折线图</span></span><br><span class="line">line = pe.Line(<span class="string">'确诊率 折线图'</span>)</span><br><span class="line">line.add(<span class="string">'确诊率'</span>, x, y3)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 合并图表</span></span><br><span class="line">overlap = pe.Overlap()</span><br><span class="line">overlap.add(bar)</span><br><span class="line">overlap.add(line, yaxis_index=<span class="number">1</span>, is_add_yaxis=<span class="literal">True</span>)  <span class="comment"># 新增y轴</span></span><br><span class="line">overlap</span><br></pre></td></tr></table></figure>
 
 <p>输出结果为</p>
-<div id="echarts4350" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<div id="echarts1890" style="width: 81%;height: 400px;margin: 0 auto"></div>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts4350'));
+        var myChart = echarts.init(document.getElementById('echarts1890'));
 
         // 指定图表的配置项和数据
         var option = {
@@ -6270,21 +6270,21 @@
   </entry>
   <entry>
     <title>一种城市-苏州</title>
-    <url>/2020/02/26/AcityofSuzhou/</url>
+    <url>/2020/001-sy/</url>
     <content><![CDATA[<p>苏州，古之城，山水之间，历史与记忆，文化与价值，我们通过影像记录着一切。</p>
 <h2 id="航拍一："><a href="#航拍一：" class="headerlink" title="航拍一："></a>航拍一：</h2><p>2019年古城调研所拍</p>
-<img src="/2020/02/26/AcityofSuzhou/1.jpg" class="" title="图1">
+<img src="/2020/001-sy/1.jpg" class="" title="图1">
 <a id="more"></a>
 
-<img src="/2020/02/26/AcityofSuzhou/2.jpg" class="" title="图2">
-<img src="/2020/02/26/AcityofSuzhou/3.jpg" class="" title="图3">]]></content>
+<img src="/2020/001-sy/2.jpg" class="" title="图2">
+<img src="/2020/001-sy/3.jpg" class="" title="图3">]]></content>
       <categories>
         <category>摄影记录</category>
       </categories>
   </entry>
   <entry>
     <title>新冠病毒疫情分析学习04-累计确诊病例走势</title>
-    <url>/2020/02/24/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A004-%E7%B4%AF%E8%AE%A1%E7%A1%AE%E8%AF%8A%E7%97%85%E4%BE%8B%E8%B5%B0%E5%8A%BF/</url>
+    <url>/2020/004-xg/</url>
     <content><![CDATA[<h1 id="累计确诊病例走势"><a href="#累计确诊病例走势" class="headerlink" title="累计确诊病例走势"></a>累计确诊病例走势</h1><p>这章将使用交互图表工具<code>pyechats</code>来制作动态图表，LETS GO!</p>
 <p>首先依然是准备数据</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 读取数据</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line">warnings.filterwarnings(<span class="string">'ignore'</span>)</span><br><span class="line"><span class="comment"># 设置不弹出警告</span></span><br><span class="line"></span><br><span class="line">df = pd.read_excel(<span class="string">'*/*/data_ncov.xlsx'</span>)</span><br><span class="line"><span class="comment">#记得修改自己的文件路径</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 时间序列转换</span></span><br><span class="line">df[<span class="string">'date'</span>] = df[<span class="string">'date'</span>].astype(<span class="string">'str'</span>)     <span class="comment"># 先将字段转化为字符串</span></span><br><span class="line">df[<span class="string">'date'</span>] = pd.to_datetime(df[<span class="string">'date'</span>])   <span class="comment"># 再进行时间序列转换</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 提取全国数据</span></span><br><span class="line">data_china = df.groupby(<span class="string">'date'</span>)[[<span class="string">'疑似'</span>,<span class="string">'确诊'</span>,<span class="string">'死亡'</span>]].sum()</span><br><span class="line">data_china.head()</span><br></pre></td></tr></table></figure>
@@ -6462,10 +6462,10 @@
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 绘制累计确诊病例动态图表</span></span><br><span class="line"><span class="comment"># 导入pyecharts工具包，用pe作为简写</span></span><br><span class="line"><span class="keyword">import</span> pyecharts <span class="keyword">as</span> pe  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建柱状图对象</span></span><br><span class="line">bar = pe.Bar(<span class="string">'累计确诊病例 柱状图'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置x轴 - 日期，这里由于第1条数据有空值，故从第2条开始</span></span><br><span class="line"><span class="comment"># 这里是绘图阶段，x尽量用字符串</span></span><br><span class="line">x = data_china.iloc[<span class="number">1</span>::].index.astype(<span class="string">'str'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y轴 - 确诊病例</span></span><br><span class="line">y = data_china[<span class="string">'确诊'</span>].iloc[<span class="number">1</span>::]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制图表</span></span><br><span class="line">bar.add(<span class="string">'确诊病例'</span>, x, y, </span><br><span class="line">        is_datazoom_show = <span class="literal">True</span>, datazoom_range = [<span class="number">0</span>,<span class="number">100</span>], </span><br><span class="line">        tooltip_trigger = <span class="string">'axis'</span>)</span><br><span class="line">bar</span><br></pre></td></tr></table></figure>
 
 <p>输出结果为（可通过鼠标点击或者拖动改变日期区间哦）：</p>
-<div id="echarts5990" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<div id="echarts6455" style="width: 81%;height: 400px;margin: 0 auto"></div>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts5990'));
+        var myChart = echarts.init(document.getElementById('echarts6455'));
 
         // 指定图表的配置项和数据
         var option = {
@@ -6749,10 +6749,10 @@
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 绘制累确诊病例增长率动态图表</span></span><br><span class="line"><span class="comment"># 创建折线图对象</span></span><br><span class="line">line = pe.Line(<span class="string">'累计确诊病例增长率 折线图'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置x、y轴</span></span><br><span class="line">x = data_china.iloc[<span class="number">1</span>::].index.astype(<span class="string">'str'</span>)</span><br><span class="line">y = data_china[<span class="string">'确诊_增长率'</span>].iloc[<span class="number">1</span>::]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制图表</span></span><br><span class="line">line.add(<span class="string">'增长率'</span>, x, y, is_smooth = <span class="literal">True</span>, </span><br><span class="line">            tooltip_trigger = <span class="string">'axis'</span>, tooltip_axispointer_type = <span class="string">'cross'</span>)</span><br><span class="line">line</span><br></pre></td></tr></table></figure>
 
 <p>输出结果为：</p>
-<div id="echarts8250" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<div id="echarts3595" style="width: 81%;height: 400px;margin: 0 auto"></div>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts8250'));
+        var myChart = echarts.init(document.getElementById('echarts3595'));
 
         // 指定图表的配置项和数据
         var option = {
@@ -7089,10 +7089,10 @@
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 合并图表</span></span><br><span class="line"><span class="comment"># 设置x、y轴数据</span></span><br><span class="line">x = data_china.iloc[<span class="number">1</span>::].index.astype(<span class="string">'str'</span>)</span><br><span class="line">y1 = data_china[<span class="string">'确诊'</span>].iloc[<span class="number">1</span>::]   <span class="comment"># 设置y1轴 - 确诊病例</span></span><br><span class="line">y2 = data_china[<span class="string">'确诊_增长率'</span>].iloc[<span class="number">1</span>::]   <span class="comment"># 设置y2轴 - 确诊增长率</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制柱状图</span></span><br><span class="line">bar = pe.Bar(<span class="string">'累计确诊病例走势'</span>)</span><br><span class="line">bar.add(<span class="string">'确诊病例'</span>, x, y1,</span><br><span class="line">         is_datazoom_show = <span class="literal">True</span>, datazoom_range = [<span class="number">0</span>,<span class="number">100</span>], </span><br><span class="line">         tooltip_trigger = <span class="string">'axis'</span>, tooltip_axispointer_type = <span class="string">'cross'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制折线图</span></span><br><span class="line">line = pe.Line(<span class="string">'累计确诊病例增长率 折线图'</span>)</span><br><span class="line">line.add(<span class="string">'增长率'</span>, x, y2, is_smooth=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 合并图表</span></span><br><span class="line">overlap = pe.Overlap()</span><br><span class="line">overlap.add(bar)</span><br><span class="line">overlap.add(line, </span><br><span class="line">            yaxis_index=<span class="number">1</span>, is_add_yaxis=<span class="literal">True</span>)  <span class="comment"># 新增y轴</span></span><br><span class="line">overlap</span><br></pre></td></tr></table></figure>
 
 <p>输出结果为：</p>
-<div id="echarts8974" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<div id="echarts4420" style="width: 81%;height: 400px;margin: 0 auto"></div>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts8974'));
+        var myChart = echarts.init(document.getElementById('echarts4420'));
 
         // 指定图表的配置项和数据
         var option = {
@@ -7526,8 +7526,8 @@
       </categories>
   </entry>
   <entry>
-    <title>新冠病毒疫情分析学习 03</title>
-    <url>/2020/02/22/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A003/</url>
+    <title>新冠病毒疫情分析学习03-快速查看不同省市疫情现状</title>
+    <url>/2020/003-xg/</url>
     <content><![CDATA[<h1 id="快速查看不同省市疫情现状"><a href="#快速查看不同省市疫情现状" class="headerlink" title="快速查看不同省市疫情现状"></a>快速查看不同省市疫情现状</h1><p>这篇将开始用python做第一张可视化图表啦！</p>
 <p>首先依然是准备数据</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 读取数据</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line">warnings.filterwarnings(<span class="string">'ignore'</span>)</span><br><span class="line"><span class="comment"># 设置不弹出警告</span></span><br><span class="line"></span><br><span class="line">df = pd.read_excel(<span class="string">'*/*/data_ncov.xlsx'</span>)</span><br><span class="line"><span class="comment">#记得修改自己的文件路径</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 时间序列转换</span></span><br><span class="line">df[<span class="string">'date'</span>] = df[<span class="string">'date'</span>].astype(<span class="string">'str'</span>)     <span class="comment"># 先将字段转化为字符串</span></span><br><span class="line">df[<span class="string">'date'</span>] = pd.to_datetime(df[<span class="string">'date'</span>])   <span class="comment"># 再进行时间序列转换</span></span><br></pre></td></tr></table></figure>
@@ -7602,7 +7602,7 @@
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 绘制2020-2-1日全国确诊病例top10的省市(非湖北省) - 柱状图</span></span><br><span class="line">data_0201.iloc[<span class="number">1</span>:<span class="number">11</span>].plot(x = <span class="string">'省市'</span>, y =<span class="string">'确诊'</span>,</span><br><span class="line">                          kind =<span class="string">'bar'</span>, figsize = (<span class="number">15</span>,<span class="number">5</span>), </span><br><span class="line">                          color =<span class="string">'r'</span>, alpha = <span class="number">0.8</span>,grid = <span class="literal">True</span>,</span><br><span class="line">                          rot = <span class="number">45</span>, title = <span class="string">'湖北省外2020.2.1日确诊病例top10省市'</span>)</span><br></pre></td></tr></table></figure>
 
 <p>输出结果如下：</p>
-<img src="/2020/02/22/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A003/01.jpg" class="" title="图1">
+<img src="/2020/003-xg/01.jpg" class="" title="图1">
 
 <hr>
 <p><strong>知识点</strong></p>
@@ -7628,18 +7628,18 @@
 <li>title = ‘…’，设置图表标题</li>
 </ul>
 <p>下面是关于<code>color</code>的设置，作为参考</p>
-<img src="/2020/02/22/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A003/02.jpg" class="" title="color">
+<img src="/2020/003-xg/02.jpg" class="" title="color">
 
 <hr>
 <p>继续通过此方法输出一些其他图表：<br><strong>多系列柱状图</strong></p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 绘制2020-2-1日全国确诊与疑似病例top10的省市(非湖北省) - 多系列柱状图</span></span><br><span class="line"><span class="comment"># 这里不需要设置color参数了</span></span><br><span class="line">data_0201.iloc[<span class="number">1</span>:<span class="number">11</span>].plot(x = <span class="string">'省市'</span>, y = [<span class="string">'确诊'</span>, <span class="string">'疑似'</span>],</span><br><span class="line">                          kind =<span class="string">'bar'</span>, figsize = (<span class="number">15</span>,<span class="number">5</span>), grid = <span class="literal">True</span>,   </span><br><span class="line">                          rot = <span class="number">45</span>, title = <span class="string">'湖北省外2020.2.1日确诊与疑似病例top10省市'</span>)</span><br></pre></td></tr></table></figure>
 
-<img src="/2020/02/22/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A003/03.jpg" class="" title="多系列柱状图">
+<img src="/2020/003-xg/03.jpg" class="" title="多系列柱状图">
 
 
 <p><strong>多系列条形图</strong></p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 绘制2020-2-1日全国确诊与疑似病例top10的省市(非湖北省) - 多系列条形图</span></span><br><span class="line"><span class="comment"># 这里不需要设置color参数了</span></span><br><span class="line">data_0201.iloc[<span class="number">1</span>:<span class="number">11</span>].plot(x = <span class="string">'省市'</span>, y = [<span class="string">'确诊'</span>, <span class="string">'疑似'</span>],</span><br><span class="line">                          kind = <span class="string">'barh'</span>, figsize = (<span class="number">15</span>,<span class="number">5</span>), grid = <span class="literal">True</span>,   </span><br><span class="line">                          title = <span class="string">'湖北省外2020.2.1日确诊与疑似病例top10省市'</span>)</span><br></pre></td></tr></table></figure>
-<img src="/2020/02/22/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A003/04.jpg" class="" title="多系列条形图">
+<img src="/2020/003-xg/04.jpg" class="" title="多系列条形图">
 
 <h2 id="通过构建函数，快速出图"><a href="#通过构建函数，快速出图" class="headerlink" title="通过构建函数，快速出图"></a>通过构建函数，快速出图</h2><p>我们来梳理一下目前的作图逻辑</p>
 <ul>
@@ -7664,7 +7664,7 @@
 
 <span class="comment"># 调用函数，设置参数出图</span>
 fig1(<span class="string">'20200202'</span>, <span class="string">'疑似'</span>, <span class="number">15</span>)</code></pre>
-<img src="/2020/02/22/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A003/05.jpg" class="" title="函数构建出图">
+<img src="/2020/003-xg/05.jpg" class="" title="函数构建出图">
 
 <p>通过构建函数，后面只需输入变量参数，就可以更快的输出！</p>
 ]]></content>
@@ -7674,7 +7674,7 @@ fig1(<span class="string">'20200202'</span>, <span class="string">'疑似'</span
   </entry>
   <entry>
     <title>城市热力图的获取及分析</title>
-    <url>/2020/02/21/%E7%83%AD%E5%8A%9B%E5%9B%BE%E7%9A%84%E8%8E%B7%E5%8F%96%E5%8F%8A%E5%88%86%E6%9E%90/</url>
+    <url>/2020/002-js/</url>
     <content><![CDATA[<h1 id="热力图简介"><a href="#热力图简介" class="headerlink" title="热力图简介"></a>热力图简介</h1><p>&emsp;人是城市经济活动的载体和城市化进程中最活跃的因素，人口分布空间格局对城市研究有着重要的意义，而互联网地图的热力图作为新兴的大数据产品，基于了上亿手机用户地理位置，能够对实时的人群集聚、人群分布进行可视化表达。虽然不能代替实际的人口密度数据，但一定程度还是反映出每天、每小时甚至每分钟人群在城市空间中相对集聚的位置和分布趋势，为城市研究和规划提供了全新的视角。</p>
 <p>&emsp;热力图（Heat Map）是通过密度函数3进行可视化用于表示地图中点的密度的热图。</p>
 <a id="more"></a>
@@ -7686,7 +7686,7 @@ fig1(<span class="string">'20200202'</span>, <span class="string">'疑似'</span
 <h1 id="数据采集"><a href="#数据采集" class="headerlink" title="数据采集"></a>数据采集</h1><p>&emsp;<strong>百度热力图</strong>功能仅支持手机移动端使用，通过采集工具调用手机接口，可进行图示化的采集界面，设置采集范围及精度，输出格式为图片形式。采集到的热力图片需要在ArcGIS中进行处理，对热力图片进行重分类操作，即对不同颜色赋予不同的热力值（表达式如图所示），其次根据需要对热力图进行矢量化操作，将相同的热力值的栅格合并为一个矢量多边形，将热力进行分区表达。具体操作步骤如下：</p>
 <ol>
 <li><p>安装百度数据采集工具及PIL程序，并获得激活码（<em>付费工具，购买于公众号：规划大数据笔记，界面如图1所示</em>）</p>
-<img src="/2020/02/21/%E7%83%AD%E5%8A%9B%E5%9B%BE%E7%9A%84%E8%8E%B7%E5%8F%96%E5%8F%8A%E5%88%86%E6%9E%90/02-00.png" class="" title="图1">
+<img src="/2020/002-js/02-00.png" class="" title="图1">
 </li>
 <li><p>获取采集范围经纬度坐标，分别是左下角和右上角坐标（<em>可通过<a href="http://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank" rel="noopener">百度坐标拾取</a>获取：</em>）</p>
 </li>
@@ -7695,20 +7695,20 @@ fig1(<span class="string">'20200202'</span>, <span class="string">'疑似'</span
 <li><p>根据需要选择输出坐标系、文件位置（<em>输出坐标系支持<code>WGS84、BD09、GCJ02</code>三种，输出文件类型为<code>栅格TIF</code>格式</em>）</p>
 </li>
 <li><p>GIS中加载下载好的热力图TIF（<em>在GIS中加载定义好坐标的百度热力图<code>第1波段、第2波段和第3波段</code>，通过图层到添加数据</em></p>
-<img src="/2020/02/21/%E7%83%AD%E5%8A%9B%E5%9B%BE%E7%9A%84%E8%8E%B7%E5%8F%96%E5%8F%8A%E5%88%86%E6%9E%90/02-01.png" class="" title="图2">
+<img src="/2020/002-js/02-01.png" class="" title="图2">
 </li>
 <li><p>栅格热力图数据<code>重分类</code>（<em>打开栅格计算器，根据实际参数情况修改公式，默认情况下修改TIF文件名即可，如果TIF颜色没有8种，则需要进行修改公式数量，如图4所示</em>）</p>
 </li>
 </ol>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#示例代码，按需修改</span></span><br><span class="line"></span><br><span class="line">Con((<span class="string">"17.tif - Band_1"</span> == <span class="number">205</span>) &amp; (<span class="string">"17.tif - Band_2"</span> == <span class="number">78</span>) &amp; (<span class="string">"17.tif - Band_3"</span> == <span class="number">0</span>),</span><br><span class="line"><span class="number">6</span>,Con((<span class="string">"17.tif - Band_1"</span> == <span class="number">205</span>) &amp; (<span class="string">"17.tif - Band_2"</span> == <span class="number">205</span>) &amp; (<span class="string">"17.tif - Band_3"</span> == <span class="number">0</span>),</span><br><span class="line"><span class="number">5</span>,Con((<span class="string">"17.tif - Band_1"</span> == <span class="number">0</span>) &amp; (<span class="string">"17.tif - Band_2"</span> == <span class="number">205</span>) &amp; (<span class="string">"17.tif - Band_3"</span> == <span class="number">0</span>),</span><br><span class="line"><span class="number">4</span>,Con((<span class="string">"17.tif - Band_1"</span> == <span class="number">0</span>) &amp; (<span class="string">"17.tif - Band_2"</span> == <span class="number">205</span>) &amp; (<span class="string">"17.tif - Band_3"</span> == <span class="number">205</span>),</span><br><span class="line"><span class="number">3</span>,Con((<span class="string">"17.tif - Band_1"</span> == <span class="number">0</span>) &amp; (<span class="string">"17.tif - Band_2"</span> == <span class="number">82</span>) &amp; (<span class="string">"17.tif - Band_3"</span> == <span class="number">205</span>),</span><br><span class="line"><span class="number">2</span>,Con((<span class="string">"17.tif - Band_1"</span> == <span class="number">0</span>) &amp; (<span class="string">"17.tif - Band_2"</span> == <span class="number">0</span>) &amp; (<span class="string">"17.tif - Band_3"</span> == <span class="number">205</span>),</span><br><span class="line"><span class="number">1</span>,<span class="number">0</span>))))))</span><br></pre></td></tr></table></figure>
 
-<img src="/2020/02/21/%E7%83%AD%E5%8A%9B%E5%9B%BE%E7%9A%84%E8%8E%B7%E5%8F%96%E5%8F%8A%E5%88%86%E6%9E%90/02-03.png" class="" title="图4">
+<img src="/2020/002-js/02-03.png" class="" title="图4">
 
 <ol start="7">
 <li><p>输出结果进行矢量化（<em>调用GIS的栅格转面工具</em>）</p>
 </li>
 <li><p>叠加规划区底图，以进行后续分析（<em>如图5所示</em>）</p>
-<img src="/2020/02/21/%E7%83%AD%E5%8A%9B%E5%9B%BE%E7%9A%84%E8%8E%B7%E5%8F%96%E5%8F%8A%E5%88%86%E6%9E%90/02-04.png" class="" title="图5">
+<img src="/2020/002-js/02-04.png" class="" title="图5">
 
 
 </li>
@@ -7717,20 +7717,20 @@ fig1(<span class="string">'20200202'</span>, <span class="string">'疑似'</span
 <p>&emsp;<strong>腾讯位置数据</strong>是通过微信-城市服务-城市热力图提供的数据进行采集，输出格式为csv的热力散点图，利用Python编写程序进行接口调用，范围输入，数据获取，数据整理三个部分。由于每个QQ采集数量每天有限制，需要通过多个QQ产出COOKIES，所以该方法普遍适用小范围高精度的需求，以便不断循环采集，如果需要大范围的使用，则需要大量的QQ号。这里我们使用网友分享的打包后的程序，可直接运行程序进行采集（需要主要的是，由于腾讯会不断更新系统，采集的源代码也会不断更新，由于程序是源代码打包，所以不能确保永久有效），具体步骤如下：</p>
 <ol>
 <li><p>打开<code>config</code>文件，进行配置，主要有QQ号及密码的输入（<em>注意格式，格式不能出错</em>），爬取的间隔时间、采集范围（<code>WGS84</code>坐标）、设置文件夹名字，最后进行保存（<em>如图1所示</em>）；</p>
-<img src="/2020/02/21/%E7%83%AD%E5%8A%9B%E5%9B%BE%E7%9A%84%E8%8E%B7%E5%8F%96%E5%8F%8A%E5%88%86%E6%9E%90/02-05.png" class="" title="图1">
+<img src="/2020/002-js/02-05.png" class="" title="图1">
 </li>
 <li><p>安装谷歌浏览器，确保程序启动后可自动弹出；</p>
 </li>
 <li><p>运行<code>宜出行.exe</code>文件，程序开始运行；</p>
 </li>
 <li><p>采集后得到不同时间的<code>CSV</code>格式的经纬度数据表；</p>
-<img src="/2020/02/21/%E7%83%AD%E5%8A%9B%E5%9B%BE%E7%9A%84%E8%8E%B7%E5%8F%96%E5%8F%8A%E5%88%86%E6%9E%90/02-06.png" class="" title="图2"></li>
+<img src="/2020/002-js/02-06.png" class="" title="图2"></li>
 <li><p>通过GIS添加XY数据（<code>File-Add Data-Add XY Data</code>），根据表头设置XY，Z无需设置，由于采集坐标系为WGS84，此处添加一个<code>地球坐标系WGS84</code>，无需设置投影坐标，数据就成功添加到GIS中了；</p>
 </li>
 <li><p>添加规划底图，并将点数据通过核密度分析，生成热力图。</p>
 </li>
 </ol>
-<img src="/2020/02/21/%E7%83%AD%E5%8A%9B%E5%9B%BE%E7%9A%84%E8%8E%B7%E5%8F%96%E5%8F%8A%E5%88%86%E6%9E%90/02-07.png" class="" title="代码截图">
+<img src="/2020/002-js/02-07.png" class="" title="代码截图">
 
 <hr>
 <h1 id="数据分析"><a href="#数据分析" class="headerlink" title="数据分析"></a>数据分析</h1><p>&emsp;通过上述的流程，我们已经采集到百度热力图的多时段图片或者宜出行多时段的定位点文件了，如何运用这些数据对城市进行分析也是关键和最为重要的一步。</p>
@@ -7740,18 +7740,18 @@ fig1(<span class="string">'20200202'</span>, <span class="string">'疑似'</span
 <hr>
 <h2 id="分析思路"><a href="#分析思路" class="headerlink" title="分析思路"></a>分析思路</h2><p>1研究周末（<em>周六、周天</em>）人群活动的时间变化和空间变化规律；<br>2研究周内（<em>周一至周五</em>）人群活动的时间变化和空间变化规律；</p>
 <h2 id="周末-周内人群活动的空间变化规律"><a href="#周末-周内人群活动的空间变化规律" class="headerlink" title="周末/周内人群活动的空间变化规律"></a>周末/周内人群活动的空间变化规律</h2><p>为了准确描述人群空间分布特征，利用GIS计算每一天全天规划区氛围内的聚集度<strong>平均值和标准差值</strong>。<br>热力图平均值能反映规划区域内每个点的聚集程度，平均值越大，聚集的人数越多，即聚集效应就越强；反之，聚集效应就越弱。（<em>如图1所示</em>）</p>
-<img src="/2020/02/21/%E7%83%AD%E5%8A%9B%E5%9B%BE%E7%9A%84%E8%8E%B7%E5%8F%96%E5%8F%8A%E5%88%86%E6%9E%90/02-08.png" class="" title="热力平均值">
-<img src="/2020/02/21/%E7%83%AD%E5%8A%9B%E5%9B%BE%E7%9A%84%E8%8E%B7%E5%8F%96%E5%8F%8A%E5%88%86%E6%9E%90/02-09.png" class="" title="主要集聚区域">
+<img src="/2020/002-js/02-08.png" class="" title="热力平均值">
+<img src="/2020/002-js/02-09.png" class="" title="主要集聚区域">
 
 <p><em>图1：周一人群活动的热力平均值及主要集聚区域</em></p>
 <p>&emsp;热力图标准差反映了每个点的聚集程度变化。标准差越大，说明不同时间的人口变化较大，即点的聚集效应具有时效性；标准差越小，说明点的人流量变化较为平稳，则该点的功能相对复合。（<em>如图2所示</em>）</p>
-<img src="/2020/02/21/%E7%83%AD%E5%8A%9B%E5%9B%BE%E7%9A%84%E8%8E%B7%E5%8F%96%E5%8F%8A%E5%88%86%E6%9E%90/02-10.png" class="" title="热力标准差值">
-<img src="/2020/02/21/%E7%83%AD%E5%8A%9B%E5%9B%BE%E7%9A%84%E8%8E%B7%E5%8F%96%E5%8F%8A%E5%88%86%E6%9E%90/02-11.png" class="" title="主要集聚区域">
+<img src="/2020/002-js/02-10.png" class="" title="热力标准差值">
+<img src="/2020/002-js/02-11.png" class="" title="主要集聚区域">
 <p><em>图2：周一人群活动的热力标准差值及主要集聚区域</em></p>
 <p>&emsp;结合分析发现规划场地呈现出了冷热不均的现象，外围的乐桥、三元坊、临顿路地铁站，以及凤凰街、十梓街、五卅路的交汇点是全天都较为活跃的区域。而片区内部则是在公园、学校、办公区、体育馆出现不同时间段的活动集聚。十梓街南部的生活片区，整体活力都较弱。</p>
 <h2 id="周末-周内人群活动的时间变化规律"><a href="#周末-周内人群活动的时间变化规律" class="headerlink" title="周末/周内人群活动的时间变化规律"></a>周末/周内人群活动的时间变化规律</h2><p>&emsp;为了进一步了解各个时段的人群活动特点，可以将人群活动时间划分为7:00-11:00、11:00-14:00、14:00-20:00、20:00-00:00四个时间段（也可以是其他时间段），利用GIS工具分别计算各个时间段的热力平均值，分别进行周内与周末的叠加分析，结合调研、问卷等，以判定各时间段的人群空间分布变化。<br>&emsp;由此可以看出，在周内除去站点交通大量聚集的因素，平日白天的苏州公园是片区最具人气的场所，以老人及儿童休闲娱乐活动为主。晚间，中青年人群成为主角，人们在体育场和市民健身中心积极的开展各种运动健身项目。在周末图书馆、十全街、第一中学区域，大量年轻热人到访，阅读、交友休闲、补习、培训是他们的主要好活动。这些人群活动目的单纯、活动区域划分鲜明，更多的集中在片区外围，且不同热点之间也少有交叉互动。（<em>如图3所示</em>）</p>
-<img src="/2020/02/21/%E7%83%AD%E5%8A%9B%E5%9B%BE%E7%9A%84%E8%8E%B7%E5%8F%96%E5%8F%8A%E5%88%86%E6%9E%90/02-12.png" class="" title="热力标准差值">
-<img src="/2020/02/21/%E7%83%AD%E5%8A%9B%E5%9B%BE%E7%9A%84%E8%8E%B7%E5%8F%96%E5%8F%8A%E5%88%86%E6%9E%90/02-13.png" class="" title="主要集聚区域">
+<img src="/2020/002-js/02-12.png" class="" title="热力标准差值">
+<img src="/2020/002-js/02-13.png" class="" title="主要集聚区域">
 <p><em>图3：周一人群活动的热力标准差值及主要集聚区域</em></p>
 <h1 id="研究总结"><a href="#研究总结" class="headerlink" title="研究总结"></a>研究总结</h1><p>&emsp;通过一系列的数据获取及分析，并且对分析结果进行比较可以发现，周末和工作日规划区范围内的人群分布和空间使用具有以下特点：</p>
 <p>&emsp;1)    无论周内还是工作日，地铁站及道路交汇处都是最为活跃的，片区内部在不同的时间聚集，南部片区整体都较弱。<br>&emsp;2)    基于热力图的采集原理，被采集的手机数量在周末和工作日差别不会太大，但是工作日人群的大多聚集在点状区域，单位面积的人口密度就会越大，面积也就越小；反之周末人群大多聚集在线状区域、面状区域，单位面积的人口密度越小，聚集面积也就越大。同时，由于片区内老年人较多，被采集的手机数量会有一定偏差。<br>&emsp;3)    对时空差异进行分析后，可以看出周内与周末的活动地点与人群构成存在一定差异，老年人的活动时间相对集中和完整，不受时间影响，中青年的活动时间则相对分散，在周末则相对集中。</p>
@@ -7765,8 +7765,8 @@ fig1(<span class="string">'20200202'</span>, <span class="string">'疑似'</span
       </categories>
   </entry>
   <entry>
-    <title>新冠病毒疫情分析学习 02</title>
-    <url>/2020/02/20/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%2002/</url>
+    <title>新冠病毒疫情分析学习02-按日期/区域做数据提取</title>
+    <url>/2020/002-xg/</url>
     <content><![CDATA[<h1 id="按日期-区域做数据提取"><a href="#按日期-区域做数据提取" class="headerlink" title="按日期/区域做数据提取"></a>按日期/区域做数据提取</h1><h2 id="什么是时间序列？"><a href="#什么是时间序列？" class="headerlink" title="什么是时间序列？"></a>什么是时间序列？</h2><p>在本次的案例数据中，有一个字段<code>date</code>记录了疫情数据记录的日期，例如我们把重庆市的数据单独拿出来看：</p>
 <table>
 <thead>
@@ -7937,8 +7937,8 @@ data_china.head()
       </categories>
   </entry>
   <entry>
-    <title>新冠病毒疫情分析学习 01</title>
-    <url>/2020/02/20/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A0%2001/</url>
+    <title>新冠病毒疫情分析学习01-如何读取数据</title>
+    <url>/2020/001-xg/</url>
     <content><![CDATA[<h1 id="如何读取数据"><a href="#如何读取数据" class="headerlink" title="如何读取数据"></a>如何读取数据</h1><p>源于课堂及整理，数据内包含的日期为20201.22-2020.2.13</p>
 <p>作为一名合格的python数据分析师，面对原始数据，你要完成的工作有这以下内容</p>
 <hr>
@@ -7971,10 +7971,10 @@ data_china.head()
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 举例3# 查看数据的所有字段、标签/索引、值, 去掉注释符号#，以激活代码，默认只显示最后运行的代码结果</span></span><br><span class="line">df.columns</span><br><span class="line">df.index</span><br><span class="line">df.values</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h2 id="后续预告："><a href="#后续预告：" class="headerlink" title="后续预告："></a>后续预告：</h2><div id="echarts7883" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<h2 id="后续预告："><a href="#后续预告：" class="headerlink" title="后续预告："></a>后续预告：</h2><div id="echarts9675" style="width: 81%;height: 400px;margin: 0 auto"></div>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts7883'));
+        var myChart = echarts.init(document.getElementById('echarts9675'));
 
         // 指定图表的配置项和数据
         var option = {

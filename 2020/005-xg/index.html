@@ -47,20 +47,20 @@
   };
 </script>
 
-  <meta name="description" content="累计确诊病例走势这章将使用交互图表工具pyechats来制作动态图表，LETS GO! 首先依然是准备数据 12345678910111213141516# 读取数据import pandas as pdimport warningswarnings.filterwarnings(&#39;ignore&#39;)# 设置不弹出警告df &#x3D; pd.read_excel(&#39;*&#x2F;*&#x2F;data_ncov.xlsx&#39;)#">
+  <meta name="description" content="这章来分析确诊病例与疑似病例的增长情况 首先准备数据 1234567891011121314151617181920# 读取数据import pandas as pdimport warningswarnings.filterwarnings(&#39;ignore&#39;)# 设置不弹出警告df &#x3D; pd.read_excel(&#39;*&#x2F;*&#x2F;data_ncov.xlsx&#39;)# 时间序列转换df[&#39;date&#39;] &#x3D;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="新冠病毒疫情分析学习04-累计确诊病例走势">
-<meta property="og:url" content="https://erek.top/2020/02/24/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A004-%E7%B4%AF%E8%AE%A1%E7%A1%AE%E8%AF%8A%E7%97%85%E4%BE%8B%E8%B5%B0%E5%8A%BF/index.html">
+<meta property="og:title" content="新冠病毒疫情分析学习05-确诊病例与疑似病例对比">
+<meta property="og:url" content="https://erek.top/2020/005-xg/index.html">
 <meta property="og:site_name" content="Erek&#39;s Blog">
-<meta property="og:description" content="累计确诊病例走势这章将使用交互图表工具pyechats来制作动态图表，LETS GO! 首先依然是准备数据 12345678910111213141516# 读取数据import pandas as pdimport warningswarnings.filterwarnings(&#39;ignore&#39;)# 设置不弹出警告df &#x3D; pd.read_excel(&#39;*&#x2F;*&#x2F;data_ncov.xlsx&#39;)#">
+<meta property="og:description" content="这章来分析确诊病例与疑似病例的增长情况 首先准备数据 1234567891011121314151617181920# 读取数据import pandas as pdimport warningswarnings.filterwarnings(&#39;ignore&#39;)# 设置不弹出警告df &#x3D; pd.read_excel(&#39;*&#x2F;*&#x2F;data_ncov.xlsx&#39;)# 时间序列转换df[&#39;date&#39;] &#x3D;">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-02-23T17:18:56.000Z">
-<meta property="article:modified_time" content="2020-02-23T17:49:07.777Z">
+<meta property="article:published_time" content="2020-02-29T06:24:08.000Z">
+<meta property="article:modified_time" content="2020-03-04T05:35:37.960Z">
 <meta property="article:author" content="Erek">
 <meta property="article:tag" content="python urbandesign bigdata">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://erek.top/2020/02/24/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A004-%E7%B4%AF%E8%AE%A1%E7%A1%AE%E8%AF%8A%E7%97%85%E4%BE%8B%E8%B5%B0%E5%8A%BF/">
+<link rel="canonical" href="https://erek.top/2020/005-xg/">
 
 
 <script id="page-configurations">
@@ -72,7 +72,7 @@
   };
 </script>
 
-  <title>新冠病毒疫情分析学习04-累计确诊病例走势 | Erek's Blog</title>
+  <title>新冠病毒疫情分析学习05-确诊病例与疑似病例对比 | Erek's Blog</title>
   
 
 
@@ -214,7 +214,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://erek.top/2020/02/24/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A004-%E7%B4%AF%E8%AE%A1%E7%A1%AE%E8%AF%8A%E7%97%85%E4%BE%8B%E8%B5%B0%E5%8A%BF/">
+    <link itemprop="mainEntityOfPage" href="https://erek.top/2020/005-xg/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -227,7 +227,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          新冠病毒疫情分析学习04-累计确诊病例走势
+          新冠病毒疫情分析学习05-确诊病例与疑似病例对比
         </h1>
 
         <div class="post-meta">
@@ -236,10 +236,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-02-24 01:18:56 / 修改时间：01:49:07" itemprop="dateCreated datePublished" datetime="2020-02-24T01:18:56+08:00">2020-02-24</time>
+              <time title="创建时间：2020-02-29 14:24:08" itemprop="dateCreated datePublished" datetime="2020-02-29T14:24:08+08:00">2020-02-29</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-04 13:35:37" itemprop="dateModified" datetime="2020-03-04T13:35:37+08:00">2020-03-04</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -253,7 +259,7 @@
             </span>
 
           
-            <span id="/2020/02/24/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A004-%E7%B4%AF%E8%AE%A1%E7%A1%AE%E8%AF%8A%E7%97%85%E4%BE%8B%E8%B5%B0%E5%8A%BF/" class="post-meta-item leancloud_visitors" data-flag-title="新冠病毒疫情分析学习04-累计确诊病例走势" title="阅读次数">
+            <span id="/2020/005-xg/" class="post-meta-item leancloud_visitors" data-flag-title="新冠病毒疫情分析学习05-确诊病例与疑似病例对比" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -268,8 +274,8 @@
       </span>
       <span class="post-meta-item-text">评论次数：</span>
     
-    <a title="valine" href="/2020/02/24/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A004-%E7%B4%AF%E8%AE%A1%E7%A1%AE%E8%AF%8A%E7%97%85%E4%BE%8B%E8%B5%B0%E5%8A%BF/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/02/24/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A004-%E7%B4%AF%E8%AE%A1%E7%A1%AE%E8%AF%8A%E7%97%85%E4%BE%8B%E8%B5%B0%E5%8A%BF/" itemprop="commentCount"></span>
+    <a title="valine" href="/2020/005-xg/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/005-xg/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -279,14 +285,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>14k</span>
+              <span>13k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>25 分钟</span>
+              <span>23 分钟</span>
             </span>
 
         </div>
@@ -298,107 +304,31 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="累计确诊病例走势"><a href="#累计确诊病例走势" class="headerlink" title="累计确诊病例走势"></a>累计确诊病例走势</h1><p>这章将使用交互图表工具<code>pyechats</code>来制作动态图表，LETS GO!</p>
-<p>首先依然是准备数据</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 读取数据</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line">warnings.filterwarnings(<span class="string">'ignore'</span>)</span><br><span class="line"><span class="comment"># 设置不弹出警告</span></span><br><span class="line"></span><br><span class="line">df = pd.read_excel(<span class="string">'*/*/data_ncov.xlsx'</span>)</span><br><span class="line"><span class="comment">#记得修改自己的文件路径</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 时间序列转换</span></span><br><span class="line">df[<span class="string">'date'</span>] = df[<span class="string">'date'</span>].astype(<span class="string">'str'</span>)     <span class="comment"># 先将字段转化为字符串</span></span><br><span class="line">df[<span class="string">'date'</span>] = pd.to_datetime(df[<span class="string">'date'</span>])   <span class="comment"># 再进行时间序列转换</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 提取全国数据</span></span><br><span class="line">data_china = df.groupby(<span class="string">'date'</span>)[[<span class="string">'疑似'</span>,<span class="string">'确诊'</span>,<span class="string">'死亡'</span>]].sum()</span><br><span class="line">data_china.head()</span><br></pre></td></tr></table></figure>
+        <p>这章来分析确诊病例与疑似病例的增长情况</p>
+<p>首先准备数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 读取数据</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line">warnings.filterwarnings(<span class="string">'ignore'</span>)</span><br><span class="line"><span class="comment"># 设置不弹出警告</span></span><br><span class="line"></span><br><span class="line">df = pd.read_excel(<span class="string">'*/*/data_ncov.xlsx'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 时间序列转换</span></span><br><span class="line">df[<span class="string">'date'</span>] = df[<span class="string">'date'</span>].astype(<span class="string">'str'</span>)     <span class="comment"># 先将字段转化为字符串</span></span><br><span class="line">df[<span class="string">'date'</span>] = pd.to_datetime(df[<span class="string">'date'</span>])   <span class="comment"># 再进行时间序列转换</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 提取全国数据</span></span><br><span class="line">data_china = df.groupby(<span class="string">'date'</span>)[[<span class="string">'疑似'</span>,<span class="string">'确诊'</span>,<span class="string">'死亡'</span>]].sum()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 按天计算每日新增数据</span></span><br><span class="line">data_china[<span class="string">'疑似新增'</span>] = data_china[<span class="string">'疑似'</span>] - data_china[<span class="string">'疑似'</span>].shift()</span><br><span class="line">data_china[<span class="string">'确诊新增'</span>] = data_china[<span class="string">'确诊'</span>] - data_china[<span class="string">'确诊'</span>].shift()</span><br><span class="line">data_china[<span class="string">'死亡新增'</span>] = data_china[<span class="string">'死亡'</span>] - data_china[<span class="string">'死亡'</span>].shift()</span><br><span class="line">data_china.head()</span><br></pre></td></tr></table></figure>
 
-<h2 id="按天计算每日新增数据"><a href="#按天计算每日新增数据" class="headerlink" title="按天计算每日新增数据"></a>按天计算每日新增数据</h2><p>目前提取的<em>全国数据的确诊、疑似及死亡病例</em>都是累计数据，我们需要按天计算每日新增数据，计算逻辑如下：</p>
-<ul>
-<li>今日新增确诊病例 = 今日确诊病例 - 昨日确诊病例</li>
-<li>今日新增疑似病例 = 今日疑似病例 - 昨日疑似病例</li>
-<li>今日新增死亡病例 = 今日死亡病例 - 昨日死亡病例</li>
-</ul>
 <a id="more"></a>
 
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 举例1</span></span><br><span class="line"><span class="comment"># 按天计算每日新增数据</span></span><br><span class="line">data_china[<span class="string">'疑似新增'</span>] = data_china[<span class="string">'疑似'</span>] - data_china[<span class="string">'疑似'</span>].shift()</span><br><span class="line">data_china[<span class="string">'确诊新增'</span>] = data_china[<span class="string">'确诊'</span>] - data_china[<span class="string">'确诊'</span>].shift()</span><br><span class="line">data_china[<span class="string">'死亡新增'</span>] = data_china[<span class="string">'死亡'</span>] - data_china[<span class="string">'死亡'</span>].shift()</span><br><span class="line"></span><br><span class="line">data_china.head()</span><br></pre></td></tr></table></figure>
-
-<p>输出结果为：</p>
-<table>
-<thead>
-<tr>
-<th align="center">date</th>
-<th align="center">疑似</th>
-<th align="center">确诊</th>
-<th align="center">死亡</th>
-<th align="center">疑似新增</th>
-<th align="center">确诊新增</th>
-<th align="center">死亡新增</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">2020-01-22</td>
-<td align="center">393</td>
-<td align="center">574</td>
-<td align="center">17</td>
-<td align="center">NaN</td>
-<td align="center">NaN</td>
-<td align="center">NaN</td>
-</tr>
-<tr>
-<td align="center">2020-01-23</td>
-<td align="center">1072</td>
-<td align="center">835</td>
-<td align="center">25</td>
-<td align="center">679.0</td>
-<td align="center">261.0</td>
-<td align="center">8.0</td>
-</tr>
-<tr>
-<td align="center">2020-01-24</td>
-<td align="center">1965</td>
-<td align="center">1297</td>
-<td align="center">41</td>
-<td align="center">893.0</td>
-<td align="center">462.0</td>
-<td align="center">16.0</td>
-</tr>
-<tr>
-<td align="center">2020-01-25</td>
-<td align="center">2684</td>
-<td align="center">1985</td>
-<td align="center">56</td>
-<td align="center">719.0</td>
-<td align="center">688.0</td>
-<td align="center">15.0</td>
-</tr>
-<tr>
-<td align="center">2020-01-26</td>
-<td align="center">5794</td>
-<td align="center">2761</td>
-<td align="center">80</td>
-<td align="center">3110.0</td>
-<td align="center">776.0</td>
-<td align="center">24.0</td>
-</tr>
-</tbody></table>
-<hr>
-<p><strong>知识点</strong></p>
-<blockquote>
-<p><code>pandas.DataFrame.shift()</code>，将数据移动指定的位数，默认往前移动1位，如需移动2位则为<code>data_china[&#39;疑似&#39;].shift(2)</code></p>
-</blockquote>
-<blockquote>
-<p><code>NaN</code>，空值结果，由于第一条数据往前无法移动，则返回空值<code>NaN</code>，而任何与NaN有关的计算结果均为<code>NaN</code>，所以上述代码输出结果中的第一条数据的新增字段都为<code>NaN</code></p>
-</blockquote>
-<hr>
-<h2 id="计算确诊病例增长率"><a href="#计算确诊病例增长率" class="headerlink" title="计算确诊病例增长率"></a>计算确诊病例增长率</h2><p><em>确诊病例增长率</em>计算逻辑如下：</p>
+<h2 id="每日确诊率变化情况"><a href="#每日确诊率变化情况" class="headerlink" title="每日确诊率变化情况"></a>每日确诊率变化情况</h2><p>目前确诊率计算有多种方式，假设需要2天时间对疑似病例进行确诊，则确诊率计算逻辑如下</p>
 <ul>
-<li>今日确诊病例增长率 = 今日新增确诊病例 / 昨日确诊病例</li>
+<li>今日确诊率 = 今日新增病例 / 前日疑似病例</li>
 </ul>
 <p>代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 计算确诊病例增长率</span></span><br><span class="line">data_china[<span class="string">'确诊_增长率'</span>] = data_china[<span class="string">'确诊新增'</span>] / data_china[<span class="string">'确诊'</span>].shift()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保留3位小数</span></span><br><span class="line">data_china[<span class="string">'确诊_增长率'</span>] = data_china[<span class="string">'确诊_增长率'</span>].round(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">data_china.head()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 计算确诊率</span></span><br><span class="line">data_china[<span class="string">'确诊率'</span>] = data_china[<span class="string">'确诊新增'</span>] / data_china[<span class="string">'疑似'</span>].shift(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保留2位小数</span></span><br><span class="line">data_china[<span class="string">'确诊率'</span>] = data_china[<span class="string">'确诊率'</span>].round(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">data_china.head(<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
 
 <p>输出结果为：</p>
 <table>
 <thead>
 <tr>
-<th align="center">date</th>
 <th align="center">疑似</th>
 <th align="center">确诊</th>
 <th align="center">死亡</th>
 <th align="center">疑似新增</th>
 <th align="center">确诊新增</th>
 <th align="center">死亡新增</th>
-<th align="center">确诊_增长率</th>
+<th align="center">确诊率</th>
+<th align="center">date</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -419,7 +349,7 @@
 <td align="center">679.0</td>
 <td align="center">261.0</td>
 <td align="center">8.0</td>
-<td align="center">0.455</td>
+<td align="center">NaN</td>
 </tr>
 <tr>
 <td align="center">2020-01-24</td>
@@ -429,7 +359,7 @@
 <td align="center">893.0</td>
 <td align="center">462.0</td>
 <td align="center">16.0</td>
-<td align="center">0.553</td>
+<td align="center">1.18</td>
 </tr>
 <tr>
 <td align="center">2020-01-25</td>
@@ -439,7 +369,7 @@
 <td align="center">719.0</td>
 <td align="center">688.0</td>
 <td align="center">15.0</td>
-<td align="center">0.530</td>
+<td align="center">0.64</td>
 </tr>
 <tr>
 <td align="center">2020-01-26</td>
@@ -449,42 +379,72 @@
 <td align="center">3110.0</td>
 <td align="center">776.0</td>
 <td align="center">24.0</td>
-<td align="center">0.391</td>
+<td align="center">0.39</td>
+</tr>
+<tr>
+<td align="center">2020-01-27</td>
+<td align="center">6973</td>
+<td align="center">4533</td>
+<td align="center">106</td>
+<td align="center">1179.0</td>
+<td align="center">1772.0</td>
+<td align="center">26.0</td>
+<td align="center">0.66</td>
+</tr>
+<tr>
+<td align="center">2020-01-28</td>
+<td align="center">9239</td>
+<td align="center">5995</td>
+<td align="center">132</td>
+<td align="center">2266.0</td>
+<td align="center">1462.0</td>
+<td align="center">26.0</td>
+<td align="center">0.25</td>
+</tr>
+<tr>
+<td align="center">2020-01-29</td>
+<td align="center">12167</td>
+<td align="center">7736</td>
+<td align="center">170</td>
+<td align="center">2928.0</td>
+<td align="center">1741.0</td>
+<td align="center">38.0</td>
+<td align="center">0.25</td>
+</tr>
+<tr>
+<td align="center">2020-01-30</td>
+<td align="center">15238</td>
+<td align="center">9720</td>
+<td align="center">213</td>
+<td align="center">3071.0</td>
+<td align="center">1984.0</td>
+<td align="center">43.0</td>
+<td align="center">0.21</td>
+</tr>
+<tr>
+<td align="center">2020-01-31</td>
+<td align="center">17988</td>
+<td align="center">11821</td>
+<td align="center">259</td>
+<td align="center">2750.0</td>
+<td align="center">2101.0</td>
+<td align="center">46.0</td>
+<td align="center">0.17</td>
 </tr>
 </tbody></table>
-<hr>
-<p><strong>知识点</strong></p>
-<blockquote>
-<p><code>pandas.DataFrame.round()</code>，用于设置小数点位数，默认四舍五入</p>
-</blockquote>
-<hr>
-<h2 id="绘制累计确诊病例动态图表"><a href="#绘制累计确诊病例动态图表" class="headerlink" title="绘制累计确诊病例动态图表"></a>绘制累计确诊病例动态图表</h2><p>接下来我们要用一个新的工具包来绘制动态图表了 —— <em>pyecharts</em>！</p>
-<p>Echarts.js是一个由百度开源的基于JavaScript的数据可视化工具库，凭借着良好的交互性，精巧的图表设计，得到了众多开发者的认可。而 Python 是一门富有表达力的语言，很适合用于数据处理。当数据分析遇上数据可视化时。pyecharts 诞生了。</p>
-<p>pyecharts的特性包括：</p>
-<ul>
-<li>简洁的 API 设计，使用如丝滑般流畅，支持链式调用</li>
-<li>囊括了 30+ 种常见图表，应有尽有</li>
-<li>支持主流 Notebook 环境，Jupyter Notebook 和 JupyterLab</li>
-<li>可轻松集成至 Flask，Django 等主流 Web 框架</li>
-<li>高度灵活的配置项，可轻松搭配出精美的图表</li>
-<li>详细的文档和示例，帮助开发者更快的上手项目</li>
-<li>多达 400+ 地图文件以及原生的百度地图，为地理数据可视化提供强有力的支持</li>
-</ul>
-<p>这里使用的是pyechartsV0.5.X的版本，可以PIP直接安装0.5的版本</p>
-<p>绘制代码如下:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 绘制累计确诊病例动态图表</span></span><br><span class="line"><span class="comment"># 导入pyecharts工具包，用pe作为简写</span></span><br><span class="line"><span class="keyword">import</span> pyecharts <span class="keyword">as</span> pe  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建柱状图对象</span></span><br><span class="line">bar = pe.Bar(<span class="string">'累计确诊病例 柱状图'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置x轴 - 日期，这里由于第1条数据有空值，故从第2条开始</span></span><br><span class="line"><span class="comment"># 这里是绘图阶段，x尽量用字符串</span></span><br><span class="line">x = data_china.iloc[<span class="number">1</span>::].index.astype(<span class="string">'str'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y轴 - 确诊病例</span></span><br><span class="line">y = data_china[<span class="string">'确诊'</span>].iloc[<span class="number">1</span>::]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制图表</span></span><br><span class="line">bar.add(<span class="string">'确诊病例'</span>, x, y, </span><br><span class="line">        is_datazoom_show = <span class="literal">True</span>, datazoom_range = [<span class="number">0</span>,<span class="number">100</span>], </span><br><span class="line">        tooltip_trigger = <span class="string">'axis'</span>)</span><br><span class="line">bar</span><br></pre></td></tr></table></figure>
+<h2 id="绘制每日疑似病例与确诊病例柱状图"><a href="#绘制每日疑似病例与确诊病例柱状图" class="headerlink" title="绘制每日疑似病例与确诊病例柱状图"></a>绘制每日疑似病例与确诊病例柱状图</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 绘制每日疑似病例与确诊比例柱状图</span></span><br><span class="line"><span class="keyword">import</span> pyecharts <span class="keyword">as</span> pe  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建柱状图对象</span></span><br><span class="line">bar = pe.Bar(<span class="string">'每日疑似病例与确诊病例 柱状图'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置x轴 - 日期，这里由于前2条数据有空值，故从第3条开始</span></span><br><span class="line">x = data_china.iloc[<span class="number">2</span>::].index.astype(<span class="string">'str'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y1轴 - 确诊病例</span></span><br><span class="line">y1 = data_china[<span class="string">'确诊'</span>].iloc[<span class="number">2</span>::]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y2轴 - 疑似病例</span></span><br><span class="line">y2 = data_china[<span class="string">'疑似'</span>].iloc[<span class="number">2</span>::]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制图表</span></span><br><span class="line">bar.add(<span class="string">'确诊病例'</span>, x, y1, is_datazoom_show = <span class="literal">True</span>, datazoom_range = [<span class="number">0</span>,<span class="number">100</span>])</span><br><span class="line">bar.add(<span class="string">'疑似病例'</span>, x, y2)</span><br><span class="line">bar</span><br></pre></td></tr></table></figure>
 
-<p>输出结果为（可通过鼠标点击或者拖动改变日期区间哦）：</p>
-<div id="echarts5990" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<p>输出结果为：</p>
+<div id="echarts6512" style="width: 81%;height: 400px;margin: 0 auto"></div>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts5990'));
+        var myChart = echarts.init(document.getElementById('echarts6512'));
 
         // 指定图表的配置项和数据
         var option = {
     "title": [
         {
-            "text": "\u7d2f\u8ba1\u786e\u8bca\u75c5\u4f8b \u67f1\u72b6\u56fe",
+            "text": "\u6bcf\u65e5\u7591\u4f3c\u75c5\u4f8b\u4e0e\u786e\u8bca\u75c5\u4f8b \u67f1\u72b6\u56fe",
             "left": "auto",
             "top": "auto",
             "textStyle": {
@@ -515,9 +475,9 @@
             }
         }
     },
-    "series_id": 4506439,
+    "series_id": 5135017,
     "tooltip": {
-        "trigger": "axis",
+        "trigger": "item",
         "triggerOn": "mousemove|click",
         "axisPointer": {
             "type": "line"
@@ -534,7 +494,6 @@
             "type": "bar",
             "name": "\u786e\u8bca\u75c5\u4f8b",
             "data": [
-                835.0,
                 1297.0,
                 1985.0,
                 2761.0,
@@ -579,13 +538,64 @@
             "markLine": {
                 "data": []
             },
-            "seriesId": 4506439
+            "seriesId": 5135017
+        },
+        {
+            "type": "bar",
+            "name": "\u7591\u4f3c\u75c5\u4f8b",
+            "data": [
+                1965.0,
+                2684.0,
+                5794.0,
+                6973.0,
+                9239.0,
+                12167.0,
+                15238.0,
+                17988.0,
+                19544.0,
+                21558.0,
+                23214.0,
+                23260.0,
+                24702.0,
+                26359.0,
+                27657.0,
+                28942.0,
+                23589.0,
+                21675.0,
+                16067.0,
+                13435.0,
+                10109.0
+            ],
+            "barCategoryGap": "20%",
+            "label": {
+                "normal": {
+                    "show": false,
+                    "position": "top",
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                },
+                "emphasis": {
+                    "show": true,
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                }
+            },
+            "markPoint": {
+                "data": []
+            },
+            "markLine": {
+                "data": []
+            },
+            "seriesId": 5135017
         }
     ],
     "legend": [
         {
             "data": [
-                "\u786e\u8bca\u75c5\u4f8b"
+                "\u786e\u8bca\u75c5\u4f8b",
+                "\u7591\u4f3c\u75c5\u4f8b"
             ],
             "selectedMode": "multiple",
             "show": true,
@@ -629,7 +639,6 @@
                 }
             },
             "data": [
-                "2020-01-23",
                 "2020-01-24",
                 "2020-01-25",
                 "2020-01-26",
@@ -729,49 +738,23 @@
         myChart.setOption(option);
 </script>
 
+
 <hr>
-<p><strong>知识点</strong></p>
-<blockquote>
-<p><code>data_china.iloc[1::]</code>，这里<code>iloc[1::]</code>的写法代表从第2条开始到最后一条数据</p>
-</blockquote>
-<blockquote>
-<p><code>data_china.iloc[1::].index.astype(&#39;str&#39;)</code>，在对数据进行<code>groupby(&#39;date&#39;).sum()</code>分组计算后，会自动将<code>date</code>字段设置成新数据的<code>index</code>，所以这里需要将<code>index</code>转化为<code>str</code></p>
-</blockquote>
-<blockquote>
-<p>用pyecharts绘图的基本节奏</p>
-</blockquote>
-<blockquote>
-<ul>
-<li>设置绘图对象<code>bar = pe.Bar(&#39;累计确诊病例 柱状图&#39;)</code></li>
-<li>设置数据<code>x、y</code></li>
-<li>用绘图对象<code>bar.add()</code>的方法将数据加载进表格</li>
-<li>输出图表</li>
-</ul>
-</blockquote>
-<blockquote>
-<p><code>bar.add()</code>的参数解释：</p>
-</blockquote>
-<blockquote>
-<ul>
-<li>‘确诊病例’，第1个参数是用于对应图例名称</li>
-<li><code>is_datazoom_show = True</code> / <code>datazoom_range = [0,100]</code>分别用于设置数据筛选条，这两个参数是可选的，这里由于横坐标是日期，字体内容较长，添加筛选条后方便用户和图表进行交互</li>
-<li><code>tooltip_trigger = &#39;axis&#39;</code>，用于设置提示弹框触发类型，支持3种情况：<code>axis</code>、<code>item</code>、<code>none</code>.</li>
-</ul>
-</blockquote>
-<h2 id="绘制累确诊病例增长率动态图表"><a href="#绘制累确诊病例增长率动态图表" class="headerlink" title="绘制累确诊病例增长率动态图表"></a>绘制累确诊病例增长率动态图表</h2><p>我们基于确诊病例增长率字段，绘制累计确诊病例增长率动态图表，代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 绘制累确诊病例增长率动态图表</span></span><br><span class="line"><span class="comment"># 创建折线图对象</span></span><br><span class="line">line = pe.Line(<span class="string">'累计确诊病例增长率 折线图'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置x、y轴</span></span><br><span class="line">x = data_china.iloc[<span class="number">1</span>::].index.astype(<span class="string">'str'</span>)</span><br><span class="line">y = data_china[<span class="string">'确诊_增长率'</span>].iloc[<span class="number">1</span>::]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制图表</span></span><br><span class="line">line.add(<span class="string">'增长率'</span>, x, y, is_smooth = <span class="literal">True</span>, </span><br><span class="line">            tooltip_trigger = <span class="string">'axis'</span>, tooltip_axispointer_type = <span class="string">'cross'</span>)</span><br><span class="line">line</span><br></pre></td></tr></table></figure>
+<p><strong>知识点</strong><br><code>bar.add()</code>可以多次使用，添加多个系列</p>
+<hr>
+<h2 id="绘制确诊率折线图"><a href="#绘制确诊率折线图" class="headerlink" title="绘制确诊率折线图"></a>绘制确诊率折线图</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">line = pe.Line(<span class="string">'确诊率 折线图'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置x轴 - 日期</span></span><br><span class="line">x = data_china.iloc[<span class="number">2</span>::].index.astype(<span class="string">'str'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y轴 - 确诊增长率</span></span><br><span class="line">y = data_china[<span class="string">'确诊率'</span>].iloc[<span class="number">2</span>::]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制图表</span></span><br><span class="line">line.add(<span class="string">'确诊率'</span>, x, y)</span><br><span class="line">line</span><br></pre></td></tr></table></figure>
 
 <p>输出结果为：</p>
-<div id="echarts8250" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<div id="echarts9455" style="width: 81%;height: 400px;margin: 0 auto"></div>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts8250'));
+        var myChart = echarts.init(document.getElementById('echarts9455'));
 
         // 指定图表的配置项和数据
         var option = {
     "title": [
         {
-            "text": "\u7d2f\u8ba1\u786e\u8bca\u75c5\u4f8b\u589e\u957f\u7387 \u6298\u7ebf\u56fe",
+            "text": "\u786e\u8bca\u7387 \u6298\u7ebf\u56fe",
             "left": "auto",
             "top": "auto",
             "textStyle": {
@@ -802,7 +785,7 @@
             }
         }
     },
-    "series_id": 2240501,
+    "series_id": 7099704,
     "tooltip": {
         "trigger": "axis",
         "triggerOn": "mousemove|click",
@@ -819,7 +802,7 @@
     "series": [
         {
             "type": "line",
-            "name": "\u589e\u957f\u7387",
+            "name": "\u786e\u8bca\u7387",
             "symbol": "emptyCircle",
             "symbolSize": 4,
             "smooth": true,
@@ -827,92 +810,88 @@
             "showSymbol": true,
             "data": [
                 [
-                    "2020-01-23",
-                    0.455
-                ],
-                [
                     "2020-01-24",
-                    0.553
+                    1.18
                 ],
                 [
                     "2020-01-25",
-                    0.53
+                    0.64
                 ],
                 [
                     "2020-01-26",
-                    0.391
+                    0.39
                 ],
                 [
                     "2020-01-27",
-                    0.642
+                    0.66
                 ],
                 [
                     "2020-01-28",
-                    0.323
+                    0.25
                 ],
                 [
                     "2020-01-29",
-                    0.29
+                    0.25
                 ],
                 [
                     "2020-01-30",
-                    0.256
+                    0.21
                 ],
                 [
                     "2020-01-31",
-                    0.216
+                    0.17
                 ],
                 [
                     "2020-02-01",
-                    0.219
+                    0.17
                 ],
                 [
                     "2020-02-02",
-                    0.196
+                    0.16
                 ],
                 [
                     "2020-02-03",
-                    0.188
+                    0.17
                 ],
                 [
                     "2020-02-04",
-                    0.19
+                    0.18
                 ],
                 [
                     "2020-02-05",
-                    0.152
+                    0.16
                 ],
                 [
                     "2020-02-06",
-                    0.112
+                    0.14
                 ],
                 [
                     "2020-02-07",
-                    0.109
+                    0.14
                 ],
                 [
                     "2020-02-08",
-                    0.077
+                    0.1
                 ],
                 [
                     "2020-02-09",
-                    0.08
+                    0.11
                 ],
                 [
                     "2020-02-10",
-                    0.061
+                    0.09
                 ],
                 [
                     "2020-02-11",
-                    0.047
+                    0.09
                 ],
                 [
                     "2020-02-12",
-                    0.339
+                    0.7
                 ],
                 [
                     "2020-02-13",
-                    0.068
+                    0.25
                 ]
             ],
             "label": {
@@ -947,13 +926,13 @@
             "markLine": {
                 "data": []
             },
-            "seriesId": 2240501
+            "seriesId": 7099704
         }
     ],
     "legend": [
         {
             "data": [
-                "\u589e\u957f\u7387"
+                "\u786e\u8bca\u7387"
             ],
             "selectedMode": "multiple",
             "show": true,
@@ -997,7 +976,6 @@
                 }
             },
             "data": [
-                "2020-01-23",
                 "2020-01-24",
                 "2020-01-25",
                 "2020-01-26",
@@ -1088,30 +1066,21 @@
         myChart.setOption(option);
 </script>
 
-<hr>
-<p><strong>知识点</strong></p>
-<blockquote>
-<p><code>line.add()</code>的参数解释：</p>
-<ul>
-<li><code>is_smooth=True</code>用于设置折线是否平滑，是可选参数</li>
-<li><code>tooltip_axispointer_type = &#39;cross&#39;</code>用于设置指示器类型，支持3种情况：<code>&#39;line&#39;、&#39;shadow&#39;、&#39;cross&#39;</code></li>
-</ul>
-</blockquote>
-<hr>
-<h2 id="如何合并多个图表？"><a href="#如何合并多个图表？" class="headerlink" title="如何合并多个图表？"></a>如何合并多个图表？</h2><p>代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 合并图表</span></span><br><span class="line"><span class="comment"># 设置x、y轴数据</span></span><br><span class="line">x = data_china.iloc[<span class="number">1</span>::].index.astype(<span class="string">'str'</span>)</span><br><span class="line">y1 = data_china[<span class="string">'确诊'</span>].iloc[<span class="number">1</span>::]   <span class="comment"># 设置y1轴 - 确诊病例</span></span><br><span class="line">y2 = data_china[<span class="string">'确诊_增长率'</span>].iloc[<span class="number">1</span>::]   <span class="comment"># 设置y2轴 - 确诊增长率</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制柱状图</span></span><br><span class="line">bar = pe.Bar(<span class="string">'累计确诊病例走势'</span>)</span><br><span class="line">bar.add(<span class="string">'确诊病例'</span>, x, y1,</span><br><span class="line">         is_datazoom_show = <span class="literal">True</span>, datazoom_range = [<span class="number">0</span>,<span class="number">100</span>], </span><br><span class="line">         tooltip_trigger = <span class="string">'axis'</span>, tooltip_axispointer_type = <span class="string">'cross'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制折线图</span></span><br><span class="line">line = pe.Line(<span class="string">'累计确诊病例增长率 折线图'</span>)</span><br><span class="line">line.add(<span class="string">'增长率'</span>, x, y2, is_smooth=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 合并图表</span></span><br><span class="line">overlap = pe.Overlap()</span><br><span class="line">overlap.add(bar)</span><br><span class="line">overlap.add(line, </span><br><span class="line">            yaxis_index=<span class="number">1</span>, is_add_yaxis=<span class="literal">True</span>)  <span class="comment"># 新增y轴</span></span><br><span class="line">overlap</span><br></pre></td></tr></table></figure>
 
-<p>输出结果为：</p>
-<div id="echarts8974" style="width: 81%;height: 400px;margin: 0 auto"></div>
+<h2 id="合并图表"><a href="#合并图表" class="headerlink" title="合并图表"></a>合并图表</h2><p>通过前面的方法，将两个图标进行合并</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 合并图表</span></span><br><span class="line"><span class="comment"># 设置x、y轴数据</span></span><br><span class="line">x = data_china.iloc[<span class="number">2</span>::].index.astype(<span class="string">'str'</span>)</span><br><span class="line">y1 = data_china[<span class="string">'确诊'</span>].iloc[<span class="number">2</span>::]   <span class="comment"># 设置y1轴 - 确诊病例</span></span><br><span class="line">y2 = data_china[<span class="string">'疑似'</span>].iloc[<span class="number">2</span>::]   <span class="comment"># 设置y2轴 - 疑似病例</span></span><br><span class="line">y3 = data_china[<span class="string">'确诊率'</span>].iloc[<span class="number">2</span>::]   <span class="comment"># 设置y3轴 - 确诊率</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制柱状图</span></span><br><span class="line">bar = pe.Bar(<span class="string">'每日确诊率变化情况'</span>)</span><br><span class="line">bar.add(<span class="string">'确诊病例'</span>, x, y1, is_datazoom_show = <span class="literal">True</span>, datazoom_range = [<span class="number">0</span>,<span class="number">100</span>])</span><br><span class="line">bar.add(<span class="string">'疑似病例'</span>, x, y2)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制折线图</span></span><br><span class="line">line = pe.Line(<span class="string">'确诊率 折线图'</span>)</span><br><span class="line">line.add(<span class="string">'确诊率'</span>, x, y3)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 合并图表</span></span><br><span class="line">overlap = pe.Overlap()</span><br><span class="line">overlap.add(bar)</span><br><span class="line">overlap.add(line, yaxis_index=<span class="number">1</span>, is_add_yaxis=<span class="literal">True</span>)  <span class="comment"># 新增y轴</span></span><br><span class="line">overlap</span><br></pre></td></tr></table></figure>
+
+<p>输出结果为</p>
+<div id="echarts1890" style="width: 81%;height: 400px;margin: 0 auto"></div>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts8974'));
+        var myChart = echarts.init(document.getElementById('echarts1890'));
 
         // 指定图表的配置项和数据
         var option = {
     "title": [
         {
-            "text": "\u7d2f\u8ba1\u786e\u8bca\u75c5\u4f8b\u8d70\u52bf",
+            "text": "\u6bcf\u65e5\u786e\u8bca\u7387\u53d8\u5316\u60c5\u51b5",
             "left": "auto",
             "top": "auto",
             "textStyle": {
@@ -1142,12 +1111,12 @@
             }
         }
     },
-    "series_id": 3973750,
+    "series_id": 6759913,
     "tooltip": {
-        "trigger": "axis",
+        "trigger": "item",
         "triggerOn": "mousemove|click",
         "axisPointer": {
-            "type": "cross"
+            "type": "line"
         },
         "textStyle": {
             "fontSize": 14
@@ -1161,7 +1130,6 @@
             "type": "bar",
             "name": "\u786e\u8bca\u75c5\u4f8b",
             "data": [
-                835.0,
                 1297.0,
                 1985.0,
                 2761.0,
@@ -1206,104 +1174,150 @@
             "markLine": {
                 "data": []
             },
-            "seriesId": 3973750
+            "seriesId": 6759913
+        },
+        {
+            "type": "bar",
+            "name": "\u7591\u4f3c\u75c5\u4f8b",
+            "data": [
+                1965.0,
+                2684.0,
+                5794.0,
+                6973.0,
+                9239.0,
+                12167.0,
+                15238.0,
+                17988.0,
+                19544.0,
+                21558.0,
+                23214.0,
+                23260.0,
+                24702.0,
+                26359.0,
+                27657.0,
+                28942.0,
+                23589.0,
+                21675.0,
+                16067.0,
+                13435.0,
+                10109.0
+            ],
+            "barCategoryGap": "20%",
+            "label": {
+                "normal": {
+                    "show": false,
+                    "position": "top",
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                },
+                "emphasis": {
+                    "show": true,
+                    "textStyle": {
+                        "fontSize": 12
+                    }
+                }
+            },
+            "markPoint": {
+                "data": []
+            },
+            "markLine": {
+                "data": []
+            },
+            "seriesId": 6759913
         },
         {
             "type": "line",
-            "name": "\u589e\u957f\u7387",
+            "name": "\u786e\u8bca\u7387",
             "symbol": "emptyCircle",
             "symbolSize": 4,
-            "smooth": true,
+            "smooth": false,
             "step": false,
             "showSymbol": true,
             "data": [
                 [
-                    "2020-01-23",
-                    0.455
-                ],
-                [
                     "2020-01-24",
-                    0.553
+                    1.18
                 ],
                 [
                     "2020-01-25",
-                    0.53
+                    0.64
                 ],
                 [
                     "2020-01-26",
-                    0.391
+                    0.39
                 ],
                 [
                     "2020-01-27",
-                    0.642
+                    0.66
                 ],
                 [
                     "2020-01-28",
-                    0.323
+                    0.25
                 ],
                 [
                     "2020-01-29",
-                    0.29
+                    0.25
                 ],
                 [
                     "2020-01-30",
-                    0.256
+                    0.21
                 ],
                 [
                     "2020-01-31",
-                    0.216
+                    0.17
                 ],
                 [
                     "2020-02-01",
-                    0.219
+                    0.17
                 ],
                 [
                     "2020-02-02",
-                    0.196
+                    0.16
                 ],
                 [
                     "2020-02-03",
-                    0.188
+                    0.17
                 ],
                 [
                     "2020-02-04",
-                    0.19
+                    0.18
                 ],
                 [
                     "2020-02-05",
-                    0.152
+                    0.16
                 ],
                 [
                     "2020-02-06",
-                    0.112
+                    0.14
                 ],
                 [
                     "2020-02-07",
-                    0.109
+                    0.14
                 ],
                 [
                     "2020-02-08",
-                    0.077
+                    0.1
                 ],
                 [
                     "2020-02-09",
-                    0.08
+                    0.11
                 ],
                 [
                     "2020-02-10",
-                    0.061
+                    0.09
                 ],
                 [
                     "2020-02-11",
-                    0.047
+                    0.09
                 ],
                 [
                     "2020-02-12",
-                    0.339
+                    0.7
                 ],
                 [
                     "2020-02-13",
-                    0.068
+                    0.25
                 ]
             ],
             "label": {
@@ -1338,7 +1352,7 @@
             "markLine": {
                 "data": []
             },
-            "seriesId": 3973750,
+            "seriesId": 6759913,
             "xAxisIndex": 0,
             "yAxisIndex": 1
         }
@@ -1347,7 +1361,8 @@
         {
             "data": [
                 "\u786e\u8bca\u75c5\u4f8b",
-                "\u589e\u957f\u7387"
+                "\u7591\u4f3c\u75c5\u4f8b",
+                "\u786e\u8bca\u7387"
             ],
             "selectedMode": "multiple",
             "show": true,
@@ -1391,7 +1406,6 @@
                 }
             },
             "data": [
-                "2020-01-23",
                 "2020-01-24",
                 "2020-01-25",
                 "2020-01-26",
@@ -1522,17 +1536,8 @@
         myChart.setOption(option);
 </script>
 
-<hr>
-<p><strong>知识点</strong></p>
-<blockquote>
-<p>共用的参数在第1张图表设置即可，例如<code>is_datazoom_show</code>、<code>datazoom_range</code>、<code>tooltip_trigger</code><br>合并图表需要调用<code>pe.Overlap</code>对象，然后用<code>pe.Overlap.add</code>分别添加几个图表</p>
-<ul>
-<li>如果需要新增y轴，需要同时设置<code>yaxis_index=1</code>, <code>is_add_yaxis=True</code>两个参数</li>
-</ul>
-</blockquote>
-<hr>
-<h2 id="PANDA与PYECHARTS的绘图区别"><a href="#PANDA与PYECHARTS的绘图区别" class="headerlink" title="PANDA与PYECHARTS的绘图区别"></a>PANDA与PYECHARTS的绘图区别</h2><p>pandas的内置方法，绘图会更快；而pyecharts由于更偏向数据展示，并且有交互功能，所以参数设置上会更复杂。</p>
-<p>实际场景下的复杂数据分析需求，数据分析阶段尽可能的用pandas，在最后结果已定的情况下，再用pyecharts绘制可交互图表！</p>
+
+<p>本章如上，快快练习一下吧！</p>
 
     </div>
 
@@ -1568,7 +1573,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://erek.top/2020/02/24/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A004-%E7%B4%AF%E8%AE%A1%E7%A1%AE%E8%AF%8A%E7%97%85%E4%BE%8B%E8%B5%B0%E5%8A%BF/" title="新冠病毒疫情分析学习04-累计确诊病例走势">https://erek.top/2020/02/24/新冠病毒疫情分析学习04-累计确诊病例走势/</a>
+    <a href="https://erek.top/2020/005-xg/" title="新冠病毒疫情分析学习05-确诊病例与疑似病例对比">https://erek.top/2020/005-xg/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -1585,12 +1590,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/02/22/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%96%AB%E6%83%85%E5%88%86%E6%9E%90%E5%AD%A6%E4%B9%A003/" rel="prev" title="新冠病毒疫情分析学习 03">
-      <i class="fa fa-chevron-left"></i> 新冠病毒疫情分析学习 03
+    <a href="/2020/001-sy/" rel="prev" title="一种城市-苏州">
+      <i class="fa fa-chevron-left"></i> 一种城市-苏州
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/02/26/AcityofSuzhou/" rel="next" title="一种城市-苏州">
-      一种城市-苏州 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/001-js/" rel="next" title="geopandas安装记录">
+      geopandas安装记录 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -1652,7 +1657,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#累计确诊病例走势"><span class="nav-number">1.</span> <span class="nav-text">累计确诊病例走势</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#按天计算每日新增数据"><span class="nav-number">1.1.</span> <span class="nav-text">按天计算每日新增数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算确诊病例增长率"><span class="nav-number">1.2.</span> <span class="nav-text">计算确诊病例增长率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绘制累计确诊病例动态图表"><span class="nav-number">1.3.</span> <span class="nav-text">绘制累计确诊病例动态图表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绘制累确诊病例增长率动态图表"><span class="nav-number">1.4.</span> <span class="nav-text">绘制累确诊病例增长率动态图表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何合并多个图表？"><span class="nav-number">1.5.</span> <span class="nav-text">如何合并多个图表？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PANDA与PYECHARTS的绘图区别"><span class="nav-number">1.6.</span> <span class="nav-text">PANDA与PYECHARTS的绘图区别</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#每日确诊率变化情况"><span class="nav-number">1.</span> <span class="nav-text">每日确诊率变化情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绘制每日疑似病例与确诊病例柱状图"><span class="nav-number">2.</span> <span class="nav-text">绘制每日疑似病例与确诊病例柱状图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绘制确诊率折线图"><span class="nav-number">3.</span> <span class="nav-text">绘制确诊率折线图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#合并图表"><span class="nav-number">4.</span> <span class="nav-text">合并图表</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
