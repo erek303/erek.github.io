@@ -316,11 +316,11 @@
 <h2 id="绘制多系列折线图-不同地区疫情病例增长曲线"><a href="#绘制多系列折线图-不同地区疫情病例增长曲线" class="headerlink" title="绘制多系列折线图-不同地区疫情病例增长曲线"></a>绘制多系列折线图-不同地区疫情病例增长曲线</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 绘制多系列折线图</span></span><br><span class="line"><span class="keyword">import</span> pyecharts <span class="keyword">as</span> pe</span><br><span class="line">line = pe.Line(<span class="string">'不同地区疫情病例增长曲线'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置x轴 - 日期</span></span><br><span class="line">x = data_china.index.astype(<span class="string">'str'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y1轴 - 湖北</span></span><br><span class="line">y1 = data_hb[<span class="string">'确诊新增'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y2轴 - 非湖北</span></span><br><span class="line">y2 = data_nothb[<span class="string">'确诊新增'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置y3轴 - 全国</span></span><br><span class="line">y3 = data_china[<span class="string">'确诊新增'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制图表</span></span><br><span class="line">line.add(<span class="string">'湖北新增'</span>, x, y1)</span><br><span class="line">line.add(<span class="string">'非湖北新增'</span>, x, y2)</span><br><span class="line">line.add(<span class="string">'全国新增'</span>, x, y3, tooltip_trigger = <span class="string">'axis'</span>, tooltip_axispointer_type = <span class="string">'cross'</span>)</span><br><span class="line">line</span><br></pre></td></tr></table></figure>
 
 <p>输出结果如下：</p>
-<div id="echarts6802" style="width: 81%;height: 400px;margin: 0 auto"></div>
-<script src="https://cdn.bootcss.com/echarts/3.8.0/echarts.common.min.js"></script>
+<div id="echarts7667" style="width: 81%;height: 400px;margin: 0 auto"></div>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts6802'));
+        var myChart = echarts.init(document.getElementById('echarts7667'));
+
         // 指定图表的配置项和数据
         var option = {
     "title": [
@@ -916,6 +916,7 @@
         "#f6f5ec"
     ]
 };
+
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
 </script>
@@ -1019,11 +1020,11 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 构建函数绘制疫情病例增长曲线</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fig2</span><span class="params">(r1, r2, r3)</span>:</span></span><br><span class="line">    <span class="comment"># 提取数据,regiondata(where)</span></span><br><span class="line">    data1 = regiondata(r1)</span><br><span class="line">    data2 = regiondata(r2)</span><br><span class="line">    data3 = regiondata(r3)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 设置x、y</span></span><br><span class="line">    x = data1[<span class="string">'date'</span>].astype(<span class="string">'str'</span>)</span><br><span class="line">    y1 = data1[<span class="string">'确诊新增'</span>]</span><br><span class="line">    y2 = data2[<span class="string">'确诊新增'</span>]</span><br><span class="line">    y3 = data3[<span class="string">'确诊新增'</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 分地区新增确诊病例情况</span></span><br><span class="line">    line = pe.Line(<span class="string">'分地区新增确诊病例情况'</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 绘制图表</span></span><br><span class="line">    line.add(r1, x, y1, is_step=<span class="literal">True</span>)  <span class="comment"># is_step参数可以设置阶梯线图</span></span><br><span class="line">    line.add(r2, x, y2, is_step=<span class="literal">True</span>)</span><br><span class="line">    line.add(r3, x, y3, is_step=<span class="literal">True</span>, tooltip_trigger = <span class="string">'axis'</span>, tooltip_axispointer_type = <span class="string">'cross'</span>)</span><br><span class="line">    <span class="keyword">return</span> line.render(<span class="string">'*/*/*.html'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#可更换其他省市</span></span><br><span class="line">fig2(<span class="string">'北京市'</span>,<span class="string">'上海市'</span>,<span class="string">'重庆市'</span>)</span><br></pre></td></tr></table></figure>
 
 <p>输出结果如下：</p>
-<div id="echarts704" style="width: 81%;height: 400px;margin: 0 auto"></div>
-<script src="https://cdn.bootcss.com/echarts/3.8.0/echarts.common.min.js"></script>
+<div id="echarts1632" style="width: 81%;height: 400px;margin: 0 auto"></div>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts704'));
+        var myChart = echarts.init(document.getElementById('echarts1632'));
+
         // 指定图表的配置项和数据
         var option = {
     "title": [
@@ -1619,6 +1620,7 @@
         "#f6f5ec"
     ]
 };
+
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
 </script>
