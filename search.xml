@@ -26,7 +26,7 @@
 
 <p><strong>知识点</strong></p>
 <blockquote>
-<p>我们通过<code>geopandas.GeoDataFrame.from_file()</code>方法来读取数据，对于空间数据的格式常见的为：</p>
+<p>我们通过<code>geopandas.GeoDataFrame.from_file()</code>方法来读取数据，对于空间数据的格式常见的为:</p>
 </blockquote>
 <blockquote>
 <ul>
@@ -44,10 +44,11 @@
 <hr>
 <p><strong>知识点</strong></p>
 <blockquote>
+<ul>
+<li><code>plt.figure()</code>，用于创建1个绘图对象，其中<code>figsize = ()</code>参数用来设置图表大小</li>
+</ul>
 </blockquote>
 <ul>
-<li><p><code>plt.figure()</code>，用于创建1个绘图对象，其中<code>figsize = ()</code>参数用来设置图表大小</p>
-</li>
 <li><p><code>plt.title()</code>，用于设置图表标题</p>
 </li>
 <li><p><code>GeoDataFrame.plot()</code>，用于绘制空间图表</p>
@@ -151,20 +152,27 @@
 <hr>
 <p><strong>知识点</strong></p>
 <blockquote>
+<ul>
+<li><code>pandas.merge(left, right, how = ,on = ,left_on = ,right_on = )</code>的参数解释：<br> +<code>left</code>：第一个DataFrame</li>
+</ul>
 </blockquote>
 <ul>
-<li><code>pandas.merge(left, right, how = ,on = ,left_on = ,right_on = )</code>的参数解释：</li>
-<li><code>left</code>：第一个DataFrame</li>
 <li><code>right</code>：第二个DataFrame</li>
-<li><code>how</code>：合并方式</li>
+<li><code>how</code>：合并方式<ul>
 <li><code>inner</code>：默认，取交集</li>
 <li><code>outer</code>：取并集，数据缺失范围NaN</li>
 <li><code>left</code>：按照left数据为参考合并，数据缺失范围NaN</li>
 <li><code>right</code>：按照right数据为参考合并，数据缺失范围NaN</li>
+</ul>
+</li>
 <li><code>on</code>：参考键</li>
 <li><code>left_o</code>：当键不为一个列时，单独设置左键</li>
-<li><code>right_on</code>：当键不为一个列时，单独设置右键</li>
+<li><code>right_on</code>：当键不为一个列时，单独设置右键<blockquote>
+<ul>
 <li>我们可以看到<code>china_spatial</code>数据的<code>name</code>字段与<code>data_0201</code>数据中<code>省市</code>字段是可以用来匹配的</li>
+</ul>
+</blockquote>
+</li>
 </ul>
 <hr>
 <p>合并数据后，我们可以用确诊字段来绘制疫情地图，如下：</p>
@@ -176,13 +184,17 @@
 <hr>
 <p><strong>知识点</strong></p>
 <blockquote>
-</blockquote>
 <ul>
 <li><code>GeoDataFrame.plot()</code>的参数解释：</li>
-<li><code>edgecolor</code>/<code>linewidth</code>/<code>alpha</code>：设置面数据描边颜色、宽度及透明度</li>
+</ul>
+</blockquote>
+<ul>
+<li><code>edgecolor</code>/<code>linewidth</code>/<code>alpha</code>：设置面数据描边颜色、宽度及透明度<ul>
 <li><code>cmap</code>：设置色系，可选参数：Reds/Reds_r/Blues/Blues_r/…</li>
 <li><code>legend</code>：是否显示图例</li>
 <li><code>scheme = &#39;FisherJenks&#39;</code>：分类方法，者利用了Jenks自然间断点方法，可以更好地将数据分为多个类，且能使得各类之间差异最大化</li>
+</ul>
+</li>
 </ul>
 <hr>
 <h2 id="数据地图加工，设置文字信息"><a href="#数据地图加工，设置文字信息" class="headerlink" title="数据地图加工，设置文字信息"></a>数据地图加工，设置文字信息</h2><p>我们还需要 在地图上增加每个省市的名称，如下：</p>
@@ -194,9 +206,11 @@
 <hr>
 <p><strong>知识点</strong></p>
 <blockquote>
-</blockquote>
 <ul>
 <li><code>matplotlib.pyplot.text(x,y,value)</code>的参数解释：</li>
+</ul>
+</blockquote>
+<ul>
 <li>x：文字x值，这里是省市行政区域中心点坐标 - 经度</li>
 <li>y：文字y值，这里是省市行政区域中心点坐标 - 纬度</li>
 <li>value：文字内容，这里显示”省市名称” + “确诊病例数量”</li>
