@@ -39,6 +39,8 @@
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 绘制全国地图</span></span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="comment"># 设置图表大小</span></span><br><span class="line">plt.figure(figsize=(<span class="number">15</span>,<span class="number">10</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置图表标题</span></span><br><span class="line">plt.title(<span class="string">'全国地图'</span>)   </span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制空间数据</span></span><br><span class="line">china_spatial.plot(ax=plt.subplot(<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置网格线</span></span><br><span class="line">plt.grid(<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
 
 <p>输出结果为：</p>
+<img src="/2020/008-xg/01.png" class="" title="图1">
+
 <hr>
 <p><strong>知识点</strong></p>
 <blockquote>
@@ -58,7 +60,150 @@
 </li>
 </ul>
 <hr>
-<h2 id="数据合并，绘制疫情地图"><a href="#数据合并，绘制疫情地图" class="headerlink" title="数据合并，绘制疫情地图"></a>数据合并，绘制疫情地图</h2>]]></content>
+<h2 id="数据合并，绘制疫情地图"><a href="#数据合并，绘制疫情地图" class="headerlink" title="数据合并，绘制疫情地图"></a>数据合并，绘制疫情地图</h2><blockquote>
+<p>现有的空间数据<code>china_spatial</code>只有空间属性并没有疫情相关数据，我们现在需要将<code>data_0201</code>中疫情相关字段匹配进<code>china_spatial</code>中，这里需要用<code>pandas.merge()</code>来操作</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>pandas中的数据匹配是用<code>pandas.merge()</code>，类似于Excel中的<code>Vlookup</code>函数、SQL中的<code>JOIN</code>语句</li>
+</ul>
+</blockquote>
+<p>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 匹配数据</span></span><br><span class="line">data_china0201 = pd.merge(china_spatial, data_0201, left_on = <span class="string">'name'</span>, right_on = <span class="string">'省市'</span>, how = <span class="string">'left'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除多余字段</span></span><br><span class="line"><span class="keyword">del</span> data_china0201[<span class="string">'name'</span>]</span><br><span class="line">data_china0201.head()</span><br></pre></td></tr></table></figure>
+
+<p>输出结果为：</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">centerlng</th>
+<th align="center">centerlat</th>
+<th align="center">geometry</th>
+<th align="center">区域编码</th>
+<th align="center">省市</th>
+<th align="center">疑似</th>
+<th align="center">确诊</th>
+<th align="center">死亡</th>
+<th align="center">date</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="center">117.226</td>
+<td align="center">31.8257</td>
+<td align="center">POLYGON ((119.62594 31.13353, 119.64401 31.114…</td>
+<td align="center">340000</td>
+<td align="center">安徽省</td>
+<td align="center">160</td>
+<td align="center">340</td>
+<td align="center">0</td>
+<td align="center">2020-02-01</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">116.412</td>
+<td align="center">40.1844</td>
+<td align="center">POLYGON ((117.38359 40.22566, 117.37170 40.216…</td>
+<td align="center">110000</td>
+<td align="center">北京市</td>
+<td align="center">0</td>
+<td align="center">183</td>
+<td align="center">1</td>
+<td align="center">2020-02-01</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">117.981</td>
+<td align="center">26.0783</td>
+<td align="center">MULTIPOLYGON (((118.25399 24.44654, 118.27072 …</td>
+<td align="center">350000</td>
+<td align="center">福建省</td>
+<td align="center">99</td>
+<td align="center">159</td>
+<td align="center">0</td>
+<td align="center">2020-02-01</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">100.612</td>
+<td align="center">37.8776</td>
+<td align="center">POLYGON ((104.29087 37.43066, 104.30275 37.415…</td>
+<td align="center">620000</td>
+<td align="center">甘肃省</td>
+<td align="center">20</td>
+<td align="center">40</td>
+<td align="center">0</td>
+<td align="center">2020-02-01</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">108.789</td>
+<td align="center">23.8206</td>
+<td align="center">MULTIPOLYGON (((107.15419 21.75961, 107.15774 …</td>
+<td align="center">450000</td>
+<td align="center">广西壮族自治区</td>
+<td align="center">319</td>
+<td align="center">111</td>
+<td align="center">0</td>
+<td align="center">2020-02-01</td>
+</tr>
+</tbody></table>
+<hr>
+<p><strong>知识点</strong></p>
+<blockquote>
+</blockquote>
+<ul>
+<li><code>pandas.merge(left, right, how = ,on = ,left_on = ,right_on = )</code>的参数解释：</li>
+<li><code>left</code>：第一个DataFrame</li>
+<li><code>right</code>：第二个DataFrame</li>
+<li><code>how</code>：合并方式</li>
+<li><code>inner</code>：默认，取交集</li>
+<li><code>outer</code>：取并集，数据缺失范围NaN</li>
+<li><code>left</code>：按照left数据为参考合并，数据缺失范围NaN</li>
+<li><code>right</code>：按照right数据为参考合并，数据缺失范围NaN</li>
+<li><code>on</code>：参考键</li>
+<li><code>left_o</code>：当键不为一个列时，单独设置左键</li>
+<li><code>right_on</code>：当键不为一个列时，单独设置右键</li>
+<li>我们可以看到<code>china_spatial</code>数据的<code>name</code>字段与<code>data_0201</code>数据中<code>省市</code>字段是可以用来匹配的</li>
+</ul>
+<hr>
+<p>合并数据后，我们可以用确诊字段来绘制疫情地图，如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 绘制疫情地图</span></span><br><span class="line"><span class="comment"># 设置图表大小及标题</span></span><br><span class="line">plt.figure(figsize=(<span class="number">20</span>,<span class="number">20</span>))</span><br><span class="line">plt.title(<span class="string">'2020-2-1 全国确诊病例'</span>, fontsize = <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制疫情地图</span></span><br><span class="line">data_china0201.plot(ax=plt.subplot(<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>), alpha=<span class="number">1</span>,edgecolor=<span class="string">'k'</span>, linewidth = <span class="number">0.5</span>,</span><br><span class="line">                  legend=<span class="literal">True</span>, scheme = <span class="string">'FisherJenks'</span>, column=<span class="string">'确诊'</span>, cmap = <span class="string">'Reds'</span>)</span><br><span class="line"><span class="comment"># 设置网格线</span></span><br><span class="line">plt.grid(<span class="literal">True</span>,alpha=<span class="number">0.5</span>)</span><br></pre></td></tr></table></figure>
+
+<p>输出结果为：</p>
+<img src="/2020/008-xg/02.png" class="" title="图2">
+
+<hr>
+<p><strong>知识点</strong></p>
+<blockquote>
+</blockquote>
+<ul>
+<li><code>GeoDataFrame.plot()</code>的参数解释：</li>
+<li><code>edgecolor</code>/<code>linewidth</code>/<code>alpha</code>：设置面数据描边颜色、宽度及透明度</li>
+<li><code>cmap</code>：设置色系，可选参数：Reds/Reds_r/Blues/Blues_r/…</li>
+<li><code>legend</code>：是否显示图例</li>
+<li><code>scheme = &#39;FisherJenks&#39;</code>：分类方法，者利用了Jenks自然间断点方法，可以更好地将数据分为多个类，且能使得各类之间差异最大化</li>
+</ul>
+<hr>
+<h2 id="数据地图加工，设置文字信息"><a href="#数据地图加工，设置文字信息" class="headerlink" title="数据地图加工，设置文字信息"></a>数据地图加工，设置文字信息</h2><p>我们还需要 在地图上增加每个省市的名称，如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 绘制疫情地图并添加省市信息</span></span><br><span class="line"><span class="comment"># 设置图表大小及标题</span></span><br><span class="line">plt.figure(figsize=(<span class="number">20</span>,<span class="number">20</span>))</span><br><span class="line">plt.title(<span class="string">'2020-2-1 全国确诊病例'</span>, fontsize = <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制疫情地图</span></span><br><span class="line">data_china0201.plot(ax=plt.subplot(<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>), alpha=<span class="number">1</span>,edgecolor=<span class="string">'k'</span>, linewidth = <span class="number">0.5</span>,</span><br><span class="line">                  legend=<span class="literal">True</span>, scheme = <span class="string">'FisherJenks'</span>, column=<span class="string">'确诊'</span>, cmap = <span class="string">'Reds'</span>)</span><br><span class="line"><span class="comment"># 设置网格线</span></span><br><span class="line">plt.grid(<span class="literal">True</span>,alpha=<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加省市信息</span></span><br><span class="line">lst = data_china0201[[<span class="string">'省市'</span>,<span class="string">'centerlng'</span>,<span class="string">'centerlat'</span>,<span class="string">'确诊'</span>]].to_dict(orient = <span class="string">'record'</span>)</span><br><span class="line">print(lst[:<span class="number">5</span>])   <span class="comment"># 查看输出结果</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> lst:</span><br><span class="line">    plt.text(i[<span class="string">'centerlng'</span>], i[<span class="string">'centerlat'</span>], i[<span class="string">'省市'</span>] +<span class="string">':'</span> + str(i[<span class="string">'确诊'</span>]))</span><br></pre></td></tr></table></figure>
+
+<p>输出结果如下：</p>
+<img src="/2020/008-xg/03.png" class="" title="图3">
+
+<hr>
+<p><strong>知识点</strong></p>
+<blockquote>
+</blockquote>
+<ul>
+<li><code>matplotlib.pyplot.text(x,y,value)</code>的参数解释：</li>
+<li>x：文字x值，这里是省市行政区域中心点坐标 - 经度</li>
+<li>y：文字y值，这里是省市行政区域中心点坐标 - 纬度</li>
+<li>value：文字内容，这里显示”省市名称” + “确诊病例数量”</li>
+</ul>
+<hr>
+<p>快来试一下吧！</p>
+]]></content>
       <categories>
         <category>Python学习</category>
       </categories>
