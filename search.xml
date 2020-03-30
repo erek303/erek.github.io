@@ -6,7 +6,7 @@
     <content><![CDATA[<p>本章将介绍如何批量制作疫情地图，如下图所示</p>
 <center>  <!--开始居中对齐-->
 
-<p><img src="https://cdn.erek.top/p040302.jpg" alt="示意图" title="示意图"></p>
+<p><img src="https://cdn.erek.top/p040303.jpg" alt="示意图" title="示意图"></p>
 </center> <!--结束居中对齐-->
 
 <a id="more"></a>
@@ -41,7 +41,7 @@
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 构建for循环批量出图</span></span><br><span class="line"><span class="comment"># 设置日期列表</span></span><br><span class="line">datelst = [<span class="string">'2020-1-29'</span>,<span class="string">'2020-1-30'</span>,<span class="string">'2020-2-1'</span>,<span class="string">'2020-2-2'</span>,<span class="string">'2020-2-3'</span>,<span class="string">'2020-2-4'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建绘图对象</span></span><br><span class="line">plt.figure(figsize=(<span class="number">20</span>,<span class="number">18</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 批量出图</span></span><br><span class="line">m = <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> datelst:</span><br><span class="line">    create_map2(i,<span class="string">'确诊'</span>, <span class="number">3</span>,<span class="number">2</span>,m)</span><br><span class="line">    m += <span class="number">1</span></span><br></pre></td></tr></table></figure>
 
 <p>输出结果如下：</p>
-<p><img src="https://cdn.erek.top/p040303.jpg" alt="03"></p>
+<p><img src="https://cdn.erek.top/p040303.jpg" alt="03" title="批量"></p>
 <hr>
 <p><strong>知识点</strong></p>
 <ul>
