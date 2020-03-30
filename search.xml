@@ -6,7 +6,7 @@
     <content><![CDATA[<p>本章将在上一章节底图的基础上，添加气泡，实现气泡图</p>
 <center>  <!--开始居中对齐-->
 
-<p><img src="http://cdn.erek.top/p040201.jpg" alt="气泡图" title="示意图"></p>
+<p><img src="https://cdn.erek.top/p040201.jpg" alt="气泡图" title="示意图"></p>
 </center> <!--结束居中对齐-->
 
 
@@ -21,7 +21,7 @@
 <p>输出结果如下：</p>
 <center>  <!--开始居中对齐-->
 
-<p><img src="http://cdn.erek.top/p040201.jpg" alt="气泡图" title="输出结果"></p>
+<p><img src="https://cdn.erek.top/p040201.jpg" alt="气泡图" title="输出结果"></p>
 </center> <!--结束居中对齐-->
 
 <hr>
