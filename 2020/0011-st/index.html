@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="manifest" href="/images/manifest.json">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://erek.top').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="Python基础语法项目实践-自动化录入数据项目背景某同学需要调研市区里的住宅小区，记录下不同小区的地址、建筑年份和每栋楼里每个单元里每一户的朝向和面积。比如其中一户的资料是：富安花园（小区）3栋 2单元 401户；朝向：南北朝向；面积：90平方。他需要把每一户的信息都记录下来。一般会将一栋楼的数据画在一张平面图，之后再慢慢录入到excel里面，但面对这样的情况，一旦遇到不同单元的户数、朝向和面积">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python基础语法项目实践-自动化录入数据">
+<meta property="og:url" content="https://erek.top/2020/0011-st/index.html">
+<meta property="og:site_name" content="Erek&#39;s Blog">
+<meta property="og:description" content="Python基础语法项目实践-自动化录入数据项目背景某同学需要调研市区里的住宅小区，记录下不同小区的地址、建筑年份和每栋楼里每个单元里每一户的朝向和面积。比如其中一户的资料是：富安花园（小区）3栋 2单元 401户；朝向：南北朝向；面积：90平方。他需要把每一户的信息都记录下来。一般会将一栋楼的数据画在一张平面图，之后再慢慢录入到excel里面，但面对这样的情况，一旦遇到不同单元的户数、朝向和面积">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.erek.top/20200412191655.png">
+<meta property="og:image" content="https://cdn.erek.top/20200412191724.png">
+<meta property="og:image" content="https://cdn.erek.top/20200412191742.png">
+<meta property="og:image" content="https://cdn.erek.top/20200412191802.png">
+<meta property="og:image" content="https://cdn.erek.top/20200412191806.png">
+<meta property="og:image" content="https://cdn.erek.top/20200412191841.png">
+<meta property="og:image" content="https://cdn.erek.top/20200412191857.png">
+<meta property="og:image" content="https://cdn.erek.top/20200412194842.png">
+<meta property="og:image" content="https://cdn.erek.top/20200412195647.png">
+<meta property="og:image" content="https://cdn.erek.top/20200412195837.png">
+<meta property="og:image" content="https://cdn.erek.top/20200412200149.png">
+<meta property="og:image" content="https://cdn.erek.top/20200412191841.png">
+<meta property="og:image" content="https://cdn.erek.top/20200412212417.png">
+<meta property="article:published_time" content="2020-04-12T13:27:28.000Z">
+<meta property="article:modified_time" content="2020-04-12T13:28:13.258Z">
+<meta property="article:author" content="Erek">
+<meta property="article:tag" content="python urbandesign bigdata">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.erek.top/20200412191655.png">
+
+<link rel="canonical" href="https://erek.top/2020/0011-st/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Python基础语法项目实践-自动化录入数据 | Erek's Blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5ebd5c516b4dd4ebd974f04415e7d0cc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Erek's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">城市设计/数据分析/技术分享/摄影记录</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">3</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">14</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <!-- echarts -->
+    <script type="text/javascript" src="/js/echarts.min.js"></script>
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://erek.top/2020/0011-st/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Erek">
+      <meta itemprop="description" content="A personal blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Erek's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python基础语法项目实践-自动化录入数据
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-04-12 21:27:28 / 修改时间：21:28:13" itemprop="dateCreated datePublished" datetime="2020-04-12T21:27:28+08:00">2020-04-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">Python学习</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/0011-st/" class="post-meta-item leancloud_visitors" data-flag-title="Python基础语法项目实践-自动化录入数据" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">评论次数：</span>
+    
+    <a title="valine" href="/2020/0011-st/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/0011-st/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>9.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>18 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Python基础语法项目实践-自动化录入数据"><a href="#Python基础语法项目实践-自动化录入数据" class="headerlink" title="Python基础语法项目实践-自动化录入数据"></a>Python基础语法项目实践-自动化录入数据</h2><h3 id="项目背景"><a href="#项目背景" class="headerlink" title="项目背景"></a>项目背景</h3><p>某同学需要调研市区里的住宅小区，记录下不同小区的地址、建筑年份和每栋楼里每个单元里每一户的朝向和面积。比如其中一户的资料是：富安花园（小区）3栋 2单元 401户；朝向：南北朝向；面积：90平方。他需要把每一户的信息都记录下来。一般会将一栋楼的数据画在一张平面图，之后再慢慢录入到excel里面，但面对这样的情况，一旦遇到不同单元的户数、朝向和面积，就无法进行复制，而一遍遍的输入数据将会十分心累且耗费时间！一旦出错，难以发现以及改变很费劲，牵连甚广。</p>
+<p><img src="https://cdn.erek.top/20200412191655.png" alt=""></p>
+<p>于是需求应运而生，如何用python输入模板数据，程序自动录入剩下的数据，甚至不用打开excel</p>
+<p><img src="https://cdn.erek.top/20200412191724.png" alt=""></p>
+<p><img src="https://cdn.erek.top/20200412191742.png" alt=""></p>
+<a id="more"></a>
+
+<h3 id="拆解项目"><a href="#拆解项目" class="headerlink" title="拆解项目"></a>拆解项目</h3><p>目标是将一个小区某一栋内所有户室的资料录入到excel表里</p>
+<p><img src="https://cdn.erek.top/20200412191802.png" alt=""></p>
+<p>简易的流程图可以看一下：</p>
+<p><img src="https://cdn.erek.top/20200412191806.png" alt=""></p>
+<p>可以分三个版本逐渐迭代</p>
+<h3 id="1-0版本：输入固定表头，确定模板数据"><a href="#1-0版本：输入固定表头，确定模板数据" class="headerlink" title="1.0版本：输入固定表头，确定模板数据"></a>1.0版本：输入固定表头，确定模板数据</h3><p>用Python读写excel的时候，可以调用csv模块，下面将向csv里写入表头</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="comment">#调用csv模块</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'data.csv'</span>, <span class="string">'a'</span>, newline=<span class="string">''</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line"><span class="comment">#调用open()函数打开csv文件，传入参数：文件名“data.csv”、追加模式“a”、newline=''。</span></span><br><span class="line">    writer = csv.writer(csvfile, dialect=<span class="string">'excel'</span>)</span><br><span class="line">    <span class="comment"># 用csv.writer()函数创建一个writer对象。</span></span><br><span class="line">    header=[<span class="string">'小区名称'</span>, <span class="string">'地址'</span>, <span class="string">'建筑年份'</span>, <span class="string">'楼栋'</span>, <span class="string">'单元'</span>, <span class="string">'户室'</span>, <span class="string">'朝向'</span>, <span class="string">'面积'</span>]</span><br><span class="line">    writer.writerow(header)</span><br><span class="line">    <span class="comment">#用writerow()函数将表头写进csv文件里</span></span><br></pre></td></tr></table></figure>
+
+<p>将以上的复制到本地编辑器，可以看到新建了一个名为data.csv文件，打开如下：</p>
+<p><img src="https://cdn.erek.top/20200412191841.png" alt=""></p>
+<p>如果是mac os，遇到了乱码，则需要在<code>open()</code>函数里加上参数<code>endoding=&#39;GBK&#39;</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(<span class="string">'data.csv'</span>, <span class="string">'a'</span>, newline=<span class="string">''</span>,encoding=<span class="string">'GBK'</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line"><span class="comment">#确定编码</span></span><br></pre></td></tr></table></figure>
+
+<p>下面就是确定哪些数据是可以一次输入重复利用，小区的名称、建筑年代、地址、楼号是可以重复使用的，但同一栋的单元内分布是各有不同的，楼型不同户型也不一样。放大到同一单元下，每一层的户型和朝向一般是一样的，所以只需要某一层的数据，就可以知道其他楼层的，区别只是户室号。确定了以此为模板数据，下一步就是转化成代码。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">title = input(<span class="string">'请输入小区名称'</span>)</span><br><span class="line">address = input(<span class="string">'请输入小区地址：'</span>)</span><br><span class="line">year = input(<span class="string">'请输入小区建造年份：'</span>)</span><br><span class="line">block = input(<span class="string">'请输入楼栋号：'</span>)</span><br><span class="line"><span class="comment">#输入可重复利用利用的数据</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-0版本：获取模板数据，重复使用模板数据"><a href="#2-0版本：获取模板数据，重复使用模板数据" class="headerlink" title="2.0版本：获取模板数据，重复使用模板数据"></a>2.0版本：获取模板数据，重复使用模板数据</h3><p>户室号一般有楼层+两位序号组成，比如101,102,201,202等，尾号是统一的，变化则根据楼层数而变化。根据图片可以看出每个户室的朝向和面积是并列关系，从属于户室的。</p>
+<p><img src="https://cdn.erek.top/20200412191857.png" alt=""></p>
+<p>通过使用字典嵌套列表的形式，来实现数据的组合，字典的键是户室号，面积和朝向组成的列表为字典的值。类似如下形式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">start_floor_rooms = &#123;<span class="number">301</span>:[<span class="string">'南北'</span>,<span class="number">70</span>],<span class="number">302</span>:[<span class="string">'南北'</span>,<span class="number">70</span>],<span class="number">303</span>:[<span class="string">'东西'</span>,<span class="number">80</span>],<span class="number">304</span>:[<span class="string">'东西'</span>,<span class="number">80</span>]&#125;</span><br><span class="line"><span class="comment">#初始楼层的数据</span></span><br></pre></td></tr></table></figure>
+
+<p>那么具体输入的代码如下所示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">start_floor = input(<span class="string">'请输入起始楼层'</span>)</span><br><span class="line">end_floor = input(<span class="string">'请输入终止楼层'</span>)</span><br><span class="line"><span class="comment">#获取每一单元楼层数</span></span><br><span class="line"></span><br><span class="line">start_floor_room = &#123;&#125;</span><br><span class="line">floor_last_number = []</span><br><span class="line"><span class="comment">#创建字典，存放户室信息；创建列表，存放户室尾号如['01','02']，后续楼层即可重复使用</span></span><br><span class="line"></span><br><span class="line">last_number = input(<span class="string">'请输入起始楼层户室的尾号：(如01,02)'</span>)</span><br><span class="line"></span><br><span class="line">floor_last_number.append(last_number)</span><br><span class="line"><span class="comment">#将输入的元素添加到户室尾号的列表里</span></span><br><span class="line"></span><br><span class="line">room_number = int(start_floor + last_number)</span><br><span class="line"><span class="comment">#户室号由起始楼层和户室尾号组成，如301</span></span><br><span class="line"></span><br><span class="line">direction = int(input(<span class="string">'请输入 %d朝向(南北朝向输入1，东西朝向输入2):'</span> % room_number))</span><br><span class="line"><span class="comment">#收集该户室的朝向信息</span></span><br><span class="line"></span><br><span class="line">area = int(input(<span class="string">'请输入 %d 的面积，单位为㎡：'</span> % room_number))</span><br><span class="line"><span class="comment">#收集该户室的面积信息</span></span><br><span class="line"></span><br><span class="line">start_floor_room[room_number] = [direction,area]</span><br><span class="line"><span class="comment">#户室号为键，朝向和面积均为值，添加到字典里</span></span><br><span class="line"></span><br><span class="line">print(start_floor_room)</span><br><span class="line"><span class="comment">#打印起始楼层数据</span></span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下：</p>
+<p><img src="https://cdn.erek.top/20200412194842.png" alt=""></p>
+<p>这样我们就获取了一个户室的信息，但如果要获取起始楼层其他户室的信息，则需要加入循环。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">start_floor = input(<span class="string">'请输入起始楼层'</span>)</span><br><span class="line">end_floor = input(<span class="string">'请输入终止楼层'</span>)</span><br><span class="line"><span class="comment">#获取每一单元楼层数</span></span><br><span class="line"></span><br><span class="line">input(<span class="string">'接下来请依次输入起始层每个房间的户室尾号、南北朝向及面积，按任意键继续'</span>)</span><br><span class="line"></span><br><span class="line">start_floor_room = &#123;&#125;</span><br><span class="line">floor_last_number = []</span><br><span class="line"><span class="comment">#创建字典，存放户室信息；创建列表，存放户室尾号如['01','02']，后续楼层即可重复使用</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#定义循环控制量</span></span><br><span class="line">room_loop = <span class="literal">True</span></span><br><span class="line"><span class="keyword">while</span> room_loop:</span><br><span class="line">    </span><br><span class="line">    last_number = input(<span class="string">'请输入起始楼层户室的尾号：(如01,02)'</span>)</span><br><span class="line"></span><br><span class="line">    floor_last_number.append(last_number)</span><br><span class="line">    <span class="comment">#将输入的元素添加到户室尾号的列表里</span></span><br><span class="line"></span><br><span class="line">    room_number = int(start_floor + last_number)</span><br><span class="line">    <span class="comment">#户室号由起始楼层和户室尾号组成，如301</span></span><br><span class="line"></span><br><span class="line">    direction = int(input(<span class="string">'请输入 %d朝向(南北朝向输入1，东西朝向输入2):'</span> % room_number))</span><br><span class="line">    <span class="comment">#收集该户室的朝向信息</span></span><br><span class="line"></span><br><span class="line">    area = int(input(<span class="string">'请输入 %d 的面积，单位为㎡：'</span> % room_number))</span><br><span class="line">    <span class="comment">#收集该户室的面积信息</span></span><br><span class="line"></span><br><span class="line">    start_floor_room[room_number] = [direction,area]</span><br><span class="line">    <span class="comment">#户室号为键，朝向和面积均为值，添加到字典里</span></span><br><span class="line">    </span><br><span class="line">    continued = input(<span class="string">'是否需要输入下一个尾号？按 n 停止输入，按其他任意键继续录入'</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> continued == <span class="string">'n'</span>:</span><br><span class="line">        room_loop = <span class="literal">False</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        room_loop = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">print(start_floor_room)</span><br><span class="line"><span class="comment">#打印起始楼层数据</span></span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下：</p>
+<p><img src="https://cdn.erek.top/20200412195647.png" alt=""></p>
+<p>到这一步，已经将起始楼层的所有户室数据收集到了，下一步则只要将这层的数据迁移到其他楼层中即可。</p>
+<p><img src="https://cdn.erek.top/20200412195837.png" alt=""></p>
+<p>为了更好的管理数据，将所有楼层的数据放在一起会更好管理，也就是字典嵌套字典的方式。</p>
+<p><img src="https://cdn.erek.top/20200412200149.png" alt=""></p>
+<p>那么根据此方法，对刚才的代码再次进行添加，如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">start_floor = <span class="string">'3'</span></span><br><span class="line">end_floor = <span class="string">'4'</span></span><br><span class="line">floor_last_number = [<span class="string">'01'</span>,<span class="string">'02'</span>,<span class="string">'03'</span>]</span><br><span class="line"><span class="comment"># 之前input()输入的数据为str类型</span></span><br><span class="line"></span><br><span class="line">start_floor_rooms = &#123;<span class="number">301</span>:[<span class="number">1</span>,<span class="number">80</span>], <span class="number">302</span>:[<span class="number">1</span>,<span class="number">80</span>], <span class="number">303</span>:[<span class="number">2</span>,<span class="number">90</span>]&#125;</span><br><span class="line"><span class="comment">#初始楼层的模版数据</span></span><br><span class="line"></span><br><span class="line">unit_rooms = &#123;&#125;</span><br><span class="line"><span class="comment">#创建一个字典，存储所有楼层的数据</span></span><br><span class="line">unit_rooms[int(start_floor)] = start_floor_rooms</span><br><span class="line"><span class="comment">#unit_rooms = &#123;3: &#123;301: [1, 80], 302: [1, 80], 303: [2, 90]&#125;&#125;</span></span><br><span class="line"></span><br><span class="line">floor_rooms = &#123;&#125;</span><br><span class="line"><span class="comment">#给4楼创建一个字典</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(start_floor_rooms)):</span><br><span class="line">    <span class="comment">#遍历每层有多少个房间，这里是3，即执行for i in range 3 的循环</span></span><br><span class="line">    number = <span class="string">'4'</span> + floor_last_number[i]</span><br><span class="line">    <span class="comment">#字符串拼接, number = ['401','402','403']</span></span><br><span class="line">    info = start_floor_rooms[int(start_floor + floor_last_number[i])]</span><br><span class="line">    <span class="comment"># 依次取出字典start_floor_rooms键对应的值，即面积和朝向组成的列表</span></span><br><span class="line">    <span class="comment"># int(start_floor + floor_last_number[0])= 301 </span></span><br><span class="line">    <span class="comment"># info = [1,80]</span></span><br><span class="line"></span><br><span class="line">    floor_rooms[int(number)] = info</span><br><span class="line">    <span class="comment">#给字典floor_rooms添加键值对，floor_rooms = &#123;401:[1,80]&#125;</span></span><br><span class="line">    <span class="comment">#循环三次，所以floor_rooms = &#123;401:[1,80], 402:[1,80], 403:[2,90]&#125;</span></span><br><span class="line"></span><br><span class="line">unit_rooms[<span class="number">4</span>] = floor_rooms</span><br><span class="line"><span class="comment">#以4为键，floor_rooms为值，给字典unit_rooms添加键值对</span></span><br><span class="line">print(unit_rooms)</span><br><span class="line"><span class="comment">#unit_rooms = &#123;3: &#123;301: [1, 80], 302: [1, 80], 303: [2, 90]&#125;, 4: &#123;401: [1, 80], 402: [1, 80], 403: [2, 90]&#125;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="number">3</span>: &#123;<span class="number">301</span>: [<span class="number">1</span>, <span class="number">80</span>], <span class="number">302</span>: [<span class="number">1</span>, <span class="number">80</span>], <span class="number">303</span>: [<span class="number">2</span>, <span class="number">90</span>]&#125;, <span class="number">4</span>: &#123;<span class="number">401</span>: [<span class="number">1</span>, <span class="number">80</span>], <span class="number">402</span>: [<span class="number">1</span>, <span class="number">80</span>], <span class="number">403</span>: [<span class="number">2</span>, <span class="number">90</span>]&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来继续假如循环，将所有楼层数据一次性放进字典<code>unit_rooms</code>里。如果是3-7楼，我们的循环执行4,5,6,7四次，循环条件可以写成：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> floor <span class="keyword">in</span> range(start_floor + <span class="number">1</span>, end_floor + <span class="number">1</span>):  </span><br><span class="line"><span class="comment"># 在此例中，为 for floor in range (4,8)</span></span><br></pre></td></tr></table></figure>
+
+<p>那么将循环写入上一步，结果就是：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">start_floor = <span class="string">'3'</span></span><br><span class="line">end_floor = <span class="string">'7'</span></span><br><span class="line">floor_last_number = [<span class="string">'01'</span>,<span class="string">'02'</span>,<span class="string">'03'</span>]</span><br><span class="line">start_floor_rooms = &#123;<span class="number">301</span>:[<span class="number">1</span>,<span class="number">80</span>],<span class="number">302</span>:[<span class="number">1</span>,<span class="number">80</span>],<span class="number">303</span>:[<span class="number">2</span>,<span class="number">90</span>]&#125;</span><br><span class="line"><span class="comment">#初始楼层的模版数据</span></span><br><span class="line">unit_rooms = &#123;&#125;</span><br><span class="line"><span class="comment">#新建一个存放所有楼层的字典</span></span><br><span class="line">unit_rooms[int(start_floor)] = start_floor_rooms</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> floor <span class="keyword">in</span> range(int(start_floor) + <span class="number">1</span>, int(end_floor) + <span class="number">1</span>):</span><br><span class="line">        <span class="comment">#遍历除初始楼层外的其他楼层</span></span><br><span class="line">        floor_rooms = &#123;&#125;</span><br><span class="line">        <span class="comment">#每个楼层都建立一个字典</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(start_floor_rooms)):</span><br><span class="line">        <span class="comment">#遍历每层有多少个房间，这里是3，即执行for i in range 3 的循环</span></span><br><span class="line">            number = str(floor) + floor_last_number[i]</span><br><span class="line">            info = start_floor_rooms[int(start_floor + floor_last_number[i])]</span><br><span class="line">            <span class="comment"># 依次取出字典start_floor_rooms键对应的值，即面积和朝向组成的列表</span></span><br><span class="line">            floor_rooms[int(number)] = info</span><br><span class="line">            <span class="comment">#给字典floor_rooms添加键值对，floor_rooms = &#123;401:[1,80]&#125;</span></span><br><span class="line">        unit_rooms[floor] = floor_rooms</span><br><span class="line">print(unit_rooms)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="number">3</span>: &#123;<span class="number">301</span>: [<span class="number">1</span>, <span class="number">80</span>], <span class="number">302</span>: [<span class="number">1</span>, <span class="number">80</span>], <span class="number">303</span>: [<span class="number">2</span>, <span class="number">90</span>]&#125;, <span class="number">4</span>: &#123;<span class="number">401</span>: [<span class="number">1</span>, <span class="number">80</span>], <span class="number">402</span>: [<span class="number">1</span>, <span class="number">80</span>], <span class="number">403</span>: [<span class="number">2</span>, <span class="number">90</span>]&#125;, <span class="number">5</span>: &#123;<span class="number">501</span>: [<span class="number">1</span>, <span class="number">80</span>], <span class="number">502</span>: [<span class="number">1</span>, <span class="number">80</span>], <span class="number">503</span>: [<span class="number">2</span>, <span class="number">90</span>]&#125;, <span class="number">6</span>: &#123;<span class="number">601</span>: [<span class="number">1</span>, <span class="number">80</span>], <span class="number">602</span>: [<span class="number">1</span>, <span class="number">80</span>], <span class="number">603</span>: [<span class="number">2</span>, <span class="number">90</span>]&#125;, <span class="number">7</span>: &#123;<span class="number">701</span>: [<span class="number">1</span>, <span class="number">80</span>], <span class="number">702</span>: [<span class="number">1</span>, <span class="number">80</span>], <span class="number">703</span>: [<span class="number">2</span>, <span class="number">90</span>]&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-0版本：写入CSV文件"><a href="#3-0版本：写入CSV文件" class="headerlink" title="3.0版本：写入CSV文件"></a>3.0版本：写入CSV文件</h3><p>再看一遍开头输入的表头</p>
+<p><img src="https://cdn.erek.top/20200412191841.png" alt=""></p>
+<p>名称、地址、建筑年份、楼栋、单元都需要手动输入，输入一遍即可复用到其他所有单元格里。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">title = input(<span class="string">'请输入小区名称'</span>)</span><br><span class="line">address = input(<span class="string">'请输入小区地址：'</span>)</span><br><span class="line">year = input(<span class="string">'请输入小区建造年份：'</span>)</span><br><span class="line">block = input(<span class="string">'请输入楼栋号：'</span>)</span><br><span class="line">unit = input(<span class="string">'请输入单元号：'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>剩下户室信息，“朝向”、“面积”都储存在字典<code>unit_rooms</code>里，接着需要对字典内信息进行提取。首先就要提取字典里的值，也就是大字典中的小字典</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># for value in DictName.values():</span></span><br><span class="line"><span class="comment"># value的名字可以自行另取</span></span><br><span class="line"><span class="comment"># DictName是要遍历的字典的名称</span></span><br><span class="line"><span class="comment"># .values():是固定的用法</span></span><br><span class="line"></span><br><span class="line">unit_rooms = &#123;<span class="number">3</span>:&#123;<span class="number">301</span>:[<span class="number">1</span>,<span class="number">80</span>],<span class="number">302</span>:[<span class="number">1</span>,<span class="number">80</span>],<span class="number">303</span>:[<span class="number">2</span>,<span class="number">90</span>],<span class="number">304</span>:[<span class="number">2</span>,<span class="number">90</span>]&#125;,</span><br><span class="line">             <span class="number">4</span>:&#123;<span class="number">401</span>:[<span class="number">1</span>,<span class="number">80</span>],<span class="number">402</span>:[<span class="number">1</span>,<span class="number">80</span>],<span class="number">403</span>:[<span class="number">2</span>,<span class="number">90</span>],<span class="number">404</span>:[<span class="number">2</span>,<span class="number">90</span>]&#125;,</span><br><span class="line">             <span class="number">5</span>:&#123;<span class="number">501</span>:[<span class="number">1</span>,<span class="number">80</span>],<span class="number">502</span>:[<span class="number">1</span>,<span class="number">80</span>],<span class="number">503</span>:[<span class="number">2</span>,<span class="number">90</span>],<span class="number">504</span>:[<span class="number">2</span>,<span class="number">90</span>]&#125;</span><br><span class="line">            &#125;</span><br><span class="line"><span class="keyword">for</span> sub_dict <span class="keyword">in</span> unit_rooms.values():</span><br><span class="line">    print(sub_dict)</span><br></pre></td></tr></table></figure>
+
+<p>提取出小字典后，接着需要遍历小字典的键和值，可以用<code>for k,v in DictName.items():</code>，k对应键，v对应值，通过小例子可以直观的感受一下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tv_dict = &#123;<span class="string">'芒果台'</span>:<span class="string">'湖南卫视'</span>, <span class="string">'荔枝台'</span>:<span class="string">'江苏卫视'</span>, <span class="string">'番茄台'</span>:<span class="string">'东方卫视'</span>&#125;    </span><br><span class="line"><span class="keyword">for</span> logo,name <span class="keyword">in</span> tv_dict.items():</span><br><span class="line">    print(logo + <span class="string">'是'</span> + name)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">芒果台是湖南卫视</span><br><span class="line">荔枝台是江苏卫视</span><br><span class="line">番茄台是东方卫视</span><br></pre></td></tr></table></figure>
+
+<p>那么运用该方法打印每一户室的门牌号、朝向和面积，如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">unit_rooms = &#123;<span class="number">3</span>:&#123;<span class="number">301</span>:[<span class="number">1</span>,<span class="number">80</span>],<span class="number">302</span>:[<span class="number">1</span>,<span class="number">80</span>],<span class="number">303</span>:[<span class="number">2</span>,<span class="number">90</span>],<span class="number">304</span>:[<span class="number">2</span>,<span class="number">90</span>]&#125;,</span><br><span class="line">             <span class="number">4</span>:&#123;<span class="number">401</span>:[<span class="number">1</span>,<span class="number">80</span>],<span class="number">402</span>:[<span class="number">1</span>,<span class="number">80</span>],<span class="number">403</span>:[<span class="number">2</span>,<span class="number">90</span>],<span class="number">404</span>:[<span class="number">2</span>,<span class="number">90</span>]&#125;,</span><br><span class="line">             <span class="number">5</span>:&#123;<span class="number">501</span>:[<span class="number">1</span>,<span class="number">80</span>],<span class="number">502</span>:[<span class="number">1</span>,<span class="number">80</span>],<span class="number">503</span>:[<span class="number">2</span>,<span class="number">90</span>],<span class="number">504</span>:[<span class="number">2</span>,<span class="number">90</span>]&#125;</span><br><span class="line">             &#125;</span><br><span class="line"><span class="keyword">for</span> sub_dict <span class="keyword">in</span> unit_rooms.values():</span><br><span class="line">    <span class="keyword">for</span> room,info <span class="keyword">in</span> sub_dict.items():</span><br><span class="line">        print(<span class="string">'户室号：%d 朝向 %d 面积：%d'</span>% (room,info[<span class="number">0</span>],info[<span class="number">1</span>]))</span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">户室号：<span class="number">301</span> 朝向 <span class="number">1</span> 面积：<span class="number">80</span></span><br><span class="line">户室号：<span class="number">302</span> 朝向 <span class="number">1</span> 面积：<span class="number">80</span></span><br><span class="line">户室号：<span class="number">303</span> 朝向 <span class="number">2</span> 面积：<span class="number">90</span></span><br><span class="line">户室号：<span class="number">304</span> 朝向 <span class="number">2</span> 面积：<span class="number">90</span></span><br><span class="line">户室号：<span class="number">401</span> 朝向 <span class="number">1</span> 面积：<span class="number">80</span></span><br><span class="line">户室号：<span class="number">402</span> 朝向 <span class="number">1</span> 面积：<span class="number">80</span></span><br><span class="line">户室号：<span class="number">403</span> 朝向 <span class="number">2</span> 面积：<span class="number">90</span></span><br><span class="line">户室号：<span class="number">404</span> 朝向 <span class="number">2</span> 面积：<span class="number">90</span></span><br><span class="line">户室号：<span class="number">501</span> 朝向 <span class="number">1</span> 面积：<span class="number">80</span></span><br><span class="line">户室号：<span class="number">502</span> 朝向 <span class="number">1</span> 面积：<span class="number">80</span></span><br><span class="line">户室号：<span class="number">503</span> 朝向 <span class="number">2</span> 面积：<span class="number">90</span></span><br><span class="line">户室号：<span class="number">504</span> 朝向 <span class="number">2</span> 面积：<span class="number">90</span></span><br></pre></td></tr></table></figure>
+
+<p>朝向显示数字总觉得会怪怪的，可以运用条件判断和赋值语句，也可以通过列表索引的方式进行更改。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">unit_rooms = &#123;<span class="number">3</span>:&#123;<span class="number">301</span>:[<span class="number">1</span>,<span class="number">80</span>],<span class="number">302</span>:[<span class="number">1</span>,<span class="number">80</span>],<span class="number">303</span>:[<span class="number">2</span>,<span class="number">90</span>],<span class="number">304</span>:[<span class="number">2</span>,<span class="number">90</span>]&#125;,</span><br><span class="line">             <span class="number">4</span>:&#123;<span class="number">401</span>:[<span class="number">1</span>,<span class="number">80</span>],<span class="number">402</span>:[<span class="number">1</span>,<span class="number">80</span>],<span class="number">403</span>:[<span class="number">2</span>,<span class="number">90</span>],<span class="number">404</span>:[<span class="number">2</span>,<span class="number">90</span>]&#125;,</span><br><span class="line">             <span class="number">5</span>:&#123;<span class="number">501</span>:[<span class="number">1</span>,<span class="number">80</span>],<span class="number">502</span>:[<span class="number">1</span>,<span class="number">80</span>],<span class="number">503</span>:[<span class="number">2</span>,<span class="number">90</span>],<span class="number">504</span>:[<span class="number">2</span>,<span class="number">90</span>]&#125;</span><br><span class="line">             &#125;</span><br><span class="line"><span class="keyword">for</span> sub_dict <span class="keyword">in</span> unit_rooms.values():</span><br><span class="line">    <span class="keyword">for</span> room,info <span class="keyword">in</span> sub_dict.items():</span><br><span class="line">        dire = [<span class="string">''</span>, <span class="string">'南北'</span>, <span class="string">'东西'</span>]</span><br><span class="line">        print(<span class="string">'户室号：%d 朝向：%s 面积：%d'</span> % (room,dire[info[<span class="number">0</span>]],info[<span class="number">1</span>]))</span><br></pre></td></tr></table></figure>
+
+<p>输出结果为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">户室号：<span class="number">301</span> 朝向: 南北 面积：<span class="number">80</span></span><br><span class="line">户室号：<span class="number">302</span> 朝向: 南北 面积：<span class="number">80</span></span><br><span class="line">户室号：<span class="number">303</span> 朝向: 东西 面积：<span class="number">90</span></span><br><span class="line">户室号：<span class="number">304</span> 朝向: 东西 面积：<span class="number">90</span></span><br><span class="line">户室号：<span class="number">401</span> 朝向: 南北 面积：<span class="number">80</span></span><br><span class="line">户室号：<span class="number">402</span> 朝向: 南北 面积：<span class="number">80</span></span><br><span class="line">户室号：<span class="number">403</span> 朝向: 东西 面积：<span class="number">90</span></span><br><span class="line">户室号：<span class="number">404</span> 朝向: 东西 面积：<span class="number">90</span></span><br><span class="line">户室号：<span class="number">501</span> 朝向: 南北 面积：<span class="number">80</span></span><br><span class="line">户室号：<span class="number">502</span> 朝向: 南北 面积：<span class="number">80</span></span><br><span class="line">户室号：<span class="number">503</span> 朝向: 东西 面积：<span class="number">90</span></span><br><span class="line">户室号：<span class="number">504</span> 朝向: 东西 面积：<span class="number">90</span></span><br></pre></td></tr></table></figure>
+
+<p>到这为止，需求差不多基本满足了，再加入一层单元间的循环即可完成最后的代码，最终代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="comment">#调用csv模块</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'data.csv'</span>, <span class="string">'a'</span>, newline=<span class="string">''</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line"><span class="comment">#调用open()函数打开csv文件，传入参数：文件名“data.csv”、追加模式“a”、newline=''。</span></span><br><span class="line">    writer = csv.writer(csvfile, dialect=<span class="string">'excel'</span>)</span><br><span class="line">    <span class="comment"># 用csv.writer()函数创建一个writer对象。</span></span><br><span class="line">    header=[<span class="string">'小区名称'</span>, <span class="string">'地址'</span>, <span class="string">'建筑年份'</span>, <span class="string">'楼栋'</span>, <span class="string">'单元'</span>, <span class="string">'户室'</span>, <span class="string">'朝向'</span>, <span class="string">'面积'</span>]</span><br><span class="line">    writer.writerow(header)</span><br><span class="line"></span><br><span class="line">title=input(<span class="string">'请输入小区名称：'</span>)</span><br><span class="line">address = input(<span class="string">'请输入小区地址：'</span>)</span><br><span class="line">year = input(<span class="string">'请输入小区建造年份：'</span>)</span><br><span class="line">block = input(<span class="string">'请输入楼栋号：'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">unit_loop = <span class="literal">True</span></span><br><span class="line"><span class="keyword">while</span> unit_loop:</span><br><span class="line">    unit=input(<span class="string">'请输入单元号：'</span>)</span><br><span class="line">    start_floor = input(<span class="string">'请输入起始楼层：'</span>)</span><br><span class="line">    end_floor = input(<span class="string">'请输入终止楼层：'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 开始输入模板数据</span></span><br><span class="line">    input(<span class="string">'接下来请输入起始层每个房间的门牌号、南北朝向及面积，按任意键继续'</span>)</span><br><span class="line"></span><br><span class="line">    start_floor_rooms = &#123;&#125;</span><br><span class="line">    floor_last_number = []</span><br><span class="line">    <span class="comment"># 收集起始层的房间信息</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 定义循环控制量</span></span><br><span class="line">    room_loop = <span class="literal">True</span></span><br><span class="line">    <span class="keyword">while</span> room_loop:</span><br><span class="line">        last_number = input(<span class="string">'请输入起始楼层户室的尾号:（如01，02）'</span>)</span><br><span class="line">        floor_last_number.append(last_number)</span><br><span class="line">        <span class="comment">#将尾号用append()添加列表里，如floor_last_number = ['01','02']</span></span><br><span class="line">        room_number = int(start_floor + last_number)</span><br><span class="line">        <span class="comment">#户室号为room_number,由楼层start_floor和尾号last_number组成,如301</span></span><br><span class="line"></span><br><span class="line">        direction = int(input(<span class="string">'请输入 %d 的朝向(南北朝向输入1，东西朝向输入2)：'</span> % room_number ))</span><br><span class="line">        area = int(input(<span class="string">'请输入 %d 的面积，单位 ㎡ ：'</span> % room_number))</span><br><span class="line">        start_floor_rooms[room_number] = [direction,area]</span><br><span class="line">        <span class="comment"># 户室号为键，朝向和面积组成的列表为值，添加到字典里，如start_floor_rooms = &#123;301:[1,70]&#125;</span></span><br><span class="line"></span><br><span class="line">        continued= input(<span class="string">'是否需要输入下一个尾号？按 n 停止输入，按其他任意键继续：'</span>)</span><br><span class="line">        <span class="comment">#加入打破循环的条件</span></span><br><span class="line">        <span class="keyword">if</span> continued == <span class="string">'n'</span>:</span><br><span class="line">            room_loop = <span class="literal">False</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            room_loop = <span class="literal">True</span>       </span><br><span class="line"></span><br><span class="line">    unit_rooms = &#123;&#125;</span><br><span class="line">    <span class="comment">#新建一个放单元所有户室数据的字典</span></span><br><span class="line">    unit_rooms[start_floor] = start_floor_rooms</span><br><span class="line">    <span class="comment">#unit_rooms=&#123;3:&#123;301:[1,80],302:[1,80],303:[2,90],304:[2,90]&#125;&#125;</span></span><br><span class="line">    <span class="keyword">for</span> floor <span class="keyword">in</span> range(int(start_floor) + <span class="number">1</span>, int(end_floor) + <span class="number">1</span>):</span><br><span class="line">    <span class="comment">#遍历除初始楼层外的其他楼层</span></span><br><span class="line">        floor_rooms = &#123;&#125;</span><br><span class="line">        <span class="comment">#每个楼层都建立一个字典</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(start_floor_rooms)):</span><br><span class="line">        <span class="comment">#遍历每层有多少个房间，这里是3，即执行for i in range 3 的循环</span></span><br><span class="line">            number = str(floor) + floor_last_number[i]</span><br><span class="line">            info = start_floor_rooms[int(start_floor + floor_last_number[i])]</span><br><span class="line">            <span class="comment"># 依次取出字典start_floor_rooms键对应的值，即面积和朝向组成的列表</span></span><br><span class="line">            floor_rooms[int(number)] = info</span><br><span class="line">            <span class="comment">#给字典floor_rooms添加键值对，floor_rooms = &#123;401:[1,80]&#125;</span></span><br><span class="line">        unit_rooms[floor] = floor_rooms</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'data.csv'</span>, <span class="string">'a'</span>, newline=<span class="string">''</span>)<span class="keyword">as</span> csvfile:</span><br><span class="line">    <span class="comment">#Mac用户要加多一个参数 encoding = 'GBK'</span></span><br><span class="line">        writer = csv.writer(csvfile, dialect=<span class="string">'excel'</span>)</span><br><span class="line">        <span class="keyword">for</span> sub_dict <span class="keyword">in</span> unit_rooms.values():</span><br><span class="line">            <span class="keyword">for</span> room,info <span class="keyword">in</span> sub_dict.items():</span><br><span class="line">                dire = [<span class="string">''</span>, <span class="string">'南北'</span>, <span class="string">'东西'</span>]</span><br><span class="line">                writer.writerow([title,address,year,block,unit,room,dire[info[<span class="number">0</span>]],info[<span class="number">1</span>]])   </span><br><span class="line"></span><br><span class="line">    unit_continue = input(<span class="string">'是否需要输入下一个单元？按 n 停止单元输入，按其他任意键继续：'</span>)</span><br><span class="line">    <span class="keyword">if</span> unit_continue == <span class="string">'n'</span>:</span><br><span class="line">        unit_loop = <span class="literal">False</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        unit_loop = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">'恭喜你，信息录入工作完成！'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>来看一下运行后生成的excel吧！</p>
+<p><img src="https://cdn.erek.top/20200412212417.png" alt=""></p>
+<p>这样就完成了一栋楼所有信息的录入，虽然中间要输入很多次信息，但程序的完成，为以后的录入减少了很多的工作量，同时也可以给别人使用，节省的时间远远大于付出的时间成本。快来试试吧！</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>吃颗糖</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Erek 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Erek 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Erek
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://erek.top/2020/0011-st/" title="Python基础语法项目实践-自动化录入数据">https://erek.top/2020/0011-st/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/0010-xg/" rel="prev" title="新冠病毒疫情分析学习10-如何批量出图">
+      <i class="fa fa-chevron-left"></i> 新冠病毒疫情分析学习10-如何批量出图
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Python基础语法项目实践-自动化录入数据"><span class="nav-number">1.</span> <span class="nav-text">Python基础语法项目实践-自动化录入数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#项目背景"><span class="nav-number">1.1.</span> <span class="nav-text">项目背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拆解项目"><span class="nav-number">1.2.</span> <span class="nav-text">拆解项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-0版本：输入固定表头，确定模板数据"><span class="nav-number">1.3.</span> <span class="nav-text">1.0版本：输入固定表头，确定模板数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-0版本：获取模板数据，重复使用模板数据"><span class="nav-number">1.4.</span> <span class="nav-text">2.0版本：获取模板数据，重复使用模板数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-0版本：写入CSV文件"><span class="nav-number">1.5.</span> <span class="nav-text">3.0版本：写入CSV文件</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Erek"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Erek</p>
+  <div class="site-description" itemprop="description">A personal blog</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:erekzeng@qq.com" title="E-Mail → mailto:erekzeng@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/7371592033" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;7371592033" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/erekzeng" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;erekzeng" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://hiwannz.com/" title="https:&#x2F;&#x2F;hiwannz.com&#x2F;" rel="noopener" target="_blank">见字如面</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.2broear.com/" title="https:&#x2F;&#x2F;blog.2broear.com&#x2F;" rel="noopener" target="_blank">2BROEAR</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <span id="sitetime"></span>
+<script language=javascript>
+  function siteTime(){
+    window.setTimeout("siteTime()", 1000);
+    var seconds = 1000;
+    var minutes = seconds * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var years = days * 365;
+    var today = new Date();
+    var todayYear = today.getFullYear();
+    var todayMonth = today.getMonth()+1;
+    var todayDate = today.getDate();
+    var todayHour = today.getHours();
+    var todayMinute = today.getMinutes();
+    var todaySecond = today.getSeconds();
+    /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+    year - 作为date对象的年份，为4位年份值
+    month - 0-11之间的整数，做为date对象的月份
+    day - 1-31之间的整数，做为date对象的天数
+    hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+    minutes - 0-59之间的整数，做为date对象的分钟数
+    seconds - 0-59之间的整数，做为date对象的秒数
+    microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+    var t1 = Date.UTC(2020,02,19,12,00,00); //北京时间2020-2-19 00:00:00
+    var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+    var diff = t2-t1;
+    var diffYears = Math.floor(diff/years);
+    var diffDays = Math.floor((diff/days)-diffYears*365);
+    var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+    var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+    var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+    document.getElementById("sitetime").innerHTML=" 网站已运行"+/*diffYears+" 年 "+*/diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+  }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+  siteTime();
+</script>
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备20007369号 </a>
+      <img src="/images/备案图标.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32010202010833" rel="noopener" target="_blank">苏公网安备32010202010833 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-Erek"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erek</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">112k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:23</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el: '#valine-comments',
+      verify: false,
+      notify: true,
+      appId: 'WQxx3FISmeJzxVyK2SRiWDNu-gzGzoHsz',
+      appKey: 'JJMbY46tSr59mT1OejzDjufg',
+      placeholder: "欢迎评论！",
+      avatar: 'mm',
+      meta: guest,
+      pageSize: '10' || 10,
+      visitor: true,
+      lang: '' || 'zh-cn',
+      path: location.pathname,
+      recordIP: true,
+      serverURLs: ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
