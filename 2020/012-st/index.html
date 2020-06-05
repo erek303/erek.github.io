@@ -47,23 +47,22 @@
   };
 </script>
 
-  <meta name="description" content="本章将在上一章节底图的基础上，添加气泡，实现气泡图">
+  <meta name="description" content="聊天机器人-图灵机器人看到之前的课程上，有简短的示例代码，可以与机器人进行对话，但只能聊三毛钱的，聊完就要重新开始。于是我将其稍微改进了一下。1、增加循环，可以无限制聊天，输入关键词退出2、虽然可以无限制聊天，但受限于免费版key的调用次数，一个key一天调用100次，转瞬即逝，于是增加4个key，循环使用，达到400次">
 <meta property="og:type" content="article">
-<meta property="og:title" content="新冠病毒疫情分析学习09-如何用气泡图做数据地图">
-<meta property="og:url" content="https://erek.top/2020/009-xg/index.html">
+<meta property="og:title" content="Python基础语法项目实践-聊天机器人">
+<meta property="og:url" content="https://erek.top/2020/012-st/index.html">
 <meta property="og:site_name" content="Erek&#39;s Blog">
-<meta property="og:description" content="本章将在上一章节底图的基础上，添加气泡，实现气泡图">
+<meta property="og:description" content="聊天机器人-图灵机器人看到之前的课程上，有简短的示例代码，可以与机器人进行对话，但只能聊三毛钱的，聊完就要重新开始。于是我将其稍微改进了一下。1、增加循环，可以无限制聊天，输入关键词退出2、虽然可以无限制聊天，但受限于免费版key的调用次数，一个key一天调用100次，转瞬即逝，于是增加4个key，循环使用，达到400次">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.erek.top/p040201.jpg">
-<meta property="og:image" content="https://cdn.erek.top/p040201.jpg">
-<meta property="article:published_time" content="2020-03-24T06:15:28.000Z">
-<meta property="article:modified_time" content="2020-03-30T12:24:49.001Z">
+<meta property="og:image" content="https://cdn.erek.top/TIM%E6%88%AA%E5%9B%BE20200605173505.png">
+<meta property="article:published_time" content="2020-06-05T09:40:28.000Z">
+<meta property="article:modified_time" content="2020-06-05T09:41:30.997Z">
 <meta property="article:author" content="Erek">
 <meta property="article:tag" content="python urbandesign bigdata">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.erek.top/p040201.jpg">
+<meta name="twitter:image" content="https://cdn.erek.top/TIM%E6%88%AA%E5%9B%BE20200605173505.png">
 
-<link rel="canonical" href="https://erek.top/2020/009-xg/">
+<link rel="canonical" href="https://erek.top/2020/012-st/">
 
 
 <script id="page-configurations">
@@ -75,7 +74,7 @@
   };
 </script>
 
-  <title>新冠病毒疫情分析学习09-如何用气泡图做数据地图 | Erek's Blog</title>
+  <title>Python基础语法项目实践-聊天机器人 | Erek's Blog</title>
   
 
 
@@ -222,7 +221,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://erek.top/2020/009-xg/">
+    <link itemprop="mainEntityOfPage" href="https://erek.top/2020/012-st/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -235,7 +234,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          新冠病毒疫情分析学习09-如何用气泡图做数据地图
+          Python基础语法项目实践-聊天机器人
         </h1>
 
         <div class="post-meta">
@@ -244,16 +243,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-03-24 14:15:28" itemprop="dateCreated datePublished" datetime="2020-03-24T14:15:28+08:00">2020-03-24</time>
+              <time title="创建时间：2020-06-05 17:40:28 / 修改时间：17:41:30" itemprop="dateCreated datePublished" datetime="2020-06-05T17:40:28+08:00">2020-06-05</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-30 20:24:49" itemprop="dateModified" datetime="2020-03-30T20:24:49+08:00">2020-03-30</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -267,7 +260,7 @@
             </span>
 
           
-            <span id="/2020/009-xg/" class="post-meta-item leancloud_visitors" data-flag-title="新冠病毒疫情分析学习09-如何用气泡图做数据地图" title="阅读次数">
+            <span id="/2020/012-st/" class="post-meta-item leancloud_visitors" data-flag-title="Python基础语法项目实践-聊天机器人" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -282,8 +275,8 @@
       </span>
       <span class="post-meta-item-text">评论次数：</span>
     
-    <a title="valine" href="/2020/009-xg/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/009-xg/" itemprop="commentCount"></span>
+    <a title="valine" href="/2020/012-st/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/012-st/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -293,14 +286,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.3k</span>
+              <span>1.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -312,38 +305,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>本章将在上一章节底图的基础上，添加气泡，实现气泡图</p>
-<center>  <!--开始居中对齐-->
-
-<p><img src="https://cdn.erek.top/p040201.jpg" alt="气泡图" title="示意图"></p>
-</center> <!--结束居中对齐-->
-
-
+        <h2 id="聊天机器人-图灵机器人"><a href="#聊天机器人-图灵机器人" class="headerlink" title="聊天机器人-图灵机器人"></a>聊天机器人-图灵机器人</h2><p>看到之前的课程上，有简短的示例代码，可以与机器人进行对话，但只能聊三毛钱的，聊完就要重新开始。于是我将其稍微改进了一下。<br>1、增加循环，可以无限制聊天，输入关键词退出<br>2、虽然可以无限制聊天，但受限于免费版key的调用次数，一个key一天调用100次，转瞬即逝，于是增加4个key，循环使用，达到400次</p>
 <a id="more"></a>
 
-<p>首先准备数据</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 读取数据</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> geopandas <span class="keyword">as</span> gpd</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line">warnings.filterwarnings(<span class="string">'ignore'</span>)</span><br><span class="line"><span class="comment"># 设置不弹出警告</span></span><br><span class="line">df = pd.read_excel(<span class="string">'*/*/data_ncov.xlsx'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 时间序列转换</span></span><br><span class="line">df[<span class="string">'date'</span>] = df[<span class="string">'date'</span>].astype(<span class="string">'str'</span>)     <span class="comment"># 先将字段转化为字符串</span></span><br><span class="line">df[<span class="string">'date'</span>] = pd.to_datetime(df[<span class="string">'date'</span>])   <span class="comment"># 再进行时间序列转换</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 提取2020-2-1日数据</span></span><br><span class="line">data_0201 = df[df[<span class="string">'date'</span>] == <span class="string">'2020-2-1'</span>]</span><br><span class="line">data_0201.head()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取空间数据</span></span><br><span class="line">china_spatial = gpd.GeoDataFrame.from_file(<span class="string">'*/*/chinadata.json'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 匹配数据</span></span><br><span class="line">data_china0201 = pd.merge(china_spatial, data_0201, left_on = <span class="string">'name'</span>, right_on = <span class="string">'省市'</span>, how = <span class="string">'left'</span>)</span><br><span class="line"><span class="keyword">del</span> data_china0201[<span class="string">'name'</span>]  <span class="comment"># 删除多余字段</span></span><br><span class="line">data_china0201.head()</span><br></pre></td></tr></table></figure>
 
-<h2 id="1、在数据地图中绘制气泡图"><a href="#1、在数据地图中绘制气泡图" class="headerlink" title="1、在数据地图中绘制气泡图"></a>1、在数据地图中绘制气泡图</h2><p>代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在数据地图中绘制气泡图</span></span><br><span class="line"><span class="comment"># 设置图表大小及标题</span></span><br><span class="line">plt.figure(figsize=(<span class="number">20</span>,<span class="number">20</span>))</span><br><span class="line">plt.title(<span class="string">'2020-2-1 全国确诊病例'</span>, fontsize = <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制底图</span></span><br><span class="line">data_china0201.plot(ax=plt.subplot(<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>),</span><br><span class="line">                  edgecolor=<span class="string">'k'</span>, linewidth = <span class="number">0.5</span>, color = <span class="string">'gray'</span>, alpha = <span class="number">0.1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加气泡图</span></span><br><span class="line">plt.scatter(data_china0201[<span class="string">'centerlng'</span>],data_china0201[<span class="string">'centerlat'</span>], </span><br><span class="line">            s = data_china0201[<span class="string">'确诊'</span>], edgecolors=<span class="string">'k'</span>, alpha = <span class="number">0.8</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置网格线</span></span><br><span class="line">plt.grid(<span class="literal">True</span>,alpha=<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加省市信息</span></span><br><span class="line">lst = data_china0201[[<span class="string">'省市'</span>,<span class="string">'centerlng'</span>,<span class="string">'centerlat'</span>,<span class="string">'确诊'</span>]].to_dict(orient = <span class="string">'record'</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> lst:</span><br><span class="line">    plt.text(i[<span class="string">'centerlng'</span>], i[<span class="string">'centerlat'</span>], i[<span class="string">'省市'</span>] +<span class="string">':'</span> + str(i[<span class="string">'确诊'</span>]))</span><br></pre></td></tr></table></figure>
+<p>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">Created on Thu Jun  4 11:15:06 2020</span></span><br><span class="line"><span class="string">@author: erek</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests, json, time, random</span><br><span class="line"></span><br><span class="line">wel = <span class="string">'''Hello！我是你的聊天机器人</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">我有问必答，你可以问“今天南京天气怎么样？”，也可以问“你喜欢夏天吗？”</span></span><br><span class="line"><span class="string">快来问我问题呀，欢迎来撩！</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">【温馨提示】</span></span><br><span class="line"><span class="string">1、如果要停止对话，请说‘再见’</span></span><br><span class="line"><span class="string">2、机器人未必智能，不可攻击它哦！</span></span><br><span class="line"><span class="string">3、如果提示请求次数超限制，可继续尝试，如果一直超出限制，第二天再试噢！（每天约400次请求）</span></span><br><span class="line"><span class="string">4、功能：笑话、故事、数字计算、中英互译、星座、脑筋急转弯、绕口令、天气查询、日期查询、快递查询等</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">print(wel)</span><br><span class="line"></span><br><span class="line">apikey1 = <span class="string">'填写你自己的KEY'</span>   </span><br><span class="line">apikey2 = <span class="string">'填写你自己的KEY'</span>   </span><br><span class="line">apikey3 = <span class="string">'填写你自己的KEY'</span>    </span><br><span class="line">apikey4 = <span class="string">'填写你自己的KEY'</span>   </span><br><span class="line"></span><br><span class="line">tag = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">apikey = apikey1</span><br><span class="line">time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    </span><br><span class="line">    feature_text = <span class="string">'说点什么：'</span></span><br><span class="line">    user1 = input(feature_text)</span><br><span class="line">    <span class="keyword">if</span> user1 != <span class="string">'再见'</span>:</span><br><span class="line">        userid = str(random.randint(<span class="number">1</span>, <span class="number">1000000000000000000000</span>))</span><br><span class="line"></span><br><span class="line">        tulingdata1 = json.dumps(&#123;    <span class="string">"perception"</span>: &#123;</span><br><span class="line">                <span class="string">"inputText"</span>: &#123;</span><br><span class="line">                    <span class="string">"text"</span>: user1</span><br><span class="line">                &#125;,</span><br><span class="line"></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="string">"userInfo"</span>: &#123;</span><br><span class="line">                <span class="string">"apiKey"</span>: apikey,</span><br><span class="line">                <span class="string">"userId"</span>: userid</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        </span><br><span class="line">      </span><br><span class="line">        <span class="keyword">if</span> tag == <span class="number">0</span>:</span><br><span class="line">            apikey = apikey1</span><br><span class="line">            tag = <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> tag == <span class="number">1</span>:</span><br><span class="line">            apikey = apikey2</span><br><span class="line">            tag = <span class="number">2</span></span><br><span class="line">        <span class="keyword">elif</span> tag == <span class="number">2</span>:</span><br><span class="line">            apikey = apikey3</span><br><span class="line">            tag = <span class="number">3</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            apikey = apikey4</span><br><span class="line">            tag = <span class="number">0</span></span><br><span class="line">          </span><br><span class="line">        robot1 = requests.post(<span class="string">'http://openapi.tuling123.com/openapi/api/v2'</span>, tulingdata1)</span><br><span class="line">        jsrobot1 = json.loads(robot1.text)[<span class="string">'results'</span>][<span class="number">0</span>][<span class="string">'values'</span>][<span class="string">'text'</span>]</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">        print(jsrobot1)</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">'\n我走啦，下次见！'</span>)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
 
-<p>输出结果如下：</p>
-<center>  <!--开始居中对齐-->
-
-<p><img src="https://cdn.erek.top/p040201.jpg" alt="气泡图" title="输出结果"></p>
-</center> <!--结束居中对齐-->
-
-<hr>
-<p><strong>知识点</strong></p>
-<ul>
-<li><code>matplotlib.pyplot.scatter(x,y,s,..)</code>的参数解释：<ul>
-<li><code>x</code>：气泡图x值，这里是省市行政区域中心点坐标-经度</li>
-<li><code>y</code>：气泡图y值，这里是省市行政区域中心点坐标-纬度</li>
-<li><code>s</code>：设置气泡图大小的字段</li>
-</ul>
-</li>
-</ul>
-<hr>
+<p>这样一个“智能”聊天机器人就完成了，很简单的小程序，利用图灵机器人提供的API，即可完成接入。</p>
+<h2 id="打包exe，让每个人都可以运行"><a href="#打包exe，让每个人都可以运行" class="headerlink" title="打包exe，让每个人都可以运行"></a>打包exe，让每个人都可以运行</h2><h3 id="安装PyInstaller"><a href="#安装PyInstaller" class="headerlink" title="安装PyInstaller"></a>安装PyInstaller</h3><p>通过命令<code>pip install PyInstaller</code>，成功安装后即可对py程序进行打包。</p>
+<h3 id="通过控制台进行打包"><a href="#通过控制台进行打包" class="headerlink" title="通过控制台进行打包"></a>通过控制台进行打包</h3><p>通过cd切换到<code>.py</code>文件所在路径，使用<code>pyinstaller -F Test.py</code>命令进行打包，随后该目录下会生成dist文件夹，里面exe的文件双击即可打开。</p>
+<p>运行如下图所示，快来试试看吧！</p>
+<p><img src="https://cdn.erek.top/TIM%E6%88%AA%E5%9B%BE20200605173505.png" alt=""></p>
 
     </div>
 
@@ -379,7 +352,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://erek.top/2020/009-xg/" title="新冠病毒疫情分析学习09-如何用气泡图做数据地图">https://erek.top/2020/009-xg/</a>
+    <a href="https://erek.top/2020/012-st/" title="Python基础语法项目实践-聊天机器人">https://erek.top/2020/012-st/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -396,13 +369,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/008-xg/" rel="prev" title="新冠病毒疫情分析学习08-绘制第一张数据地图">
-      <i class="fa fa-chevron-left"></i> 新冠病毒疫情分析学习08-绘制第一张数据地图
+    <a href="/2020/0011-st/" rel="prev" title="Python基础语法项目实践-自动化录入数据">
+      <i class="fa fa-chevron-left"></i> Python基础语法项目实践-自动化录入数据
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/0010-xg/" rel="next" title="新冠病毒疫情分析学习10-如何批量出图">
-      新冠病毒疫情分析学习10-如何批量出图 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -463,7 +433,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、在数据地图中绘制气泡图"><span class="nav-number">1.</span> <span class="nav-text">1、在数据地图中绘制气泡图</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#聊天机器人-图灵机器人"><span class="nav-number">1.</span> <span class="nav-text">聊天机器人-图灵机器人</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#打包exe，让每个人都可以运行"><span class="nav-number">2.</span> <span class="nav-text">打包exe，让每个人都可以运行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装PyInstaller"><span class="nav-number">2.1.</span> <span class="nav-text">安装PyInstaller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过控制台进行打包"><span class="nav-number">2.2.</span> <span class="nav-text">通过控制台进行打包</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
